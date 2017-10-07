@@ -21,7 +21,7 @@
         }
         loadHref() {
             const _this = this;
-            fetch('https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true')
+            fetch('https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=' + _this._href + '&image_no=1&css=true')
                 .then((response) => {
                 response.text().then(respText => {
                     const shadowRoot = this.attachShadow({ mode: 'open' });
