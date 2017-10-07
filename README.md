@@ -38,7 +38,8 @@ Example:
 <custom-element-demo>
   <template>
     <link rel="import" href="xtal-link-preview.html">
-    <xtal-link-preview  href="http://www.theonion.com/">
+    <xtal-link-preview  href="http://www.theonion.com/"></xtal-link-preview>
+    <div style="height:200px">&nbsp;</div>
   </template
 </custom-element-demo>
 ```
