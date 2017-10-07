@@ -30,6 +30,9 @@ or
 <xtal-link-preview href="http://www.theonion.com/"></xtal-link-preview>
 ```
 
+
+Example:
+
 <!--
 ```
 <custom-element-demo>
@@ -41,7 +44,7 @@ or
 ```
 -->
 ```html
-<xtal-link-preview  href="http://www.theonion.com/">
+<xtal-link-preview  href="http://www.theonion.com/"></xtl-link-preview>
 ``` 
 ## Install the Polymer-CLI
 
