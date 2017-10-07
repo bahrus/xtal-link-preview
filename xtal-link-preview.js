@@ -11,6 +11,14 @@
     * @demo demo/index.html
     */
     class XtalLinkPreview extends HTMLElement {
+        set href(val) {
+            this.setAttribute('href', val);
+            //this._href = val;
+            //this.loadHref();
+        }
+        get href() {
+            return this._href;
+        }
         static get observedAttributes() {
             return [
                 /** @type {string} Url to preview

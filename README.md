@@ -2,8 +2,47 @@
 
 # \<xtal-link-preview\>
 
-Open URL Preview
+Open URL Preview.  To achieve similar affects as seen on twitter, slack, and other sites, \<xtal-link-preview\> will get some metadata from the url and display a brief summary.
 
+To use:
+
+1)  Reference the library: 
+
+```html
+<link rel="import" href="xtal-link-preview.html">
+```
+
+or
+
+```html
+<script async src="xtal-link-preview.js">
+```
+
+or
+
+```html
+<script async type="module" src="xtal-link-preview.js">
+```
+
+2)  Add the tag with the desired url:
+
+```html
+<xtal-link-preview href="http://www.theonion.com/"></xtal-link-preview>
+```
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="xtal-link-preview.html">
+    <xtal-link-preview  href="http://www.theonion.com/">
+  </template
+</custom-element-demo>
+```
+-->
+```html
+<xtal-link-preview  href="http://www.theonion.com/">
+``` 
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
