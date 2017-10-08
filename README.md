@@ -31,22 +31,20 @@ or
 ```
 
 
-Example:
+Example:  Edit the href property below to load other previews.
 
 <!--
 ```
 <custom-element-demo>
   <template>
     <link rel="import" href="xtal-link-preview.html">
-    <xtal-link-preview  href="http://www.theonion.com/"></xtal-link-preview>
-    <div style="height:200px">&nbsp;</div>
+    <xtal-link-preview style="height:200px" href="http://www.theonion.com/"></xtal-link-preview>
+    
   </template
 </custom-element-demo>
 ```
 -->
-```html
-<xtal-link-preview  href="http://www.theonion.com/"></xtl-link-preview>
-``` 
+
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.

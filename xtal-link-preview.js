@@ -11,6 +11,11 @@
     * @demo demo/index.html
     */
     class XtalLinkPreview extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+            this.style.display = "block";
+        }
         set href(val) {
             this.setAttribute('href', val);
             //this._href = val;
@@ -28,12 +33,11 @@
             ];
         }
         loadHref() {
-            const _this = this;
-            fetch('https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=' + _this._href + '&image_no=1&css=true')
+            //const _this = this;
+            fetch('https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=' + this._href + '&image_no=1&css=true')
                 .then((response) => {
                 response.text().then(respText => {
-                    const shadowRoot = this.attachShadow({ mode: 'open' });
-                    shadowRoot.innerHTML = respText;
+                    this.shadowRoot.innerHTML = respText;
                 });
             });
         }
