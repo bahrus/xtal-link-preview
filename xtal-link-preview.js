@@ -57,7 +57,15 @@
             fetch('https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=' + this._href + '&image_no=1&css=true')
                 .then((response) => {
                 response.text().then(respText => {
-                    this.shadowRoot.innerHTML = respText;
+                    let massagedText = respText;
+                    const replacements = ['html', 'head', 'body'];
+                    replacements.forEach(s => {
+                        massagedText = massagedText.replace('<' + s + '>', '<div>').replace('</' + s + '>', '</div>');
+                    });
+                    //console.log(massagedText);
+                    massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
+                    //const massagedText = respText.replace('<html>', '<div>')
+                    this.shadowRoot.innerHTML = massagedText;
                 });
             });
         }
