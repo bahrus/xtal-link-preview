@@ -38,7 +38,7 @@ Example:  Edit the href property below to load other previews.
 <custom-element-demo>
   <template>
     <link rel="import" href="xtal-link-preview.html">
-    <xtal-link-preview style="height:200px" href="http://www.theonion.com/"></xtal-link-preview>
+    <xtal-link-preview preview style="height:200px" href="http://www.theonion.com/"></xtal-link-preview>
     
   </template
 </custom-element-demo>
