@@ -68,10 +68,12 @@
                 .then((response) => {
                 response.text().then(respText => {
                     let massagedText = respText;
+                    //console.log(massagedText);
                     const replacements = ['html', 'head', 'body'];
                     replacements.forEach(s => {
                         massagedText = massagedText.replace('<' + s + '>', '<div>').replace('</' + s + '>', '</div>');
                     });
+                    massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
                     //console.log(massagedText);
                     massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
                     //const massagedText = respText.replace('<html>', '<div>')
