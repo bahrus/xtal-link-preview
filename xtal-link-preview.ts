@@ -33,8 +33,10 @@
             }
             ${customStyle}
           </style>
+          <div id="slot">
           <slot>
            
+          </slot>
           </slot>
         `;
                 this.attachShadow({ mode: 'open' });
@@ -105,6 +107,7 @@
                             const div = document.createElement('div');
                             div.innerHTML = massagedText;
                             this.shadowRoot.appendChild(div);
+                            this.shadowRoot.querySelector('div#slot').innerHTML = '';
                         })
                     })
             }
