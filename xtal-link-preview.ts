@@ -2,8 +2,13 @@
     if (customElements.get('xtal-link-preview')) return;
     const cs = document.currentScript as HTMLScriptElement;
     let customStyle = ''
-    if (cs && cs.dataset.css_path) {
-
+    if (cs && cs.dataset.cssPath) {
+        fetch(cs.dataset.cssPath).then(resp =>{
+            resp.text().then(css =>{
+                customStyle = css;
+                initXtalLinkPreview();
+            });
+        })
     }else{
         initXtalLinkPreview();
     }
@@ -26,8 +31,11 @@
             :host {
               display: block;
             }
+            ${customStyle}
           </style>
-          <slot></slot>
+          <slot>
+           
+          </slot>
         `;
                 this.attachShadow({ mode: 'open' });
                 this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -88,13 +96,15 @@
                             //console.log(massagedText);
                             const replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
                             replacements.forEach(s => {
-                                massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + '>').replace('</' + s[0] + '>', '</' + s[1] + '>');
+                                massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
                             })
                             massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
                             //console.log(massagedText);
                             massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
                             //const massagedText = respText.replace('<html>', '<div>')
-                            this.shadowRoot.innerHTML = massagedText;
+                            const div = document.createElement('div');
+                            div.innerHTML = massagedText;
+                            this.shadowRoot.appendChild(div);
                         })
                     })
             }
