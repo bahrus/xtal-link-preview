@@ -44,13 +44,42 @@
                 this.style.display = "block";
             }
             connectedCallback(){
-                this.addEventListener('click', this.handleClick);
+                this.addEventListener('mousedown', this.handleMouseDown);
+                this.addEventListener('mousemove', this.handleMouseMove);
+                this.addEventListener('mouseup', this.handleMouseUp)
             }
-            handleClick(e){
-                if(e.target.tagName !=='A'){
-                    location.href = this.href;
+            disconnectedCallback(){
+                this.removeEventListener('mousedown', this.handleMouseDown);
+                this.removeEventListener('mousemove', this.handleMouseMove);
+                this.removeEventListener('mouseup', this.handleMouseUp);
+            }
+
+            flag = 0;
+            handleMouseDown(){
+                this.flag = 0;
+            }
+            handleMouseMove(){
+                this.flag = 1;
+            }
+            handleMouseUp(e){
+                if(e.target.tagName === 'A') return;
+                switch(this.flag){
+                    case 0:
+                        window.open(this.href);
+                        break;
+                    case 1:
+
                 }
             }
+
+
+
+            // handleClick(e){
+            //     if(e.target.tagName !=='A'){
+            //         //location.href = this.href;
+            //         window.open(this.href);
+            //     }
+            // }
             _serviceUrl: string = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url='
             get serviceUrl() {
                 return this._serviceUrl;
