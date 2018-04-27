@@ -47,6 +47,14 @@
                 this.shadowRoot.appendChild(template.content.cloneNode(true));
                 this.style.display = "block";
             }
+            connectedCallback() {
+                this.addEventListener('click', this.handleClick);
+            }
+            handleClick(e) {
+                if (e.target.tagName !== 'A') {
+                    location.href = this.href;
+                }
+            }
             get serviceUrl() {
                 return this._serviceUrl;
             }
