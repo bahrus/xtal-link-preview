@@ -14,7 +14,7 @@ Try altering the href attribte below
 ```
 <custom-element-demo>
   <template>
-<div>
+<div style="height:200px'>
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script type="module" src="https://unpkg.com/xtal-link-preview@0.0.15/xtal-link-preview.js?module"></script>
     <h3>Basic xtal-link-preview demo</h3>
