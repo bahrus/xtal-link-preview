@@ -1,53 +1,10 @@
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bahrus/xtal-link-preview)
-
 # \<xtal-link-preview\>
 
-Open URL Preview.  To achieve similar affects as seen on twitter, slack, and other sites, \<xtal-link-preview\> will get some metadata from the url and display a brief summary.
-
-To use:
-
-1)  Reference the library: 
-
-```html
-<link rel="import" href="xtal-link-preview.html">
-```
-
-or
-
-```html
-<script async src="xtal-link-preview.js">
-```
-
-or
-
-```html
-<script async type="module" src="xtal-link-preview.js">
-```
-
-2)  Add the tag with the desired url:
-
-```html
-<xtal-link-preview href=https://www.webcomponents.org"></xtal-link-preview>
-```
-
-
-Example:  Edit the href property below to load other previews.
-
-<!--
-```
-<custom-element-demo>
-  <template>
-    <link rel="import" href="xtal-link-preview.html">
-    <xtal-link-preview preview style="height:200px" href="https://www.webcomponents.org"></xtal-link-preview>
-    
-  </template
-</custom-element-demo>
-```
--->
+Provide preview of URL
 
 ## Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
 
 ## Viewing Your Element
 

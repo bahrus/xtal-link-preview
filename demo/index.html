@@ -6,28 +6,13 @@
 
     <title>xtal-link-preview demo</title>
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <script async src="../xtal-link-preview.js" data-css-path="customStyles.css"></script>
-
-    <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      </style>
-    </custom-style>
   </head>
   <body>
-    <div class="vertical-section-container centered">
+    <div>
+        <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+      <script type="module" src="../xtal-link-preview.js"></script>
       <h3>Basic xtal-link-preview demo</h3>
-      <demo-snippet>
-        <template>
-          <xtal-link-preview preview href="https://www.webcomponents.org/" style="height:200px;" >
-            Loading Web Component Sigil<span style="font-size:6px">⌛⌛⌛</span>
-          </xtal-link-preview>
-         
-        </template>
-      </demo-snippet>
+      <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
     </div>
   </body>
 </html>
