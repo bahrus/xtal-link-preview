@@ -1,14 +1,12 @@
 {
   "name": "xtal-link-preview",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Provide preview of URL",
   "main": "xtal-link-preview.js",
   "repository": "https://github.com/bahrus/xtal-link-preview",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
     "@webcomponents/webcomponentsjs": "^2.0.0",
