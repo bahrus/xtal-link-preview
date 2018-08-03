@@ -8,7 +8,7 @@ Syntax:
 <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
 ```
 
-Try altering the href attribte below
+Try altering the href attribute below
 
 <!--
 ```
