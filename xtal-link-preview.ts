@@ -45,24 +45,27 @@
             }
             connectedCallback(){
                 this.addEventListener('mousedown', this.handleMouseDown);
-                this.addEventListener('mousemove', this.handleMouseMove);
+                this.addEventListener('ondragstart', this.onDragStart);
                 this.addEventListener('mouseup', this.handleMouseUp)
             }
             disconnectedCallback(){
                 this.removeEventListener('mousedown', this.handleMouseDown);
-                this.removeEventListener('mousemove', this.handleMouseMove);
+                this.removeEventListener('ondragstart', this.onDragStart);
                 this.removeEventListener('mouseup', this.handleMouseUp);
             }
 
             flag = 0;
             handleMouseDown(){
+                console.log('handleMouseDown');
                 this.flag = 0;
             }
-            handleMouseMove(){
+            onDragStart(){
+                console.log('handleDragStart');
                 this.flag = 1;
             }
             handleMouseUp(e){
                 if(e.target.tagName === 'A') return;
+                console.log('handleMouseUp ' + this.flag);
                 switch(this.flag){
                     case 0:
                         window.open(this.href);
