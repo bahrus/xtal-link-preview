@@ -1,3 +1,7 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bahrus/xtal-link-preview)
+
+<a href="https://nodei.co/npm/xtal-link-preview/"><img src="https://nodei.co/npm/xtal-link-preview.png"></a>
+
 # \<xtal-link-preview\>
 
 Provide preview of URL.  Dependency free. ~1.6kb minified and gzipped.
