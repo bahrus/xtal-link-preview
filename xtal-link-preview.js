@@ -27,13 +27,6 @@
         class XtalLinkPreview extends HTMLElement {
             constructor() {
                 super();
-                this.flag = 0;
-                // handleClick(e){
-                //     if(e.target.tagName !=='A'){
-                //         //location.href = this.href;
-                //         window.open(this.href);
-                //     }
-                // }
                 this._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
                 this._preview = false;
                 const template = document.createElement('template');
@@ -53,35 +46,6 @@
                 this.attachShadow({ mode: 'open' });
                 this.shadowRoot.appendChild(template.content.cloneNode(true));
                 this.style.display = "block";
-            }
-            connectedCallback() {
-                this.addEventListener('mousedown', this.handleMouseDown);
-                this.addEventListener('ondragstart', this.onDragStart);
-                this.addEventListener('mouseup', this.handleMouseUp);
-            }
-            disconnectedCallback() {
-                this.removeEventListener('mousedown', this.handleMouseDown);
-                this.removeEventListener('ondragstart', this.onDragStart);
-                this.removeEventListener('mouseup', this.handleMouseUp);
-            }
-            handleMouseDown() {
-                console.log('handleMouseDown');
-                this.flag = 0;
-            }
-            onDragStart() {
-                console.log('handleDragStart');
-                this.flag = 1;
-            }
-            handleMouseUp(e) {
-                if (e.target.tagName === 'A')
-                    return;
-                console.log('handleMouseUp ' + this.flag);
-                switch (this.flag) {
-                    case 0:
-                        window.open(this.href);
-                        break;
-                    case 1:
-                }
             }
             get serviceUrl() {
                 return this._serviceUrl;

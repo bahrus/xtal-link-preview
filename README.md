@@ -1,6 +1,6 @@
 # \<xtal-link-preview\>
 
-Provide preview of URL
+Provide preview of URL.  Dependency free. ~1.5kb minified and gzipped.
 
 Syntax:
 
