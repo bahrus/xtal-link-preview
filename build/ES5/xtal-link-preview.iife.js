@@ -92,50 +92,26 @@
       }(superClass)
     );
   } //# sourceMappingURL=xtal-latx.js.map
-  // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
 
 
-  var cs = document.currentScript;
-  var customStyle = '';
   var href = 'href';
   var service_url = 'service-url';
-  var preview = 'preview';
   var fetch_in_progress = 'fetch-in-progress';
   var fetch_complete = 'fetch-complete';
   var title = 'title';
-  /**
-  * `xtal-link-preview`
-  * Provide preview of URL.
-  *
-  *
-  * @customElement
-  * @polymer
-  * @demo demo/index.html
-  */
 
-  var XtalLinkPreview =
+  var CorsAnywhere =
   /*#__PURE__*/
   function (_XtallatX) {
-    babelHelpers.inherits(XtalLinkPreview, _XtallatX);
+    babelHelpers.inherits(CorsAnywhere, _XtallatX);
 
-    function XtalLinkPreview() {
+    function CorsAnywhere() {
       var _this3;
 
-      babelHelpers.classCallCheck(this, XtalLinkPreview);
-      _this3 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
-      _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
-      _this3._preview = false;
+      babelHelpers.classCallCheck(this, CorsAnywhere);
+      _this3 = babelHelpers.possibleConstructorReturn(this, (CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere)).apply(this, arguments));
+      _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
       _this3._connected = false;
-      var template = document.createElement('template');
-      template.innerHTML = "\n          <style>\n            :host {\n              display: block;\n            }\n            ".concat(customStyle, "\n          </style>\n          <div id=\"slot\">\n          <slot>\n           \n          </slot>\n          </slot>\n        ");
-
-      _this3.attachShadow({
-        mode: 'open'
-      });
-
-      _this3.shadowRoot.appendChild(template.content.cloneNode(true));
-
-      _this3.style.display = "block";
       return _this3;
     }
     /** @type {string} Url of service that gets preview.
@@ -143,69 +119,15 @@
     */
 
 
-    babelHelpers.createClass(XtalLinkPreview, [{
-      key: "connectedCallback",
-      value: function connectedCallback() {
-        this._upgradeProperties(['disabled', preview, href, 'serviceUrl']);
-
-        this._connected = true;
-        this.de('connected', {
-          value: this.href
-        });
-        this.onPropsChange();
-      }
-    }, {
-      key: "onPropsChange",
-      value: function onPropsChange() {
-        var _this4 = this;
-
-        if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl) return;
-        var url = this._serviceUrl + this._href + '&image_no=1&css=true';
-        if (this._previousURL === url) return;
-        this._previousURL = url;
-        this.title = "Loading...";
-        this.fetchInProgress = true;
-        this.fetchComplete = false;
-        fetch(url).then(function (response) {
-          response.text().then(function (respText) {
-            _this4.fetchInProgress = false;
-            var massagedText = respText; //console.log(massagedText);
-
-            var replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
-            replacements.forEach(function (s) {
-              massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
-            });
-            massagedText = massagedText.replace('<a href="', '<a target="_blank" href="'); //console.log(massagedText);
-
-            massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', ''); //const massagedText = respText.replace('<html>', '<div>')
-
-            var div = document.createElement('div');
-            div.innerHTML = massagedText;
-
-            _this4.shadowRoot.appendChild(div);
-
-            _this4.shadowRoot.querySelector('div#slot').innerHTML = '';
-
-            var titleSpan = _this4.shadowRoot.querySelector('span.title');
-
-            if (titleSpan) _this4.title = titleSpan.innerText;
-            _this4.fetchComplete = true;
-          });
-        });
-      }
-    }, {
+    babelHelpers.createClass(CorsAnywhere, [{
       key: "attributeChangedCallback",
       value: function attributeChangedCallback(name, oldValue, newValue) {
-        babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
+        babelHelpers.get(CorsAnywhere.prototype.__proto__ || Object.getPrototypeOf(CorsAnywhere.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
 
         switch (name) {
           case 'href':
             this._href = newValue; // if(this._once) this.loadHref();
 
-            break;
-
-          case 'preview':
-            this._preview = newValue !== null;
             break;
 
           case 'service-url':
@@ -214,6 +136,41 @@
         }
 
         this.onPropsChange();
+      }
+    }, {
+      key: "connectedCallback",
+      value: function connectedCallback() {
+        this._upgradeProperties(['disabled', href, 'serviceUrl']);
+
+        this._connected = true;
+        this.de('connected', {
+          value: this.href
+        });
+        this.onPropsChange();
+      }
+    }, {
+      key: "doFetch",
+      value: function doFetch() {
+        var _this4 = this;
+
+        var url = this.calculateURL();
+        if (this._previousURL === url) return;
+        this._previousURL = url;
+        this.title = "Loading...";
+        this.fetchInProgress = true;
+        this.fetchComplete = false;
+        fetch(url).then(function (response) {
+          _this4.fetchInProgress = false;
+
+          _this4.processResponse(response);
+
+          _this4.fetchComplete = true;
+        });
+      }
+    }, {
+      key: "calculateURL",
+      value: function calculateURL() {
+        return this._serviceUrl + this._href;
       }
     }, {
       key: "serviceUrl",
@@ -259,19 +216,6 @@
           value: val
         });
       }
-      /**
-      * @type {string} Must be true to preview the url specified by href
-      *
-      */
-
-    }, {
-      key: "preview",
-      get: function get() {
-        return this._preview;
-      },
-      set: function set(val) {
-        this.attr(preview, val, '');
-      }
     }, {
       key: "title",
       get: function get() {
@@ -284,11 +228,137 @@
     }], [{
       key: "observedAttributes",
       get: function get() {
-        return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([href, preview, service_url]);
+        return babelHelpers.get(CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere), "observedAttributes", this).concat([href, service_url]);
+      }
+    }]);
+    return CorsAnywhere;
+  }(XtallatX(HTMLElement)); //# sourceMappingURL=cors-anywhere.js.map
+  // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+
+
+  var cs = document.currentScript;
+  var customStyle = ''; // const href = 'href';
+  // const service_url = 'service-url';
+
+  var preview = 'preview'; // const fetch_in_progress = 'fetch-in-progress';
+  // const fetch_complete = 'fetch-complete';
+  // const title = 'title';
+
+  /**
+  * `xtal-link-preview`
+  * Provide preview of URL.
+  *
+  *
+  * @customElement
+  * @polymer
+  * @demo demo/index.html
+  */
+
+  var XtalLinkPreview =
+  /*#__PURE__*/
+  function (_CorsAnywhere) {
+    babelHelpers.inherits(XtalLinkPreview, _CorsAnywhere);
+
+    function XtalLinkPreview() {
+      var _this5;
+
+      babelHelpers.classCallCheck(this, XtalLinkPreview);
+      _this5 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
+      _this5._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
+      _this5._preview = false;
+      var template = document.createElement('template');
+      template.innerHTML = "\n          <style>\n            :host {\n              display: block;\n            }\n            ".concat(customStyle, "\n          </style>\n          <div id=\"slot\">\n          <slot>\n           \n          </slot>\n          </slot>\n        ");
+
+      _this5.attachShadow({
+        mode: 'open'
+      });
+
+      _this5.shadowRoot.appendChild(template.content.cloneNode(true));
+
+      _this5.style.display = "block";
+      return _this5;
+    }
+    /**
+    * @type {string} Must be true to preview the url specified by href
+    *
+    */
+
+
+    babelHelpers.createClass(XtalLinkPreview, [{
+      key: "connectedCallback",
+      value: function connectedCallback() {
+        this._upgradeProperties([preview]);
+
+        babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "connectedCallback", this).call(this);
+      }
+    }, {
+      key: "calculateURL",
+      value: function calculateURL() {
+        return this._serviceUrl + this._href + '&image_no=1&css=true';
+      }
+    }, {
+      key: "onPropsChange",
+      value: function onPropsChange() {
+        if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl) return;
+        this.doFetch();
+      }
+    }, {
+      key: "processResponse",
+      value: function processResponse(response) {
+        var _this6 = this;
+
+        response.text().then(function (respText) {
+          _this6.fetchInProgress = false;
+          var massagedText = respText; //console.log(massagedText);
+
+          var replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
+          replacements.forEach(function (s) {
+            massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
+          });
+          massagedText = massagedText.replace('<a href="', '<a target="_blank" href="'); //console.log(massagedText);
+
+          massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', ''); //const massagedText = respText.replace('<html>', '<div>')
+
+          var div = document.createElement('div');
+          div.innerHTML = massagedText;
+
+          _this6.shadowRoot.appendChild(div);
+
+          _this6.shadowRoot.querySelector('div#slot').innerHTML = '';
+
+          var titleSpan = _this6.shadowRoot.querySelector('span.title');
+
+          if (titleSpan) _this6.title = titleSpan.innerText;
+          _this6.fetchComplete = true;
+        });
+      }
+    }, {
+      key: "attributeChangedCallback",
+      value: function attributeChangedCallback(name, oldValue, newValue) {
+        switch (name) {
+          case 'preview':
+            this._preview = newValue !== null;
+            break;
+        }
+
+        babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
+      }
+    }, {
+      key: "preview",
+      get: function get() {
+        return this._preview;
+      },
+      set: function set(val) {
+        this.attr(preview, val, '');
+      }
+    }], [{
+      key: "observedAttributes",
+      get: function get() {
+        return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([preview]);
       }
     }]);
     return XtalLinkPreview;
-  }(XtallatX(HTMLElement));
+  }(CorsAnywhere);
 
   if (cs && cs.dataset.cssPath) {
     fetch(cs.dataset.cssPath).then(function (resp) {

@@ -65,47 +65,16 @@ function XtallatX(superClass) {
     };
 }
 //# sourceMappingURL=xtal-latx.js.map
-// http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
-const cs = document.currentScript;
-let customStyle = '';
 const href = 'href';
 const service_url = 'service-url';
-const preview = 'preview';
 const fetch_in_progress = 'fetch-in-progress';
 const fetch_complete = 'fetch-complete';
 const title = 'title';
-/**
-* `xtal-link-preview`
-* Provide preview of URL.
-*
-*
-* @customElement
-* @polymer
-* @demo demo/index.html
-*/
-class XtalLinkPreview extends XtallatX(HTMLElement) {
+class CorsAnywhere extends XtallatX(HTMLElement) {
     constructor() {
-        super();
-        this._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
-        this._preview = false;
+        super(...arguments);
+        this._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
         this._connected = false;
-        const template = document.createElement('template');
-        template.innerHTML = `
-          <style>
-            :host {
-              display: block;
-            }
-            ${customStyle}
-          </style>
-          <div id="slot">
-          <slot>
-           
-          </slot>
-          </slot>
-        `;
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.style.display = "block";
     }
     /** @type {string} Url of service that gets preview.
     *
@@ -145,6 +114,97 @@ class XtalLinkPreview extends XtallatX(HTMLElement) {
             value: val
         });
     }
+    get title() {
+        return this._title;
+    }
+    set title(val) {
+        this._title = val;
+        this.attr(title, val);
+    }
+    static get observedAttributes() {
+        return super.observedAttributes.concat([href, service_url,]);
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        switch (name) {
+            case 'href':
+                this._href = newValue;
+                // if(this._once) this.loadHref();
+                break;
+            case 'service-url':
+                this._serviceUrl = newValue;
+                break;
+        }
+        this.onPropsChange();
+    }
+    connectedCallback() {
+        this._upgradeProperties(['disabled', href, 'serviceUrl']);
+        this._connected = true;
+        this.de('connected', {
+            value: this.href
+        });
+        this.onPropsChange();
+    }
+    doFetch() {
+        const url = this.calculateURL();
+        if (this._previousURL === url)
+            return;
+        this._previousURL = url;
+        this.title = "Loading...";
+        this.fetchInProgress = true;
+        this.fetchComplete = false;
+        fetch(url).then(response => {
+            this.fetchInProgress = false;
+            this.processResponse(response);
+            this.fetchComplete = true;
+        });
+    }
+    calculateURL() {
+        return this._serviceUrl + this._href;
+    }
+}
+//# sourceMappingURL=cors-anywhere.js.map
+// http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+const cs = document.currentScript;
+let customStyle = '';
+// const href = 'href';
+// const service_url = 'service-url';
+const preview = 'preview';
+// const fetch_in_progress = 'fetch-in-progress';
+// const fetch_complete = 'fetch-complete';
+// const title = 'title';
+/**
+* `xtal-link-preview`
+* Provide preview of URL.
+*
+*
+* @customElement
+* @polymer
+* @demo demo/index.html
+*/
+class XtalLinkPreview extends CorsAnywhere {
+    constructor() {
+        super();
+        this._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
+        this._preview = false;
+        const template = document.createElement('template');
+        template.innerHTML = `
+          <style>
+            :host {
+              display: block;
+            }
+            ${customStyle}
+          </style>
+          <div id="slot">
+          <slot>
+           
+          </slot>
+          </slot>
+        `;
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.style.display = "block";
+    }
     /**
     * @type {string} Must be true to preview the url specified by href
     *
@@ -155,74 +215,51 @@ class XtalLinkPreview extends XtallatX(HTMLElement) {
     set preview(val) {
         this.attr(preview, val, '');
     }
-    get title() {
-        return this._title;
-    }
-    set title(val) {
-        this._title = val;
-        this.attr(title, val);
-    }
     static get observedAttributes() {
-        return super.observedAttributes.concat([href, preview, service_url,]);
+        return super.observedAttributes.concat([preview]);
     }
     connectedCallback() {
-        this._upgradeProperties(['disabled', preview, href, 'serviceUrl']);
-        this._connected = true;
-        this.de('connected', {
-            value: this.href
-        });
-        this.onPropsChange();
+        this._upgradeProperties([preview]);
+        super.connectedCallback();
+    }
+    calculateURL() {
+        return this._serviceUrl + this._href + '&image_no=1&css=true';
     }
     onPropsChange() {
         if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl)
             return;
-        const url = this._serviceUrl + this._href + '&image_no=1&css=true';
-        if (this._previousURL === url)
-            return;
-        this._previousURL = url;
-        this.title = "Loading...";
-        this.fetchInProgress = true;
-        this.fetchComplete = false;
-        fetch(url)
-            .then((response) => {
-            response.text().then(respText => {
-                this.fetchInProgress = false;
-                let massagedText = respText;
-                //console.log(massagedText);
-                const replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
-                replacements.forEach(s => {
-                    massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
-                });
-                massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
-                //console.log(massagedText);
-                massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
-                //const massagedText = respText.replace('<html>', '<div>')
-                const div = document.createElement('div');
-                div.innerHTML = massagedText;
-                this.shadowRoot.appendChild(div);
-                this.shadowRoot.querySelector('div#slot').innerHTML = '';
-                const titleSpan = this.shadowRoot.querySelector('span.title');
-                if (titleSpan)
-                    this.title = titleSpan.innerText;
-                this.fetchComplete = true;
+        this.doFetch();
+    }
+    processResponse(response) {
+        response.text().then(respText => {
+            this.fetchInProgress = false;
+            let massagedText = respText;
+            //console.log(massagedText);
+            const replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
+            replacements.forEach(s => {
+                massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
             });
+            massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
+            //console.log(massagedText);
+            massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
+            //const massagedText = respText.replace('<html>', '<div>')
+            const div = document.createElement('div');
+            div.innerHTML = massagedText;
+            this.shadowRoot.appendChild(div);
+            this.shadowRoot.querySelector('div#slot').innerHTML = '';
+            const titleSpan = this.shadowRoot.querySelector('span.title');
+            if (titleSpan)
+                this.title = titleSpan.innerText;
+            this.fetchComplete = true;
         });
     }
     attributeChangedCallback(name, oldValue, newValue) {
-        super.attributeChangedCallback(name, oldValue, newValue);
         switch (name) {
-            case 'href':
-                this._href = newValue;
-                // if(this._once) this.loadHref();
-                break;
             case 'preview':
                 this._preview = newValue !== null;
                 break;
-            case 'service-url':
-                this._serviceUrl = newValue;
-                break;
         }
-        this.onPropsChange();
+        super.attributeChangedCallback(name, oldValue, newValue);
     }
 }
 if (cs && cs.dataset.cssPath) {
