@@ -1,32 +1,31 @@
-(function () {
-    if (customElements.get('xtal-link-preview')) return;
-    const cs = document.currentScript as HTMLScriptElement;
-    let customStyle = ''
-    if (cs && cs.dataset.cssPath) {
-        fetch(cs.dataset.cssPath).then(resp =>{
-            resp.text().then(css =>{
-                customStyle = css;
-                initXtalLinkPreview();
-            });
-        })
-    }else{
-        initXtalLinkPreview();
-    }
-    function initXtalLinkPreview() {
-        /** 
-        * `xtal-link-preview`
-        * Provide preview of URL.
-        * 
-        *
-        * @customElement
-        * @polymer
-        * @demo demo/index.html
-        */
-        class XtalLinkPreview extends HTMLElement {
-            constructor() {
-                super();
-                const template = document.createElement('template');
-                template.innerHTML = `
+import { XtallatX } from 'xtal-latx/xtal-latx.js';
+
+// http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+
+const cs = document.currentScript as HTMLScriptElement;
+let customStyle = ''
+
+
+const href = 'href';
+const service_url = 'service-url';
+const preview = 'preview';
+const fetch_in_progress = 'fetch-in-progress';
+const fetch_complete = 'fetch-complete';
+
+/** 
+* `xtal-link-preview`
+* Provide preview of URL.
+* 
+*
+* @customElement
+* @polymer
+* @demo demo/index.html
+*/
+export class XtalLinkPreview extends XtallatX(HTMLElement) {
+    constructor() {
+        super();
+        const template = document.createElement('template');
+        template.innerHTML = `
           <style>
             :host {
               display: block;
@@ -39,104 +38,143 @@
           </slot>
           </slot>
         `;
-                this.attachShadow({ mode: 'open' });
-                this.shadowRoot.appendChild(template.content.cloneNode(true));
-                this.style.display = "block";
-            }
-
-
-
-            _serviceUrl: string = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url='
-            get serviceUrl() {
-                return this._serviceUrl;
-            }
-            set serviceUrl(val: string) {
-                this.setAttribute('service-url', val);
-            }
-            _href: string;
-            _preview = false;
-            set href(val: string) {
-                this.setAttribute('href', val);
-                //this._href = val;
-                //this.loadHref();
-            }
-            get href() {
-                return this._href;
-            }
-            set preview(val: boolean) {
-                if (val) {
-                    this.setAttribute('preview', '');
-                } else {
-                    this.removeAttribute('preview');
-                }
-            }
-            get preview() {
-                return this._preview;
-            }
-            static get observedAttributes() {
-                return [
-                    /** @type {string} Url to preview
-                     * 
-                    */
-                    'href',
-                    /** @type {string} Must be true to preview the url specified by href
-                     * 
-                    */
-                    'preview',
-                    /** @type {string} Url of service that gets preview.
-                     * 
-                     */
-                    'service-url',
-                ];
-            }
-            loadHref() {
-                //const _this = this;
-                if (!this._preview) return;
-                if (!this._href) return;
-                if (!this._serviceUrl) return;
-                fetch(this._serviceUrl + this._href + '&image_no=1&css=true')
-                    .then((response) => {
-                        response.text().then(respText => {
-                            let massagedText = respText;
-                            //console.log(massagedText);
-                            const replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
-                            replacements.forEach(s => {
-                                massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
-                            })
-                            massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
-                            //console.log(massagedText);
-                            massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
-                            //const massagedText = respText.replace('<html>', '<div>')
-                            const div = document.createElement('div');
-                            div.innerHTML = massagedText;
-                            this.shadowRoot.appendChild(div);
-                            this.shadowRoot.querySelector('div#slot').innerHTML = '';
-                        })
-                    })
-            }
-            attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-                switch (name) {
-                    case 'href':
-                        this._href = newValue;
-                        // if(this._once) this.loadHref();
-                        this.loadHref();
-                        break;
-                    case 'preview':
-                        this._preview = newValue !== null;
-                        this.loadHref();
-                        break;
-                    case 'service-url':
-                        this._serviceUrl = newValue;
-                        this.loadHref();
-                        break;
-
-                }
-            }
-        }
-
-        customElements.define('xtal-link-preview', XtalLinkPreview);
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.style.display = "block";
     }
 
-    
-})();
-// http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+
+
+    _serviceUrl: string = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
+    /** @type {string} Url of service that gets preview.
+    * 
+    */
+    get serviceUrl() {
+        return this._serviceUrl;
+    }
+    set serviceUrl(val: string) {
+        this.attr('service-url', val);
+    }
+
+
+    _href: string;
+    /** @type {string} Url to preview
+    * 
+    */
+    get href() {
+        return this._href;
+    }
+    set href(val: string) {
+        this.attr('href', val);
+    }
+
+    _fetchInProgress: boolean;
+    get fetchInProgress(){
+        return this._fetchInProgress;
+    }
+    set fetchInProgress(val){
+        this._fetchInProgress = val;
+        this.attr(fetch_in_progress, val, '');
+        this.de(fetch_in_progress, {
+            value: val
+        })
+    }
+
+    _fetchComplete: boolean;
+    get fetchComplete(){
+        return this._fetchComplete;
+    }
+    set fetchComplete(val: boolean, ){
+        this._fetchComplete = val;
+        this.attr(fetch_complete, val, '');
+        this.de(fetch_complete, {
+            value: val
+        })
+    }
+
+    _preview = false;
+    /** 
+    * @type {string} Must be true to preview the url specified by href
+    * 
+    */
+    get preview() {
+        return this._preview;
+    }
+    set preview(val: boolean) {
+        this.attr(preview, val, '');
+    }
+
+    static get observedAttributes() {
+        return super.observedAttributes.concat( [href, preview, service_url,]);
+    }
+
+    _connected = false;
+    connectedCallback(){
+        this._upgradeProperties(['disabled', preview, href, 'serviceUrl']);
+        this._connected = true;
+        this.de('connected',{
+            value: this.href
+        });
+        this.onPropsChange();
+    }
+    onPropsChange() {
+        if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl) return;
+        this.fetchInProgress = true;
+        this.fetchComplete = false;
+        fetch(this._serviceUrl + this._href + '&image_no=1&css=true')
+            .then((response) => {
+                response.text().then(respText => {
+                    this.fetchInProgress = false;
+                    let massagedText = respText;
+                    //console.log(massagedText);
+                    const replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
+                    replacements.forEach(s => {
+                        massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
+                    })
+                    massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
+                    //console.log(massagedText);
+                    massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
+                    //const massagedText = respText.replace('<html>', '<div>')
+                    const div = document.createElement('div');
+                    div.innerHTML = massagedText;
+                    this.shadowRoot.appendChild(div);
+                    this.shadowRoot.querySelector('div#slot').innerHTML = '';
+                    this.fetchComplete = true;
+                })
+            })
+    }
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        switch (name) {
+            case 'href':
+                this._href = newValue;
+                // if(this._once) this.loadHref();
+                break;
+            case 'preview':
+                this._preview = newValue !== null;
+                break;
+            case 'service-url':
+                this._serviceUrl = newValue;
+                break;
+
+        }
+        this.onPropsChange();
+    }
+}
+
+if (cs && cs.dataset.cssPath) {
+    fetch(cs.dataset.cssPath).then(resp => {
+        resp.text().then(css => {
+            customStyle = css;
+            initXtalLinkPreview();
+        });
+    })
+} else {
+    initXtalLinkPreview();
+}
+
+
+function initXtalLinkPreview() {
+    customElements.define('xtal-link-preview', XtalLinkPreview);
+}
+

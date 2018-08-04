@@ -1,0 +1,48 @@
+{
+  "entrypoint": "index.html",
+  "fragments": [],
+  "sources": [
+    "xtal-link-preview.js",
+    "xtal-link-preview.iife.js",
+    "index.html"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js"
+  ],
+  "builds": [
+    {
+      "name": "ES5",
+      "js": {
+        "minify": false,
+        "compile": true
+      },
+      "html": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      }
+    },
+    {
+      "name": "ES6",
+      "js": {
+        "minify": true,
+        "compile": false
+      },
+      "html": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      }
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
+}
