@@ -65,9 +65,9 @@ function (_XtallatX) {
       var _this2 = this;
 
       if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl) return;
+      this.title = "Loading...";
       this.fetchInProgress = true;
       this.fetchComplete = false;
-      this.title = "Loading...";
       fetch(this._serviceUrl + this._href + '&image_no=1&css=true').then(function (response) {
         response.text().then(function (respText) {
           _this2.fetchInProgress = false;
