@@ -73,6 +73,7 @@ const service_url = 'service-url';
 const preview = 'preview';
 const fetch_in_progress = 'fetch-in-progress';
 const fetch_complete = 'fetch-complete';
+const title = 'title';
 /**
 * `xtal-link-preview`
 * Provide preview of URL.
@@ -154,6 +155,13 @@ class XtalLinkPreview extends XtallatX(HTMLElement) {
     set preview(val) {
         this.attr(preview, val, '');
     }
+    get title() {
+        return this._title;
+    }
+    set title(val) {
+        this._title = val;
+        this.attr(title, val);
+    }
     static get observedAttributes() {
         return super.observedAttributes.concat([href, preview, service_url,]);
     }
@@ -170,6 +178,7 @@ class XtalLinkPreview extends XtallatX(HTMLElement) {
             return;
         this.fetchInProgress = true;
         this.fetchComplete = false;
+        this.title = "Loading...";
         fetch(this._serviceUrl + this._href + '&image_no=1&css=true')
             .then((response) => {
             response.text().then(respText => {
@@ -188,6 +197,9 @@ class XtalLinkPreview extends XtallatX(HTMLElement) {
                 div.innerHTML = massagedText;
                 this.shadowRoot.appendChild(div);
                 this.shadowRoot.querySelector('div#slot').innerHTML = '';
+                const titleSpan = this.shadowRoot.querySelector('span.title');
+                if (titleSpan)
+                    this.title = titleSpan.innerText;
                 this.fetchComplete = true;
             });
         });

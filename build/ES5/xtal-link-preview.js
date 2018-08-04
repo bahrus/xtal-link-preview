@@ -7,6 +7,7 @@ var service_url = 'service-url';
 var preview = 'preview';
 var fetch_in_progress = 'fetch-in-progress';
 var fetch_complete = 'fetch-complete';
+var title = 'title';
 /**
 * `xtal-link-preview`
 * Provide preview of URL.
@@ -66,6 +67,7 @@ function (_XtallatX) {
       if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl) return;
       this.fetchInProgress = true;
       this.fetchComplete = false;
+      this.title = "Loading...";
       fetch(this._serviceUrl + this._href + '&image_no=1&css=true').then(function (response) {
         response.text().then(function (respText) {
           _this2.fetchInProgress = false;
@@ -85,6 +87,10 @@ function (_XtallatX) {
           _this2.shadowRoot.appendChild(div);
 
           _this2.shadowRoot.querySelector('div#slot').innerHTML = '';
+
+          var titleSpan = _this2.shadowRoot.querySelector('span.title');
+
+          if (titleSpan) _this2.title = titleSpan.innerText;
           _this2.fetchComplete = true;
         });
       });
@@ -167,6 +173,15 @@ function (_XtallatX) {
     },
     set: function set(val) {
       this.attr(preview, val, '');
+    }
+  }, {
+    key: "title",
+    get: function get() {
+      return this._title;
+    },
+    set: function set(val) {
+      this._title = val;
+      this.attr(title, val);
     }
   }], [{
     key: "observedAttributes",
