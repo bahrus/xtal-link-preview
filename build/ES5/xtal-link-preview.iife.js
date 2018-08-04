@@ -160,10 +160,13 @@
         var _this4 = this;
 
         if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl) return;
+        var url = this._serviceUrl + this._href + '&image_no=1&css=true';
+        if (this._previousURL === url) return;
+        this._previousURL = url;
         this.title = "Loading...";
         this.fetchInProgress = true;
         this.fetchComplete = false;
-        fetch(this._serviceUrl + this._href + '&image_no=1&css=true').then(function (response) {
+        fetch(url).then(function (response) {
           response.text().then(function (respText) {
             _this4.fetchInProgress = false;
             var massagedText = respText; //console.log(massagedText);
