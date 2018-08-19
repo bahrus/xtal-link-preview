@@ -1,13 +1,10 @@
 import { CorsAnywhere } from 'ava-pwar/cors-anywhere.js';
+import { define } from 'xtal-latx/define.js';
 // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
-const cs = document.currentScript;
-let customStyle = '';
-// const href = 'href';
-// const service_url = 'service-url';
+//const cs = document.currentScript as HTMLScriptElement;
+//let customStyle = ''
 const preview = 'preview';
-// const fetch_in_progress = 'fetch-in-progress';
-// const fetch_complete = 'fetch-complete';
-// const title = 'title';
+const image_width = 'image-width';
 /**
 * `xtal-link-preview`
 * Provide preview of URL.
@@ -22,23 +19,10 @@ export class XtalLinkPreview extends CorsAnywhere {
         super();
         this._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
         this._preview = false;
-        // const template = document.createElement('template');
-        // template.innerHTML = `
-        //   <style>
-        //     :host {
-        //       display: block;
-        //     }
-        //     ${customStyle}
-        //   </style>
-        //   <div id="slot">
-        //   <slot>
-        //   </slot>
-        //   </slot>
-        // `;
-        // this.attachShadow({ mode: 'open' });
-        // this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this._imageWidth = 150;
         this.style.display = "block";
     }
+    static get is() { return 'xtal-link-preview'; }
     /**
     * @type {string} Must be true to preview the url specified by href
     *
@@ -49,11 +33,17 @@ export class XtalLinkPreview extends CorsAnywhere {
     set preview(val) {
         this.attr(preview, val, '');
     }
+    get imageWidth() {
+        return this._imageWidth;
+    }
+    set imageWidth(val) {
+        this.attr(image_width, val.toString());
+    }
     static get observedAttributes() {
-        return super.observedAttributes.concat([preview]);
+        return super.observedAttributes.concat([preview, image_width]);
     }
     connectedCallback() {
-        this._upgradeProperties([preview]);
+        this._upgradeProperties([preview, 'imageWidth']);
         super.connectedCallback();
     }
     calculateURL() {
@@ -118,25 +108,9 @@ export class XtalLinkPreview extends CorsAnywhere {
             this.innerHTML = /* html */ `
                 <div>
                     <header>${this.title}</header>
-                    <img height="110" width="110" src="${imageSrc}"/>
+                    <img width="${this._imageWidth}" src="${imageSrc}"/>
                 </div>
             `;
-            // let massagedText = respText;
-            // //console.log(massagedText);
-            // const replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
-            // replacements.forEach(s => {
-            //     massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
-            // })
-            // massagedText = massagedText.replace('<a href="', '<a target="_blank" href="');
-            // //console.log(massagedText);
-            // massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', '');
-            // //const massagedText = respText.replace('<html>', '<div>')
-            // const div = document.createElement('div');
-            // div.innerHTML = massagedText;
-            // this.shadowRoot.appendChild(div);
-            // this.shadowRoot.querySelector('div#slot').innerHTML = '';
-            // const titleSpan = this.shadowRoot.querySelector('span.title');
-            // if(titleSpan) this.title = titleSpan.innerText;
             this.fetchComplete = true;
         });
     }
@@ -149,17 +123,5 @@ export class XtalLinkPreview extends CorsAnywhere {
         super.attributeChangedCallback(name, oldValue, newValue);
     }
 }
-// if (cs && cs.dataset.cssPath) {
-//     fetch(cs.dataset.cssPath).then(resp => {
-//         resp.text().then(css => {
-//             customStyle = css;
-//             initXtalLinkPreview();
-//         });
-//     })
-// } else {
-//     initXtalLinkPreview();
-// }
-//function initXtalLinkPreview() {
-customElements.define('xtal-link-preview', XtalLinkPreview);
-//}
+define(XtalLinkPreview);
 //# sourceMappingURL=xtal-link-preview.js.map

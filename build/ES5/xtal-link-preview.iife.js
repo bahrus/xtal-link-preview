@@ -1,5 +1,17 @@
 //@ts-check
 (function () {
+  function define(custEl) {
+    var tagName = custEl.is;
+
+    if (customElements.get(tagName)) {
+      console.warn('Already registered ' + tagName);
+      return;
+    }
+
+    customElements.define(tagName, custEl);
+  } //# sourceMappingURL=define.js.map
+
+
   var disabled = 'disabled';
 
   function XtallatX(superClass) {
@@ -20,11 +32,14 @@
         babelHelpers.createClass(_class, [{
           key: "attr",
           value: function attr(name, val, trueVal) {
-            if (val) {
-              this.setAttribute(name, trueVal || val);
-            } else {
-              this.removeAttribute(name);
-            }
+            var setOrRemove = val ? 'set' : 'remove';
+            this[setOrRemove + 'Attribute'](name, trueVal || val);
+          }
+        }, {
+          key: "to$",
+          value: function to$(number) {
+            var mod = number % 2;
+            return (number - mod) / 2 + '-' + mod;
           }
         }, {
           key: "incAttr",
@@ -37,7 +52,7 @@
               ec[name] = 0;
             }
 
-            this.attr(name, ec[name].toString());
+            this.attr('data-' + name, this.to$(ec[name]));
           }
         }, {
           key: "attributeChangedCallback",
@@ -234,16 +249,12 @@
     return CorsAnywhere;
   }(XtallatX(HTMLElement)); //# sourceMappingURL=cors-anywhere.js.map
   // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+  //const cs = document.currentScript as HTMLScriptElement;
+  //let customStyle = ''
 
 
-  var cs = document.currentScript;
-  var customStyle = ''; // const href = 'href';
-  // const service_url = 'service-url';
-
-  var preview = 'preview'; // const fetch_in_progress = 'fetch-in-progress';
-  // const fetch_complete = 'fetch-complete';
-  // const title = 'title';
-
+  var preview = 'preview';
+  var image_width = 'image-width';
   /**
   * `xtal-link-preview`
   * Provide preview of URL.
@@ -264,37 +275,24 @@
 
       babelHelpers.classCallCheck(this, XtalLinkPreview);
       _this5 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
-      _this5._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
+      _this5._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
       _this5._preview = false;
-      var template = document.createElement('template');
-      template.innerHTML = "\n          <style>\n            :host {\n              display: block;\n            }\n            ".concat(customStyle, "\n          </style>\n          <div id=\"slot\">\n          <slot>\n           \n          </slot>\n          </slot>\n        ");
-
-      _this5.attachShadow({
-        mode: 'open'
-      });
-
-      _this5.shadowRoot.appendChild(template.content.cloneNode(true));
-
+      _this5._imageWidth = 150;
       _this5.style.display = "block";
       return _this5;
     }
-    /**
-    * @type {string} Must be true to preview the url specified by href
-    *
-    */
-
 
     babelHelpers.createClass(XtalLinkPreview, [{
       key: "connectedCallback",
       value: function connectedCallback() {
-        this._upgradeProperties([preview]);
+        this._upgradeProperties([preview, 'imageWidth']);
 
         babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "connectedCallback", this).call(this);
       }
     }, {
       key: "calculateURL",
       value: function calculateURL() {
-        return this._serviceUrl + this._href + '&image_no=1&css=true';
+        return this._serviceUrl + this._href;
       }
     }, {
       key: "onPropsChange",
@@ -303,32 +301,70 @@
         this.doFetch();
       }
     }, {
+      key: "getMetaContent",
+      value: function getMetaContent(htmlDoc, name, val) {
+        var link = htmlDoc.querySelector('meta[' + name + '="' + val + '"]');
+        if (link) return link.content;
+        return null;
+      }
+    }, {
+      key: "getAbsPath",
+      value: function getAbsPath(imageSrc) {
+        var newSrc = imageSrc;
+
+        if (!imageSrc.startsWith('http') && !imageSrc.startsWith('data')) {
+          if (imageSrc.startsWith('/')) {
+            newSrc = this._href.split('/').slice(0, 3).join('/') + imageSrc;
+          } else {
+            var mid = this._href.endsWith('/') ? '' : '/';
+            if (newSrc.startsWith('/')) newSrc.replace('/', '');
+            newSrc = this._href + mid + imageSrc;
+          }
+        }
+
+        return newSrc;
+      }
+    }, {
       key: "processResponse",
       value: function processResponse(response) {
         var _this6 = this;
 
         response.text().then(function (respText) {
           _this6.fetchInProgress = false;
-          var massagedText = respText; //console.log(massagedText);
+          var parser = new DOMParser();
+          var htmlDoc = parser.parseFromString(respText, "text/html");
 
-          var replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
-          replacements.forEach(function (s) {
-            massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
-          });
-          massagedText = massagedText.replace('<a href="', '<a target="_blank" href="'); //console.log(massagedText);
+          var imageSrc = _this6.getMetaContent(htmlDoc, 'name', "twitter:image:src");
 
-          massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', ''); //const massagedText = respText.replace('<html>', '<div>')
+          if (!imageSrc) imageSrc = _this6.getMetaContent(htmlDoc, 'name', "twitter:image");
+          if (!imageSrc) imageSrc = _this6.getMetaContent(htmlDoc, 'property', 'og:image');
 
-          var div = document.createElement('div');
-          div.innerHTML = massagedText;
+          if (!imageSrc) {
+            var img = htmlDoc.querySelector('img');
 
-          _this6.shadowRoot.appendChild(div);
+            if (img) {
+              imageSrc = img.getAttribute('src');
+              imageSrc = _this6.getAbsPath(imageSrc);
+              console.log(imageSrc);
+            }
+          }
 
-          _this6.shadowRoot.querySelector('div#slot').innerHTML = '';
+          if (!imageSrc) {
+            var iconLink = htmlDoc.querySelector('link[rel="icon"]');
 
-          var titleSpan = _this6.shadowRoot.querySelector('span.title');
+            if (iconLink) {
+              imageSrc = iconLink.getAttribute('href');
+              imageSrc = _this6.getAbsPath(imageSrc);
+            }
+          } //console.log(imageSrc);
 
-          if (titleSpan) _this6.title = titleSpan.innerText;
+
+          var titleEl = htmlDoc.querySelector('title');
+          var title = 'unknown';
+          if (titleEl) _this6.title = titleEl.innerText;
+          _this6.innerHTML =
+          /* html */
+          "\n                <div>\n                    <header>".concat(_this6.title, "</header>\n                    <img width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
           _this6.fetchComplete = true;
         });
       }
@@ -345,34 +381,38 @@
       }
     }, {
       key: "preview",
+
+      /**
+      * @type {string} Must be true to preview the url specified by href
+      *
+      */
       get: function get() {
         return this._preview;
       },
       set: function set(val) {
         this.attr(preview, val, '');
       }
+    }, {
+      key: "imageWidth",
+      get: function get() {
+        return this._imageWidth;
+      },
+      set: function set(val) {
+        this.attr(image_width, val.toString());
+      }
     }], [{
+      key: "is",
+      get: function get() {
+        return 'xtal-link-preview';
+      }
+    }, {
       key: "observedAttributes",
       get: function get() {
-        return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([preview]);
+        return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([preview, image_width]);
       }
     }]);
     return XtalLinkPreview;
   }(CorsAnywhere);
 
-  if (cs && cs.dataset.cssPath) {
-    fetch(cs.dataset.cssPath).then(function (resp) {
-      resp.text().then(function (css) {
-        customStyle = css;
-        initXtalLinkPreview();
-      });
-    });
-  } else {
-    initXtalLinkPreview();
-  }
-
-  function initXtalLinkPreview() {
-    customElements.define('xtal-link-preview', XtalLinkPreview);
-  } //# sourceMappingURL=xtal-link-preview.js.map
-
+  define(XtalLinkPreview); //# sourceMappingURL=xtal-link-preview.js.map
 })();

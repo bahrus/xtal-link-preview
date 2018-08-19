@@ -1,13 +1,10 @@
-import { CorsAnywhere } from "./node_modules/ava-pwar/cors-anywhere.js"; // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+import { CorsAnywhere } from "./node_modules/ava-pwar/cors-anywhere.js";
+import { define } from "./node_modules/xtal-latx/define.js"; // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
+//const cs = document.currentScript as HTMLScriptElement;
+//let customStyle = ''
 
-var cs = document.currentScript;
-var customStyle = ''; // const href = 'href';
-// const service_url = 'service-url';
-
-var preview = 'preview'; // const fetch_in_progress = 'fetch-in-progress';
-// const fetch_complete = 'fetch-complete';
-// const title = 'title';
-
+var preview = 'preview';
+var image_width = 'image-width';
 /**
 * `xtal-link-preview`
 * Provide preview of URL.
@@ -28,37 +25,24 @@ function (_CorsAnywhere) {
 
     babelHelpers.classCallCheck(this, XtalLinkPreview);
     _this = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
-    _this._serviceUrl = 'https://cors-anywhere.herokuapp.com/http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=';
+    _this._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
     _this._preview = false;
-    var template = document.createElement('template');
-    template.innerHTML = "\n          <style>\n            :host {\n              display: block;\n            }\n            ".concat(customStyle, "\n          </style>\n          <div id=\"slot\">\n          <slot>\n           \n          </slot>\n          </slot>\n        ");
-
-    _this.attachShadow({
-      mode: 'open'
-    });
-
-    _this.shadowRoot.appendChild(template.content.cloneNode(true));
-
+    _this._imageWidth = 150;
     _this.style.display = "block";
     return _this;
   }
-  /**
-  * @type {string} Must be true to preview the url specified by href
-  *
-  */
-
 
   babelHelpers.createClass(XtalLinkPreview, [{
     key: "connectedCallback",
     value: function connectedCallback() {
-      this._upgradeProperties([preview]);
+      this._upgradeProperties([preview, 'imageWidth']);
 
       babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "connectedCallback", this).call(this);
     }
   }, {
     key: "calculateURL",
     value: function calculateURL() {
-      return this._serviceUrl + this._href + '&image_no=1&css=true';
+      return this._serviceUrl + this._href;
     }
   }, {
     key: "onPropsChange",
@@ -67,32 +51,70 @@ function (_CorsAnywhere) {
       this.doFetch();
     }
   }, {
+    key: "getMetaContent",
+    value: function getMetaContent(htmlDoc, name, val) {
+      var link = htmlDoc.querySelector('meta[' + name + '="' + val + '"]');
+      if (link) return link.content;
+      return null;
+    }
+  }, {
+    key: "getAbsPath",
+    value: function getAbsPath(imageSrc) {
+      var newSrc = imageSrc;
+
+      if (!imageSrc.startsWith('http') && !imageSrc.startsWith('data')) {
+        if (imageSrc.startsWith('/')) {
+          newSrc = this._href.split('/').slice(0, 3).join('/') + imageSrc;
+        } else {
+          var mid = this._href.endsWith('/') ? '' : '/';
+          if (newSrc.startsWith('/')) newSrc.replace('/', '');
+          newSrc = this._href + mid + imageSrc;
+        }
+      }
+
+      return newSrc;
+    }
+  }, {
     key: "processResponse",
     value: function processResponse(response) {
       var _this2 = this;
 
       response.text().then(function (respText) {
         _this2.fetchInProgress = false;
-        var massagedText = respText; //console.log(massagedText);
+        var parser = new DOMParser();
+        var htmlDoc = parser.parseFromString(respText, "text/html");
 
-        var replacements = [['html', 'div'], ['head', 'header'], ['body', 'main']];
-        replacements.forEach(function (s) {
-          massagedText = massagedText.replace('<' + s[0] + '>', '<' + s[1] + ' id="root">').replace('</' + s[0] + '>', '</' + s[1] + '>');
-        });
-        massagedText = massagedText.replace('<a href="', '<a target="_blank" href="'); //console.log(massagedText);
+        var imageSrc = _this2.getMetaContent(htmlDoc, 'name', "twitter:image:src");
 
-        massagedText = massagedText.replace('<div id="toolbar" class="clearfix"><button id="changeimg">></button></div>', ''); //const massagedText = respText.replace('<html>', '<div>')
+        if (!imageSrc) imageSrc = _this2.getMetaContent(htmlDoc, 'name', "twitter:image");
+        if (!imageSrc) imageSrc = _this2.getMetaContent(htmlDoc, 'property', 'og:image');
 
-        var div = document.createElement('div');
-        div.innerHTML = massagedText;
+        if (!imageSrc) {
+          var img = htmlDoc.querySelector('img');
 
-        _this2.shadowRoot.appendChild(div);
+          if (img) {
+            imageSrc = img.getAttribute('src');
+            imageSrc = _this2.getAbsPath(imageSrc);
+            console.log(imageSrc);
+          }
+        }
 
-        _this2.shadowRoot.querySelector('div#slot').innerHTML = '';
+        if (!imageSrc) {
+          var iconLink = htmlDoc.querySelector('link[rel="icon"]');
 
-        var titleSpan = _this2.shadowRoot.querySelector('span.title');
+          if (iconLink) {
+            imageSrc = iconLink.getAttribute('href');
+            imageSrc = _this2.getAbsPath(imageSrc);
+          }
+        } //console.log(imageSrc);
 
-        if (titleSpan) _this2.title = titleSpan.innerText;
+
+        var titleEl = htmlDoc.querySelector('title');
+        var title = 'unknown';
+        if (titleEl) _this2.title = titleEl.innerText;
+        _this2.innerHTML =
+        /* html */
+        "\n                <div>\n                    <header>".concat(_this2.title, "</header>\n                    <img width=\"").concat(_this2._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
         _this2.fetchComplete = true;
       });
     }
@@ -109,32 +131,36 @@ function (_CorsAnywhere) {
     }
   }, {
     key: "preview",
+
+    /**
+    * @type {string} Must be true to preview the url specified by href
+    *
+    */
     get: function get() {
       return this._preview;
     },
     set: function set(val) {
       this.attr(preview, val, '');
     }
+  }, {
+    key: "imageWidth",
+    get: function get() {
+      return this._imageWidth;
+    },
+    set: function set(val) {
+      this.attr(image_width, val.toString());
+    }
   }], [{
+    key: "is",
+    get: function get() {
+      return 'xtal-link-preview';
+    }
+  }, {
     key: "observedAttributes",
     get: function get() {
-      return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([preview]);
+      return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([preview, image_width]);
     }
   }]);
   return XtalLinkPreview;
 }(CorsAnywhere);
-
-if (cs && cs.dataset.cssPath) {
-  fetch(cs.dataset.cssPath).then(function (resp) {
-    resp.text().then(function (css) {
-      customStyle = css;
-      initXtalLinkPreview();
-    });
-  });
-} else {
-  initXtalLinkPreview();
-}
-
-function initXtalLinkPreview() {
-  customElements.define('xtal-link-preview', XtalLinkPreview);
-} //# sourceMappingURL=xtal-link-preview.js.map
+define(XtalLinkPreview); //# sourceMappingURL=xtal-link-preview.js.map
