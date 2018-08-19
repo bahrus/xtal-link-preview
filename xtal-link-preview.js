@@ -64,23 +64,61 @@ export class XtalLinkPreview extends CorsAnywhere {
             return;
         this.doFetch();
     }
-    getMetaContent(htmlDoc, name) {
-        let link = htmlDoc.querySelector('meta[name="' + name + '"]');
+    getMetaContent(htmlDoc, name, val) {
+        let link = htmlDoc.querySelector('meta[' + name + '="' + val + '"]');
         if (link)
             return link.content;
         return null;
+    }
+    getAbsPath(imageSrc) {
+        let newSrc = imageSrc;
+        if (!imageSrc.startsWith('http') && !imageSrc.startsWith('data')) {
+            if (imageSrc.startsWith('/')) {
+                newSrc = this._href.split('/').slice(0, 3).join('/') + imageSrc;
+            }
+            else {
+                const mid = this._href.endsWith('/') ? '' : '/';
+                if (newSrc.startsWith('/'))
+                    newSrc.replace('/', '');
+                newSrc = this._href + mid + imageSrc;
+            }
+        }
+        return newSrc;
     }
     processResponse(response) {
         response.text().then(respText => {
             this.fetchInProgress = false;
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(respText, "text/html");
-            let imageSrc = this.getMetaContent(htmlDoc, "twitter:image:src");
+            let imageSrc = this.getMetaContent(htmlDoc, 'name', "twitter:image:src");
             if (!imageSrc)
-                imageSrc = this.getMetaContent(htmlDoc, "twitter:image");
-            this.innerHTML = `
+                imageSrc = this.getMetaContent(htmlDoc, 'name', "twitter:image");
+            if (!imageSrc)
+                imageSrc = this.getMetaContent(htmlDoc, 'property', 'og:image');
+            if (!imageSrc) {
+                const img = htmlDoc.querySelector('img');
+                if (img) {
+                    imageSrc = img.getAttribute('src');
+                    imageSrc = this.getAbsPath(imageSrc);
+                    console.log(imageSrc);
+                }
+            }
+            if (!imageSrc) {
+                const iconLink = htmlDoc.querySelector('link[rel="icon"]');
+                if (iconLink) {
+                    imageSrc = iconLink.getAttribute('href');
+                    imageSrc = this.getAbsPath(imageSrc);
+                }
+            }
+            //console.log(imageSrc);
+            let titleEl = htmlDoc.querySelector('title');
+            let title = 'unknown';
+            if (titleEl)
+                this.title = titleEl.innerText;
+            this.innerHTML = /* html */ `
                 <div>
-                    <img height="110" width="220" src="${imageSrc}"/>
+                    <header>${this.title}</header>
+                    <img height="110" width="110" src="${imageSrc}"/>
                 </div>
             `;
             // let massagedText = respText;
