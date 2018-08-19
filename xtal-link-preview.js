@@ -1,8 +1,8 @@
 import { CorsAnywhere } from 'ava-pwar/cors-anywhere.js';
 import { define } from 'xtal-latx/define.js';
-// http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
-//const cs = document.currentScript as HTMLScriptElement;
-//let customStyle = ''
+export function qsa(css, from) {
+    return [].slice.call((from ? from : this).querySelectorAll(css));
+}
 const preview = 'preview';
 const image_width = 'image-width';
 /**
@@ -55,9 +55,10 @@ export class XtalLinkPreview extends CorsAnywhere {
         this.doFetch();
     }
     getMetaContent(htmlDoc, name, val) {
-        let link = htmlDoc.querySelector('meta[' + name + '="' + val + '"]');
-        if (link)
-            return link.content;
+        let metas = qsa('meta[' + name + '="' + val + '"]', htmlDoc);
+        let meta = metas.filter(item => item.content);
+        if (meta && meta.length > 0)
+            return meta[0].content;
         return null;
     }
     getAbsPath(imageSrc) {
@@ -102,13 +103,22 @@ export class XtalLinkPreview extends CorsAnywhere {
             }
             //console.log(imageSrc);
             let titleEl = htmlDoc.querySelector('title');
-            let title = 'unknown';
             if (titleEl)
                 this.title = titleEl.innerText;
+            let description = this.getMetaContent(htmlDoc, 'name', 'description');
+            if (!description) {
+                description = '';
+            }
+            else {
+                this.title = this.title.replace(description, '');
+            }
             this.innerHTML = /* html */ `
                 <div>
-                    <header>${this.title}</header>
-                    <img width="${this._imageWidth}" src="${imageSrc}"/>
+                    <details open>
+                        <summary>${this.title}</summary>
+                        <p>${description}</p>
+                    </details>
+                    <img alt="${this.title}" width="${this._imageWidth}" src="${imageSrc}"/>
                 </div>
             `;
             this.fetchComplete = true;

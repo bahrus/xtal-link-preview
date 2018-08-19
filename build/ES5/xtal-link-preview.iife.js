@@ -248,10 +248,11 @@
     }]);
     return CorsAnywhere;
   }(XtallatX(HTMLElement)); //# sourceMappingURL=cors-anywhere.js.map
-  // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
-  //const cs = document.currentScript as HTMLScriptElement;
-  //let customStyle = ''
 
+
+  function qsa(css, from) {
+    return [].slice.call((from ? from : this).querySelectorAll(css));
+  }
 
   var preview = 'preview';
   var image_width = 'image-width';
@@ -303,8 +304,11 @@
     }, {
       key: "getMetaContent",
       value: function getMetaContent(htmlDoc, name, val) {
-        var link = htmlDoc.querySelector('meta[' + name + '="' + val + '"]');
-        if (link) return link.content;
+        var metas = qsa('meta[' + name + '="' + val + '"]', htmlDoc);
+        var meta = metas.filter(function (item) {
+          return item.content;
+        });
+        if (meta && meta.length > 0) return meta[0].content;
         return null;
       }
     }, {
@@ -360,11 +364,19 @@
 
 
           var titleEl = htmlDoc.querySelector('title');
-          var title = 'unknown';
           if (titleEl) _this6.title = titleEl.innerText;
+
+          var description = _this6.getMetaContent(htmlDoc, 'name', 'description');
+
+          if (!description) {
+            description = '';
+          } else {
+            _this6.title = _this6.title.replace(description, '');
+          }
+
           _this6.innerHTML =
           /* html */
-          "\n                <div>\n                    <header>".concat(_this6.title, "</header>\n                    <img width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
+          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this6.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this6.title, "\" width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
           _this6.fetchComplete = true;
         });
       }

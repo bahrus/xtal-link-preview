@@ -1,8 +1,8 @@
 import { CorsAnywhere } from "./node_modules/ava-pwar/cors-anywhere.js";
-import { define } from "./node_modules/xtal-latx/define.js"; // http://playground.ajaxtown.com/link_preview/class.linkpreview.php?url=onsen.io&image_no=1&css=true
-//const cs = document.currentScript as HTMLScriptElement;
-//let customStyle = ''
-
+import { define } from "./node_modules/xtal-latx/define.js";
+export function qsa(css, from) {
+  return [].slice.call((from ? from : this).querySelectorAll(css));
+}
 var preview = 'preview';
 var image_width = 'image-width';
 /**
@@ -53,8 +53,11 @@ function (_CorsAnywhere) {
   }, {
     key: "getMetaContent",
     value: function getMetaContent(htmlDoc, name, val) {
-      var link = htmlDoc.querySelector('meta[' + name + '="' + val + '"]');
-      if (link) return link.content;
+      var metas = qsa('meta[' + name + '="' + val + '"]', htmlDoc);
+      var meta = metas.filter(function (item) {
+        return item.content;
+      });
+      if (meta && meta.length > 0) return meta[0].content;
       return null;
     }
   }, {
@@ -110,11 +113,19 @@ function (_CorsAnywhere) {
 
 
         var titleEl = htmlDoc.querySelector('title');
-        var title = 'unknown';
         if (titleEl) _this2.title = titleEl.innerText;
+
+        var description = _this2.getMetaContent(htmlDoc, 'name', 'description');
+
+        if (!description) {
+          description = '';
+        } else {
+          _this2.title = _this2.title.replace(description, '');
+        }
+
         _this2.innerHTML =
         /* html */
-        "\n                <div>\n                    <header>".concat(_this2.title, "</header>\n                    <img width=\"").concat(_this2._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
+        "\n                <div>\n                    <details open>\n                        <summary>".concat(_this2.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this2.title, "\" width=\"").concat(_this2._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
         _this2.fetchComplete = true;
       });
     }
