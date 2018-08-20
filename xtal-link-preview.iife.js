@@ -9,7 +9,6 @@
     }
     customElements.define(tagName, custEl);
 }
-//# sourceMappingURL=define.js.map
 const disabled = 'disabled';
 function XtallatX(superClass) {
     return class extends superClass {
@@ -73,7 +72,6 @@ function XtallatX(superClass) {
         }
     };
 }
-//# sourceMappingURL=xtal-latx.js.map
 const href = 'href';
 const service_url = 'service-url';
 const fetch_in_progress = 'fetch-in-progress';
@@ -129,6 +127,9 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
     set title(val) {
         this._title = val;
         this.attr(title, val);
+        // this.de(title,{
+        //     value: val
+        // })
     }
     static get observedAttributes() {
         return super.observedAttributes.concat([href, service_url,]);
@@ -156,8 +157,11 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
     }
     doFetch() {
         const url = this.calculateURL();
-        if (this._previousURL === url)
+        if (this._previousURL === url) {
+            this.fetchComplete = false;
+            this.fetchComplete = true;
             return;
+        }
         this._previousURL = url;
         this.title = "Loading...";
         this.fetchInProgress = true;
@@ -172,7 +176,6 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         return this._serviceUrl + this._href;
     }
 }
-//# sourceMappingURL=cors-anywhere.js.map
 function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));
 }
@@ -307,6 +310,5 @@ class XtalLinkPreview extends CorsAnywhere {
     }
 }
 define(XtalLinkPreview);
-//# sourceMappingURL=xtal-link-preview.js.map
     })();  
         
