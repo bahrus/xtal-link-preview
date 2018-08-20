@@ -113,7 +113,7 @@ function (_CorsAnywhere) {
 
 
         var titleEl = htmlDoc.querySelector('title');
-        if (titleEl) _this2.title = titleEl.innerText;
+        if (titleEl) _this2.title = titleEl.innerHTML;
 
         var description = _this2.getMetaContent(htmlDoc, 'name', 'description');
 

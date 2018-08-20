@@ -280,7 +280,7 @@ class XtalLinkPreview extends CorsAnywhere {
             //console.log(imageSrc);
             let titleEl = htmlDoc.querySelector('title');
             if (titleEl)
-                this.title = titleEl.innerText;
+                this.title = titleEl.innerHTML;
             let description = this.getMetaContent(htmlDoc, 'name', 'description');
             if (!description) {
                 description = '';

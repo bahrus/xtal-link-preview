@@ -369,7 +369,7 @@
 
 
           var titleEl = htmlDoc.querySelector('title');
-          if (titleEl) _this6.title = titleEl.innerText;
+          if (titleEl) _this6.title = titleEl.innerHTML;
 
           var description = _this6.getMetaContent(htmlDoc, 'name', 'description');
 
