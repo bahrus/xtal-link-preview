@@ -8,7 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "xtal-latx": "0.0.19",
-    "ava-pwar": "0.0.9"
+    "ava-pwar": "0.0.13"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",

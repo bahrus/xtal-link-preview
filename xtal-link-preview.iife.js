@@ -83,6 +83,7 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         this._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
         this._connected = false;
     }
+    // _serviceUrl: string = 'https://crossorigin.me/';
     /** @type {string} Url of service that gets preview.
     *
     */
@@ -166,14 +167,26 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         this.title = "Loading...";
         this.fetchInProgress = true;
         this.fetchComplete = false;
-        fetch(url).then(response => {
+        fetch(url, {
+            headers: new Headers({
+                'Origin': this._href,
+            }),
+            mode: 'cors'
+        }).then(response => {
             this.fetchInProgress = false;
             this.processResponse(response);
             this.fetchComplete = true;
         });
     }
-    calculateURL() {
-        return this._serviceUrl + this._href;
+    calculateURL(upLevels = 0) {
+        let href = this._href;
+        if (upLevels) {
+            const split = href.split('/');
+            if (upLevels === -1) {
+                href = [split[0], split[1], split[2]].join('/');
+            }
+        }
+        return this._serviceUrl + href;
     }
 }
 function qsa(css, from) {

@@ -126,7 +126,8 @@
       _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
       _this3._connected = false;
       return _this3;
-    }
+    } // _serviceUrl: string = 'https://crossorigin.me/';
+
     /** @type {string} Url of service that gets preview.
     *
     */
@@ -178,7 +179,12 @@
         this.title = "Loading...";
         this.fetchInProgress = true;
         this.fetchComplete = false;
-        fetch(url).then(function (response) {
+        fetch(url, {
+          headers: new Headers({
+            'Origin': this._href
+          }),
+          mode: 'cors'
+        }).then(function (response) {
           _this4.fetchInProgress = false;
 
           _this4.processResponse(response);
@@ -189,7 +195,18 @@
     }, {
       key: "calculateURL",
       value: function calculateURL() {
-        return this._serviceUrl + this._href;
+        var upLevels = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+        var href = this._href;
+
+        if (upLevels) {
+          var split = href.split('/');
+
+          if (upLevels === -1) {
+            href = [split[0], split[1], split[2]].join('/');
+          }
+        }
+
+        return this._serviceUrl + href;
       }
     }, {
       key: "serviceUrl",
