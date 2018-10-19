@@ -11,6 +11,142 @@
     customElements.define(tagName, custEl);
   }
 
+  var disabled = 'disabled';
+  /**
+   * Base class for many xtal- components
+   * @param superClass
+   */
+
+  function XtallatX(superClass) {
+    return (
+      /*#__PURE__*/
+      function (_superClass) {
+        babelHelpers.inherits(_class, _superClass);
+
+        function _class() {
+          var _this;
+
+          babelHelpers.classCallCheck(this, _class);
+          _this = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+          _this._evCount = {};
+          return _this;
+        }
+
+        babelHelpers.createClass(_class, [{
+          key: "attr",
+
+          /**
+           * Set attribute value.
+           * @param name
+           * @param val
+           * @param trueVal String to set attribute if true.
+           */
+          value: function attr(name, val, trueVal) {
+            var v = val ? 'set' : 'remove'; //verb
+
+            this[v + 'Attribute'](name, trueVal || val);
+          }
+          /**
+           * Turn number into string with even and odd values easy to query via css.
+           * @param n
+           */
+
+        }, {
+          key: "to$",
+          value: function to$(n) {
+            var mod = n % 2;
+            return (n - mod) / 2 + '-' + mod;
+          }
+          /**
+           * Increment event count
+           * @param name
+           */
+
+        }, {
+          key: "incAttr",
+          value: function incAttr(name) {
+            var ec = this._evCount;
+
+            if (name in ec) {
+              ec[name]++;
+            } else {
+              ec[name] = 0;
+            }
+
+            this.attr('data-' + name, this.to$(ec[name]));
+          }
+        }, {
+          key: "attributeChangedCallback",
+          value: function attributeChangedCallback(name, oldVal, newVal) {
+            switch (name) {
+              case disabled:
+                this._disabled = newVal !== null;
+                break;
+            }
+          }
+          /**
+           * Dispatch Custom Event
+           * @param name Name of event to dispatch ("-changed" will be appended if asIs is false)
+           * @param detail Information to be passed with the event
+           * @param asIs If true, don't append event name with '-changed'
+           */
+
+        }, {
+          key: "de",
+          value: function de(name, detail, asIs) {
+            var eventName = name + (asIs ? '' : '-changed');
+            var newEvent = new CustomEvent(eventName, {
+              detail: detail,
+              bubbles: true,
+              composed: false
+            });
+            this.dispatchEvent(newEvent);
+            this.incAttr(eventName);
+            return newEvent;
+          }
+          /**
+           * Needed for asynchronous loading
+           * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+           */
+
+        }, {
+          key: "_upgradeProperties",
+          value: function _upgradeProperties(props) {
+            var _this2 = this;
+
+            props.forEach(function (prop) {
+              if (_this2.hasOwnProperty(prop)) {
+                var value = _this2[prop];
+                delete _this2[prop];
+                _this2[prop] = value;
+              }
+            });
+          }
+        }, {
+          key: "disabled",
+
+          /**
+           * Any component that emits events should not do so if it is disabled.
+           * Note that this is not enforced, but the disabled property is made available.
+           * Users of this mix-in should ensure not to call "de" if this property is set to true.
+           */
+          get: function get() {
+            return this._disabled;
+          },
+          set: function set(val) {
+            this.attr(disabled, val, '');
+          }
+        }], [{
+          key: "observedAttributes",
+          get: function get() {
+            return [disabled];
+          }
+        }]);
+        return _class;
+      }(superClass)
+    );
+  }
+
   var href = 'href';
   var service_url = 'service-url';
   var fetch_in_progress = 'fetch-in-progress';
@@ -23,13 +159,13 @@
     babelHelpers.inherits(CorsAnywhere, _XtallatX);
 
     function CorsAnywhere() {
-      var _this;
+      var _this3;
 
       babelHelpers.classCallCheck(this, CorsAnywhere);
-      _this = babelHelpers.possibleConstructorReturn(this, (CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere)).apply(this, arguments));
-      _this._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
-      _this._connected = false;
-      return _this;
+      _this3 = babelHelpers.possibleConstructorReturn(this, (CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere)).apply(this, arguments));
+      _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
+      _this3._connected = false;
+      return _this3;
     } // _serviceUrl: string = 'https://crossorigin.me/';
 
     /** @type {string} Url of service that gets preview.
@@ -69,7 +205,7 @@
     }, {
       key: "doFetch",
       value: function doFetch() {
-        var _this2 = this;
+        var _this4 = this;
 
         var url = this.calculateURL();
 
@@ -93,11 +229,11 @@
         fetch(url, {
           signal: init
         }).then(function (response) {
-          _this2.fetchInProgress = false;
+          _this4.fetchInProgress = false;
 
-          _this2.processResponse(response);
+          _this4.processResponse(response);
 
-          _this2.fetchComplete = true;
+          _this4.fetchComplete = true;
         });
       }
     }, {
@@ -213,15 +349,15 @@
     babelHelpers.inherits(XtalLinkPreview, _CorsAnywhere);
 
     function XtalLinkPreview() {
-      var _this3;
+      var _this5;
 
       babelHelpers.classCallCheck(this, XtalLinkPreview);
-      _this3 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
-      _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
-      _this3._preview = false;
-      _this3._imageWidth = 150;
-      _this3.style.display = "block";
-      return _this3;
+      _this5 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
+      _this5._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
+      _this5._preview = false;
+      _this5._imageWidth = 150;
+      _this5.style.display = "block";
+      return _this5;
     }
 
     babelHelpers.createClass(XtalLinkPreview, [{
@@ -272,24 +408,24 @@
     }, {
       key: "processResponse",
       value: function processResponse(response) {
-        var _this4 = this;
+        var _this6 = this;
 
         response.text().then(function (respText) {
-          _this4.fetchInProgress = false;
+          _this6.fetchInProgress = false;
           var parser = new DOMParser();
           var htmlDoc = parser.parseFromString(respText, "text/html");
 
-          var imageSrc = _this4.getMetaContent(htmlDoc, 'name', "twitter:image:src");
+          var imageSrc = _this6.getMetaContent(htmlDoc, 'name', "twitter:image:src");
 
-          if (!imageSrc) imageSrc = _this4.getMetaContent(htmlDoc, 'name', "twitter:image");
-          if (!imageSrc) imageSrc = _this4.getMetaContent(htmlDoc, 'property', 'og:image');
+          if (!imageSrc) imageSrc = _this6.getMetaContent(htmlDoc, 'name', "twitter:image");
+          if (!imageSrc) imageSrc = _this6.getMetaContent(htmlDoc, 'property', 'og:image');
 
           if (!imageSrc) {
             var img = htmlDoc.querySelector('img');
 
             if (img) {
               imageSrc = img.getAttribute('src');
-              imageSrc = _this4.getAbsPath(imageSrc);
+              imageSrc = _this6.getAbsPath(imageSrc);
               console.log(imageSrc);
             }
           }
@@ -299,26 +435,26 @@
 
             if (iconLink) {
               imageSrc = iconLink.getAttribute('href');
-              imageSrc = _this4.getAbsPath(imageSrc);
+              imageSrc = _this6.getAbsPath(imageSrc);
             }
           } //console.log(imageSrc);
 
 
           var titleEl = htmlDoc.querySelector('title');
-          if (titleEl) _this4.title = titleEl.innerHTML;
+          if (titleEl) _this6.title = titleEl.innerHTML;
 
-          var description = _this4.getMetaContent(htmlDoc, 'name', 'description');
+          var description = _this6.getMetaContent(htmlDoc, 'name', 'description');
 
           if (!description) {
             description = '';
           } else {
-            _this4.title = _this4.title.replace(description, '');
+            _this6.title = _this6.title.replace(description, '');
           }
 
-          _this4.innerHTML =
+          _this6.innerHTML =
           /* html */
-          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this4.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this4.title, "\" width=\"").concat(_this4._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
-          _this4.fetchComplete = true;
+          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this6.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this6.title, "\" width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
+          _this6.fetchComplete = true;
         });
       }
     }, {
