@@ -6,4 +6,4 @@ import{CorsAnywhere}from"./node_modules/ava-pwar/cors-anywhere.js";import{define
                     </details>
                     <img alt="${this.title}" width="${this._imageWidth}" src="${imageSrc}"/>
                 </div>
-            `;this.fetchComplete=!0})}attributeChangedCallback(name,oldValue,newValue){switch(name){case"preview":this._preview=null!==newValue;break;}super.attributeChangedCallback(name,oldValue,newValue)}}define(XtalLinkPreview);
+            `;this.fetchComplete=!0})}attributeChangedCallback(name,oldValue,newValue){switch(name){case"preview":this._preview=null!==newValue;if(!this._preview){this.abort=!0}break;}super.attributeChangedCallback(name,oldValue,newValue)}}define(XtalLinkPreview);

@@ -11,102 +11,6 @@
     customElements.define(tagName, custEl);
   }
 
-  var disabled = 'disabled';
-
-  function XtallatX(superClass) {
-    return (
-      /*#__PURE__*/
-      function (_superClass) {
-        babelHelpers.inherits(_class, _superClass);
-
-        function _class() {
-          var _this;
-
-          babelHelpers.classCallCheck(this, _class);
-          _this = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
-          _this._evCount = {};
-          return _this;
-        }
-
-        babelHelpers.createClass(_class, [{
-          key: "attr",
-          value: function attr(name, val, trueVal) {
-            var setOrRemove = val ? 'set' : 'remove';
-            this[setOrRemove + 'Attribute'](name, trueVal || val);
-          }
-        }, {
-          key: "to$",
-          value: function to$(number) {
-            var mod = number % 2;
-            return (number - mod) / 2 + '-' + mod;
-          }
-        }, {
-          key: "incAttr",
-          value: function incAttr(name) {
-            var ec = this._evCount;
-
-            if (name in ec) {
-              ec[name]++;
-            } else {
-              ec[name] = 0;
-            }
-
-            this.attr('data-' + name, this.to$(ec[name]));
-          }
-        }, {
-          key: "attributeChangedCallback",
-          value: function attributeChangedCallback(name, oldVal, newVal) {
-            switch (name) {
-              case disabled:
-                this._disabled = newVal !== null;
-                break;
-            }
-          }
-        }, {
-          key: "de",
-          value: function de(name, detail) {
-            var eventName = name + '-changed';
-            var newEvent = new CustomEvent(eventName, {
-              detail: detail,
-              bubbles: true,
-              composed: false
-            });
-            this.dispatchEvent(newEvent);
-            this.incAttr(eventName);
-            return newEvent;
-          }
-        }, {
-          key: "_upgradeProperties",
-          value: function _upgradeProperties(props) {
-            var _this2 = this;
-
-            props.forEach(function (prop) {
-              if (_this2.hasOwnProperty(prop)) {
-                var value = _this2[prop];
-                delete _this2[prop];
-                _this2[prop] = value;
-              }
-            });
-          }
-        }, {
-          key: "disabled",
-          get: function get() {
-            return this._disabled;
-          },
-          set: function set(val) {
-            this.attr(disabled, val, '');
-          }
-        }], [{
-          key: "observedAttributes",
-          get: function get() {
-            return [disabled];
-          }
-        }]);
-        return _class;
-      }(superClass)
-    );
-  }
-
   var href = 'href';
   var service_url = 'service-url';
   var fetch_in_progress = 'fetch-in-progress';
@@ -119,13 +23,13 @@
     babelHelpers.inherits(CorsAnywhere, _XtallatX);
 
     function CorsAnywhere() {
-      var _this3;
+      var _this;
 
       babelHelpers.classCallCheck(this, CorsAnywhere);
-      _this3 = babelHelpers.possibleConstructorReturn(this, (CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere)).apply(this, arguments));
-      _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
-      _this3._connected = false;
-      return _this3;
+      _this = babelHelpers.possibleConstructorReturn(this, (CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere)).apply(this, arguments));
+      _this._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
+      _this._connected = false;
+      return _this;
     } // _serviceUrl: string = 'https://crossorigin.me/';
 
     /** @type {string} Url of service that gets preview.
@@ -165,7 +69,7 @@
     }, {
       key: "doFetch",
       value: function doFetch() {
-        var _this4 = this;
+        var _this2 = this;
 
         var url = this.calculateURL();
 
@@ -179,17 +83,21 @@
         this.title = "Loading...";
         this.fetchInProgress = true;
         this.fetchComplete = false;
+        var init = null;
+
+        if (AbortController) {
+          this._controller = new AbortController();
+          init = this._controller.signal;
+        }
+
         fetch(url, {
-          headers: new Headers({
-            'Origin': this._href
-          }),
-          mode: 'cors'
+          signal: init
         }).then(function (response) {
-          _this4.fetchInProgress = false;
+          _this2.fetchInProgress = false;
 
-          _this4.processResponse(response);
+          _this2.processResponse(response);
 
-          _this4.fetchComplete = true;
+          _this2.fetchComplete = true;
         });
       }
     }, {
@@ -263,6 +171,17 @@
         //     value: val
         // })
       }
+    }, {
+      key: "abort",
+      set: function set(val) {
+        console.log('in set abort');
+
+        if (this._controller) {
+          console.log('abort');
+
+          this._controller.abort();
+        }
+      }
     }], [{
       key: "observedAttributes",
       get: function get() {
@@ -294,15 +213,15 @@
     babelHelpers.inherits(XtalLinkPreview, _CorsAnywhere);
 
     function XtalLinkPreview() {
-      var _this5;
+      var _this3;
 
       babelHelpers.classCallCheck(this, XtalLinkPreview);
-      _this5 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
-      _this5._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
-      _this5._preview = false;
-      _this5._imageWidth = 150;
-      _this5.style.display = "block";
-      return _this5;
+      _this3 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
+      _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
+      _this3._preview = false;
+      _this3._imageWidth = 150;
+      _this3.style.display = "block";
+      return _this3;
     }
 
     babelHelpers.createClass(XtalLinkPreview, [{
@@ -353,24 +272,24 @@
     }, {
       key: "processResponse",
       value: function processResponse(response) {
-        var _this6 = this;
+        var _this4 = this;
 
         response.text().then(function (respText) {
-          _this6.fetchInProgress = false;
+          _this4.fetchInProgress = false;
           var parser = new DOMParser();
           var htmlDoc = parser.parseFromString(respText, "text/html");
 
-          var imageSrc = _this6.getMetaContent(htmlDoc, 'name', "twitter:image:src");
+          var imageSrc = _this4.getMetaContent(htmlDoc, 'name', "twitter:image:src");
 
-          if (!imageSrc) imageSrc = _this6.getMetaContent(htmlDoc, 'name', "twitter:image");
-          if (!imageSrc) imageSrc = _this6.getMetaContent(htmlDoc, 'property', 'og:image');
+          if (!imageSrc) imageSrc = _this4.getMetaContent(htmlDoc, 'name', "twitter:image");
+          if (!imageSrc) imageSrc = _this4.getMetaContent(htmlDoc, 'property', 'og:image');
 
           if (!imageSrc) {
             var img = htmlDoc.querySelector('img');
 
             if (img) {
               imageSrc = img.getAttribute('src');
-              imageSrc = _this6.getAbsPath(imageSrc);
+              imageSrc = _this4.getAbsPath(imageSrc);
               console.log(imageSrc);
             }
           }
@@ -380,26 +299,26 @@
 
             if (iconLink) {
               imageSrc = iconLink.getAttribute('href');
-              imageSrc = _this6.getAbsPath(imageSrc);
+              imageSrc = _this4.getAbsPath(imageSrc);
             }
           } //console.log(imageSrc);
 
 
           var titleEl = htmlDoc.querySelector('title');
-          if (titleEl) _this6.title = titleEl.innerHTML;
+          if (titleEl) _this4.title = titleEl.innerHTML;
 
-          var description = _this6.getMetaContent(htmlDoc, 'name', 'description');
+          var description = _this4.getMetaContent(htmlDoc, 'name', 'description');
 
           if (!description) {
             description = '';
           } else {
-            _this6.title = _this6.title.replace(description, '');
+            _this4.title = _this4.title.replace(description, '');
           }
 
-          _this6.innerHTML =
+          _this4.innerHTML =
           /* html */
-          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this6.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this6.title, "\" width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
-          _this6.fetchComplete = true;
+          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this4.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this4.title, "\" width=\"").concat(_this4._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
+          _this4.fetchComplete = true;
         });
       }
     }, {
@@ -408,6 +327,11 @@
         switch (name) {
           case 'preview':
             this._preview = newValue !== null;
+
+            if (!this._preview) {
+              this.abort = true;
+            }
+
             break;
         }
 

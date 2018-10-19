@@ -135,6 +135,11 @@ function (_CorsAnywhere) {
       switch (name) {
         case 'preview':
           this._preview = newValue !== null;
+
+          if (!this._preview) {
+            this.abort = true;
+          }
+
           break;
       }
 

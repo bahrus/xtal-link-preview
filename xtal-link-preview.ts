@@ -1,6 +1,5 @@
 import {CorsAnywhere} from 'ava-pwar/cors-anywhere.js';
 import {define} from 'xtal-latx/define.js';
-import { XtallatX } from '../xtal-latx/xtal-latx';
 
 export function qsa(css, from?: HTMLElement | Document | DocumentFragment): HTMLElement[] {
     return [].slice.call((from ? from : this).querySelectorAll(css));
@@ -40,6 +39,7 @@ export class XtalLinkPreview extends CorsAnywhere {
         return this._preview;
     }
     set preview(val: boolean) {
+        
         this.attr(preview, val, '');
     }
 
@@ -141,9 +141,11 @@ export class XtalLinkPreview extends CorsAnywhere {
 
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
         switch (name) {
-            
             case 'preview':
                 this._preview = newValue !== null;
+                if(!this._preview){
+                    this.abort = true;
+                }
                 break;
         }
         super.attributeChangedCallback(name, oldValue, newValue);

@@ -9,69 +9,6 @@
     }
     customElements.define(tagName, custEl);
 }
-const disabled = 'disabled';
-function XtallatX(superClass) {
-    return class extends superClass {
-        constructor() {
-            super(...arguments);
-            this._evCount = {};
-        }
-        static get observedAttributes() {
-            return [disabled];
-        }
-        get disabled() {
-            return this._disabled;
-        }
-        set disabled(val) {
-            this.attr(disabled, val, '');
-        }
-        attr(name, val, trueVal) {
-            const setOrRemove = val ? 'set' : 'remove';
-            this[setOrRemove + 'Attribute'](name, trueVal || val);
-        }
-        to$(number) {
-            const mod = number % 2;
-            return (number - mod) / 2 + '-' + mod;
-        }
-        incAttr(name) {
-            const ec = this._evCount;
-            if (name in ec) {
-                ec[name]++;
-            }
-            else {
-                ec[name] = 0;
-            }
-            this.attr('data-' + name, this.to$(ec[name]));
-        }
-        attributeChangedCallback(name, oldVal, newVal) {
-            switch (name) {
-                case disabled:
-                    this._disabled = newVal !== null;
-                    break;
-            }
-        }
-        de(name, detail) {
-            const eventName = name + '-changed';
-            const newEvent = new CustomEvent(eventName, {
-                detail: detail,
-                bubbles: true,
-                composed: false,
-            });
-            this.dispatchEvent(newEvent);
-            this.incAttr(eventName);
-            return newEvent;
-        }
-        _upgradeProperties(props) {
-            props.forEach(prop => {
-                if (this.hasOwnProperty(prop)) {
-                    let value = this[prop];
-                    delete this[prop];
-                    this[prop] = value;
-                }
-            });
-        }
-    };
-}
 const href = 'href';
 const service_url = 'service-url';
 const fetch_in_progress = 'fetch-in-progress';
@@ -156,6 +93,13 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         });
         this.onPropsChange();
     }
+    set abort(val) {
+		console.log('in set abort');
+        if (this._controller){
+			console.log('abort');
+            this._controller.abort();
+		}
+    }
     doFetch() {
         const url = this.calculateURL();
         if (this._previousURL === url) {
@@ -167,11 +111,13 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         this.title = "Loading...";
         this.fetchInProgress = true;
         this.fetchComplete = false;
+        let init = null;
+        if (AbortController) {
+            this._controller = new AbortController();
+            init = this._controller.signal;
+        }
         fetch(url, {
-            headers: new Headers({
-                'Origin': this._href,
-            }),
-            mode: 'cors'
+            signal: init,
         }).then(response => {
             this.fetchInProgress = false;
             this.processResponse(response);
@@ -317,6 +263,9 @@ class XtalLinkPreview extends CorsAnywhere {
         switch (name) {
             case 'preview':
                 this._preview = newValue !== null;
+                if (!this._preview) {
+                    this.abort = true;
+                }
                 break;
         }
         super.attributeChangedCallback(name, oldValue, newValue);
