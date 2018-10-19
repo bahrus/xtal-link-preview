@@ -310,11 +310,7 @@
     }, {
       key: "abort",
       set: function set(val) {
-        console.log('in set abort');
-
         if (this._controller) {
-          console.log('abort');
-
           this._controller.abort();
         }
       }

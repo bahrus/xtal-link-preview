@@ -190,9 +190,7 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         this.onPropsChange();
     }
     set abort(val) {
-		console.log('in set abort');
         if (this._controller){
-			console.log('abort');
             this._controller.abort();
 		}
     }
