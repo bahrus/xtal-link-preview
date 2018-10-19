@@ -234,6 +234,11 @@
           _this4.processResponse(response);
 
           _this4.fetchComplete = true;
+        }).catch(function (err) {
+          if (err.name === 'AbortError') {
+            console.log('Fetch aborted');
+            delete _this4._previousURL;
+          }
         });
       }
     }, {
@@ -310,9 +315,7 @@
     }, {
       key: "abort",
       set: function set(val) {
-        if (this._controller) {
-          this._controller.abort();
-        }
+        if (this._controller) this._controller.abort();
       }
     }], [{
       key: "observedAttributes",

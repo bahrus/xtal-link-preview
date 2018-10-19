@@ -190,9 +190,8 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
         this.onPropsChange();
     }
     set abort(val) {
-        if (this._controller){
+        if (this._controller)
             this._controller.abort();
-		}
     }
     doFetch() {
         const url = this.calculateURL();
@@ -216,6 +215,11 @@ class CorsAnywhere extends XtallatX(HTMLElement) {
             this.fetchInProgress = false;
             this.processResponse(response);
             this.fetchComplete = true;
+        }).catch(err => {
+            if (err.name === 'AbortError') {
+                console.log('Fetch aborted');
+                delete this._previousURL;
+            }
         });
     }
     calculateURL(upLevels = 0) {
