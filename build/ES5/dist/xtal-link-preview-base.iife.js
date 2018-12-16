@@ -27,7 +27,7 @@
           var _this;
 
           babelHelpers.classCallCheck(this, _class);
-          _this = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+          _this = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(_class).apply(this, arguments));
           _this._evCount = {};
           return _this;
         }
@@ -162,7 +162,7 @@
       var _this3;
 
       babelHelpers.classCallCheck(this, CorsAnywhere);
-      _this3 = babelHelpers.possibleConstructorReturn(this, (CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere)).apply(this, arguments));
+      _this3 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(CorsAnywhere).apply(this, arguments));
       _this3._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
       _this3._connected = false;
       return _this3;
@@ -176,7 +176,7 @@
     babelHelpers.createClass(CorsAnywhere, [{
       key: "attributeChangedCallback",
       value: function attributeChangedCallback(name, oldValue, newValue) {
-        babelHelpers.get(CorsAnywhere.prototype.__proto__ || Object.getPrototypeOf(CorsAnywhere.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
+        babelHelpers.get(babelHelpers.getPrototypeOf(CorsAnywhere.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
 
         switch (name) {
           case 'href':
@@ -320,7 +320,7 @@
     }], [{
       key: "observedAttributes",
       get: function get() {
-        return babelHelpers.get(CorsAnywhere.__proto__ || Object.getPrototypeOf(CorsAnywhere), "observedAttributes", this).concat([href, service_url]);
+        return babelHelpers.get(babelHelpers.getPrototypeOf(CorsAnywhere), "observedAttributes", this).concat([href, service_url]);
       }
     }]);
     return CorsAnywhere;
@@ -342,16 +342,16 @@
   * @demo demo/index.html
   */
 
-  var XtalLinkPreview =
+  var XtalLinkPreviewBase =
   /*#__PURE__*/
   function (_CorsAnywhere) {
-    babelHelpers.inherits(XtalLinkPreview, _CorsAnywhere);
+    babelHelpers.inherits(XtalLinkPreviewBase, _CorsAnywhere);
 
-    function XtalLinkPreview() {
+    function XtalLinkPreviewBase() {
       var _this5;
 
-      babelHelpers.classCallCheck(this, XtalLinkPreview);
-      _this5 = babelHelpers.possibleConstructorReturn(this, (XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview)).call(this));
+      babelHelpers.classCallCheck(this, XtalLinkPreviewBase);
+      _this5 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(XtalLinkPreviewBase).call(this));
       _this5._serviceUrl = 'https://cors-anywhere.herokuapp.com/';
       _this5._preview = false;
       _this5._imageWidth = 150;
@@ -359,12 +359,12 @@
       return _this5;
     }
 
-    babelHelpers.createClass(XtalLinkPreview, [{
+    babelHelpers.createClass(XtalLinkPreviewBase, [{
       key: "connectedCallback",
       value: function connectedCallback() {
         this._upgradeProperties([preview, 'imageWidth']);
 
-        babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "connectedCallback", this).call(this);
+        babelHelpers.get(babelHelpers.getPrototypeOf(XtalLinkPreviewBase.prototype), "connectedCallback", this).call(this);
       }
     }, {
       key: "calculateURL",
@@ -391,14 +391,17 @@
       key: "getAbsPath",
       value: function getAbsPath(imageSrc) {
         var newSrc = imageSrc;
+        var href = this._href;
+        var iPosOfHash = href.indexOf('#');
+        if (iPosOfHash > -1) href = href.substr(0, iPosOfHash);
 
         if (!imageSrc.startsWith('http') && !imageSrc.startsWith('data')) {
           if (imageSrc.startsWith('/')) {
-            newSrc = this._href.split('/').slice(0, 3).join('/') + imageSrc;
+            newSrc = href.split('/').slice(0, 3).join('/') + imageSrc;
           } else {
-            var mid = this._href.endsWith('/') ? '' : '/';
+            var mid = href.endsWith('/') ? '' : '/';
             if (newSrc.startsWith('/')) newSrc.replace('/', '');
-            newSrc = this._href + mid + imageSrc;
+            newSrc = href + mid + imageSrc;
           }
         }
 
@@ -423,9 +426,8 @@
             var img = htmlDoc.querySelector('img');
 
             if (img) {
-              imageSrc = img.getAttribute('src');
-              imageSrc = _this6.getAbsPath(imageSrc);
-              console.log(imageSrc);
+              imageSrc = img.getAttribute('src'); //imageSrc = this.getAbsPath(imageSrc);
+              //console.log(imageSrc);
             }
           }
 
@@ -433,11 +435,11 @@
             var iconLink = htmlDoc.querySelector('link[rel="icon"]');
 
             if (iconLink) {
-              imageSrc = iconLink.getAttribute('href');
-              imageSrc = _this6.getAbsPath(imageSrc);
+              imageSrc = iconLink.getAttribute('href'); //imageSrc = this.getAbsPath(imageSrc);
             }
-          } //console.log(imageSrc);
+          }
 
+          if (imageSrc) imageSrc = _this6.getAbsPath(imageSrc); //console.log(imageSrc);
 
           var titleEl = htmlDoc.querySelector('title');
           if (titleEl) _this6.title = titleEl.innerHTML;
@@ -450,11 +452,17 @@
             _this6.title = _this6.title.replace(description, '');
           }
 
-          _this6.innerHTML =
+          _this6.setInnerHTML(
           /* html */
-          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this6.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this6.title, "\" width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            ");
+          "\n                <div>\n                    <details open>\n                        <summary>".concat(_this6.title, "</summary>\n                        <p>").concat(description, "</p>\n                    </details>\n                    <img alt=\"").concat(_this6.title, "\" width=\"").concat(_this6._imageWidth, "\" src=\"").concat(imageSrc, "\"/>\n                </div>\n            "));
+
           _this6.fetchComplete = true;
         });
+      }
+    }, {
+      key: "setInnerHTML",
+      value: function setInnerHTML(html) {
+        this.innerHTML = html;
       }
     }, {
       key: "attributeChangedCallback",
@@ -470,7 +478,7 @@
             break;
         }
 
-        babelHelpers.get(XtalLinkPreview.prototype.__proto__ || Object.getPrototypeOf(XtalLinkPreview.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
+        babelHelpers.get(babelHelpers.getPrototypeOf(XtalLinkPreviewBase.prototype), "attributeChangedCallback", this).call(this, name, oldValue, newValue);
       }
     }, {
       key: "preview",
@@ -496,16 +504,16 @@
     }], [{
       key: "is",
       get: function get() {
-        return 'xtal-link-preview';
+        return 'xtal-link-preview-base';
       }
     }, {
       key: "observedAttributes",
       get: function get() {
-        return babelHelpers.get(XtalLinkPreview.__proto__ || Object.getPrototypeOf(XtalLinkPreview), "observedAttributes", this).concat([preview, image_width]);
+        return babelHelpers.get(babelHelpers.getPrototypeOf(XtalLinkPreviewBase), "observedAttributes", this).concat([preview, image_width]);
       }
     }]);
-    return XtalLinkPreview;
+    return XtalLinkPreviewBase;
   }(CorsAnywhere);
 
-  define(XtalLinkPreview);
+  define(XtalLinkPreviewBase);
 })();

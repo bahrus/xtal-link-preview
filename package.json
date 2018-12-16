@@ -7,7 +7,7 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-latx": "0.0.46",
+    "xtal-latx": "0.0.47",
     "ava-pwar": "0.0.17"
   },
   "devDependencies": {

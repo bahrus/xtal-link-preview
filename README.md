@@ -4,9 +4,11 @@
 
 # \<xtal-link-preview\>
 
-Provide preview of URL.  Dependency free. ~1.6kb minified and gzipped.
+Provide preview of URL. 
 
-Syntax:
+## Syntax:
+
+## Example 1:  Default in-built style
 
 ```html
 <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>

@@ -1,0 +1,42 @@
+{
+    "tags":[
+        {
+            "label": "xtal-link-preview-base",
+            "description": "Provide preview of URL.",
+            "attributes":[
+                {
+                    "label": "disabled",
+                    "description": "Don't do anything if present/true."
+                },{
+                    "label": "preview",
+                    "description": "Must be present to see anything."
+                },{
+                    "label": "href",
+                    "description":  "URL to get preview from."
+                },{
+                    "label": "service-url",
+                    "description": "Proxy URL to use to avoid CORS errors."                
+                }
+            ]
+        },
+        {
+            "label": "xtal-link-preview",
+            "description": "Provide preview of URL.",
+            "attributes":[
+                {
+                    "label": "disabled",
+                    "description": "Don't do anything if present/true."
+                },{
+                    "label": "preview",
+                    "description": "Must be present to see anything."
+                },{
+                    "label": "href",
+                    "description":  "URL to get preview from."
+                },{
+                    "label": "service-url",
+                    "description": "Proxy URL to use to avoid CORS errors."                
+                }
+            ]
+        }
+    ]
+}
