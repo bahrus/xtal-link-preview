@@ -93,7 +93,8 @@
 
         }, {
           key: "de",
-          value: function de(name, detail, asIs) {
+          value: function de(name, detail) {
+            var asIs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
             var eventName = name + (asIs ? '' : '-changed');
             var newEvent = new CustomEvent(eventName, {
               detail: detail,

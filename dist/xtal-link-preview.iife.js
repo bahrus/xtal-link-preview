@@ -79,7 +79,7 @@ function XtallatX(superClass) {
          * @param detail Information to be passed with the event
          * @param asIs If true, don't append event name with '-changed'
          */
-        de(name, detail, asIs) {
+        de(name, detail, asIs = false) {
             const eventName = name + (asIs ? '' : '-changed');
             const newEvent = new CustomEvent(eventName, {
                 detail: detail,
@@ -381,10 +381,19 @@ class XtalLinkPreviewBase extends CorsAnywhere {
 define(XtalLinkPreviewBase);
 const template = document.createElement('template');
 template.innerHTML = /* html */ `
-<main ></main>
+<slot name="loading"></slot>
+<main></main>
 <style>
 :host{
     display: block;
+}
+slot {
+    height:100%;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
 }
 main {
     /* Add shadows to create the "card" effect */
@@ -465,6 +474,7 @@ class XtalLinkPreview extends XtalLinkPreviewBase {
     }
     setInnerHTML(html) {
         this.shadowRoot.querySelector('main').innerHTML = html;
+        this.shadowRoot.querySelector('slot').style.display = 'none';
     }
 }
 define(XtalLinkPreview);

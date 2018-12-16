@@ -3,10 +3,19 @@ import { define } from "xtal-latx/define.js";
 
 const template = document.createElement('template');
 template.innerHTML = /* html */`
-<main ></main>
+<slot name="loading"></slot>
+<main></main>
 <style>
 :host{
     display: block;
+}
+slot {
+    height:100%;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
 }
 main {
     /* Add shadows to create the "card" effect */
@@ -87,6 +96,7 @@ export class XtalLinkPreview extends XtalLinkPreviewBase {
     }
     setInnerHTML(html) {
         this.shadowRoot!.querySelector('main').innerHTML = html;
+        this.shadowRoot!.querySelector('slot').style.display = 'none';
     }
 }
 define(XtalLinkPreview);
