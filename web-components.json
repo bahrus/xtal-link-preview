@@ -2,7 +2,7 @@
     "tags":[
         {
             "label": "xtal-link-preview-base",
-            "description": "Provide preview of URL.",
+            "description": "Provide preview of URL.  Styling left to the consumer.",
             "attributes":[
                 {
                     "label": "disabled",
@@ -21,7 +21,7 @@
         },
         {
             "label": "xtal-link-preview",
-            "description": "Provide preview of URL.",
+            "description": "Provide preview of URL.  Built-in basic styling.",
             "attributes":[
                 {
                     "label": "disabled",

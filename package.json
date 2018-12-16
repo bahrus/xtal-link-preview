@@ -7,11 +7,11 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-latx": "0.0.47",
+    "xtal-latx": "0.0.85",
     "ava-pwar": "0.0.17"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "^2.0.0",
-    "jiife": "^0.0.5"
+    "@webcomponents/webcomponentsjs": "2.2.1",
+    "jiife": "0.0.10"
   }
 }

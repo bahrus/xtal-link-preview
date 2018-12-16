@@ -4,11 +4,24 @@
 
 # \<xtal-link-preview\>
 
+xtal-link-preview comes with default styling.  xtal-link-preview-base allows you to provide your own styling.
+
 Provide preview of URL. 
 
 ## Syntax:
 
-## Example 1:  Default in-built style
+<!--
+```
+<custom-element-demo>
+<template>
+    <div>
+        <wc-info package-name="npm install p-d.p-u" href="https://unpkg.com/xtal-link-preview@0.0.37/web-components.json"></wc-info>
+        <script type="module" src="https://unpkg.com/wc-info@0.0.13/wc-info.js?module"></script>
+    </div>
+</template>
+</custom-element-demo>
+```
+-->
 
 ```html
 <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
@@ -20,9 +33,9 @@ Try altering the href attribute below
 ```
 <custom-element-demo>
   <template>
-<div style="height:250px">
+  <div>
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script type="module" src="https://unpkg.com/xtal-link-preview@0.0.21/xtal-link-preview.js?module"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-link-preview@0.0.36/dist/xtal-link-preview.iife.js"></script>
     <h3>Basic xtal-link-preview demo</h3>
     <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
   </div>
