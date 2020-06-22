@@ -1,15 +1,14 @@
 import {XtalFetchViewElement, define, AttributeProps, } from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
 import {TransformRules} from 'trans-render/types.d.js';
+import {LinkPreviewViewModel} from './types.d.js';
 
-const preview = 'preview';
-const image_width = 'image-width';
 
 const mainTemplate = createTemplate(/* html */`
 <style>
 </style>
 <div>
-<details open>
+    <details open>
         <summary></summary>
         <p></p>
     </details>
@@ -30,12 +29,12 @@ const imgSym = Symbol('imgSym');
 * @polymer
 * @demo demo/index.html
 */
-export class XtalLinkPreviewBase extends XtalFetchViewElement {
+export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewModel> {
     static is = 'xtal-link-preview-base';
 
-    static attributeProps = ({href, baseLinkId, disabled, preview, title, description, imageWidth, imageSrc}: XtalLinkPreviewBase) =>({
+    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth}: XtalLinkPreviewBase) =>({
         bool: [disabled, preview, ],
-        str: [href, baseLinkId, title, description, imageSrc],
+        str: [href, baseLinkId],
         num: [imageWidth]
     } as AttributeProps);
 
@@ -69,25 +68,18 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     } as TransformRules;
 
     updateTransforms = [
-        ({title}: XtalLinkPreviewBase) => ({
-            [summarySym]: title, 
+        ({viewModel}: XtalLinkPreviewBase) => ({
+            [summarySym]: viewModel.title, 
         }),
-        ({description}: XtalLinkPreviewBase) =>({
-            [pSym]: description
+        ({viewModel}: XtalLinkPreviewBase) =>({
+            [pSym]: viewModel.description
         }),
-        ({title, imageWidth, imageSrc}: XtalLinkPreviewBase) => ({
-            [imgSym]:[{alt: title, width: imageWidth, src: imageSrc}]
+        ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
+            [imgSym]:[{alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc}]
         })
 
     ];
 
-    title: string;
-
-    description: string;
-
-
-
-    //_serviceUrl: string = 'https://cors-anywhere.herokuapp.com/';
    
 
     /** 
@@ -98,7 +90,7 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
 
     imageWidth: number;
 
-    imageSrc: string;
+    //imageSrc: string;
 
     filterInitData(data: string){
         const parser = new DOMParser();
@@ -110,8 +102,6 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
             const img = htmlDoc.querySelector('img');
             if(img){
                 imageSrc = img.getAttribute('src');
-                //imageSrc = this.getAbsPath(imageSrc);
-                //console.log(imageSrc);
                 
             } 
 
@@ -121,23 +111,25 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
             const iconLink = htmlDoc.querySelector('link[rel="icon"]') as HTMLLinkElement;
             if(iconLink){
                 imageSrc = iconLink.getAttribute('href');
-                //imageSrc = this.getAbsPath(imageSrc);
             }
             
         }
         if(imageSrc) imageSrc =  this.getAbsPath(imageSrc);
-        //console.log(imageSrc);
+        let title: string;
         let titleEl = htmlDoc.querySelector('title');
-        if(titleEl) this.title = titleEl.innerHTML;
+        if(titleEl) title = titleEl.innerHTML;
         let description = this.getMetaContent(htmlDoc, 'name', 'description');
         if(!description) {
             description = '';
         }else{
-            this.title = this.title.replace(description, '');
+            title = title.replace(description, '');
         }
-        this.description = description;
-        this.imageSrc = imageSrc;
-        return htmlDoc;
+        const viewModel = {
+            description,
+            imageSrc,
+            title
+        };
+        return viewModel;
     }
     
 

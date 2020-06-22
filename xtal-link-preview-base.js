@@ -1,12 +1,10 @@
 import { XtalFetchViewElement, define, } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
-const preview = 'preview';
-const image_width = 'image-width';
 const mainTemplate = createTemplate(/* html */ `
 <style>
 </style>
 <div>
-<details open>
+    <details open>
         <summary></summary>
         <p></p>
     </details>
@@ -41,14 +39,14 @@ let XtalLinkPreviewBase = /** @class */ (() => {
                 }
             };
             this.updateTransforms = [
-                ({ title }) => ({
-                    [summarySym]: title,
+                ({ viewModel }) => ({
+                    [summarySym]: viewModel.title,
                 }),
-                ({ description }) => ({
-                    [pSym]: description
+                ({ viewModel }) => ({
+                    [pSym]: viewModel.description
                 }),
-                ({ title, imageWidth, imageSrc }) => ({
-                    [imgSym]: [{ alt: title, width: imageWidth, src: imageSrc }]
+                ({ imageWidth, viewModel }) => ({
+                    [imgSym]: [{ alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc }]
                 })
             ];
             this.as = 'text';
@@ -57,6 +55,7 @@ let XtalLinkPreviewBase = /** @class */ (() => {
         get readyToInit() {
             return this.preview && !this.disabled;
         }
+        //imageSrc: string;
         filterInitData(data) {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(data, "text/html");
@@ -69,33 +68,33 @@ let XtalLinkPreviewBase = /** @class */ (() => {
                 const img = htmlDoc.querySelector('img');
                 if (img) {
                     imageSrc = img.getAttribute('src');
-                    //imageSrc = this.getAbsPath(imageSrc);
-                    //console.log(imageSrc);
                 }
             }
             if (!imageSrc) {
                 const iconLink = htmlDoc.querySelector('link[rel="icon"]');
                 if (iconLink) {
                     imageSrc = iconLink.getAttribute('href');
-                    //imageSrc = this.getAbsPath(imageSrc);
                 }
             }
             if (imageSrc)
                 imageSrc = this.getAbsPath(imageSrc);
-            //console.log(imageSrc);
+            let title;
             let titleEl = htmlDoc.querySelector('title');
             if (titleEl)
-                this.title = titleEl.innerHTML;
+                title = titleEl.innerHTML;
             let description = this.getMetaContent(htmlDoc, 'name', 'description');
             if (!description) {
                 description = '';
             }
             else {
-                this.title = this.title.replace(description, '');
+                title = title.replace(description, '');
             }
-            this.description = description;
-            this.imageSrc = imageSrc;
-            return htmlDoc;
+            const viewModel = {
+                description,
+                imageSrc,
+                title
+            };
+            return viewModel;
         }
         getMetaContent(htmlDoc, name, val) {
             let metas = Array.from(htmlDoc.querySelectorAll(`meta[${name} = "${val}"]`));
@@ -125,9 +124,9 @@ let XtalLinkPreviewBase = /** @class */ (() => {
         }
     }
     XtalLinkPreviewBase.is = 'xtal-link-preview-base';
-    XtalLinkPreviewBase.attributeProps = ({ href, baseLinkId, disabled, preview, title, description, imageWidth, imageSrc }) => ({
+    XtalLinkPreviewBase.attributeProps = ({ href, baseLinkId, disabled, preview, imageWidth }) => ({
         bool: [disabled, preview,],
-        str: [href, baseLinkId, title, description, imageSrc],
+        str: [href, baseLinkId],
         num: [imageWidth]
     });
     XtalLinkPreviewBase.defaultValues = {
