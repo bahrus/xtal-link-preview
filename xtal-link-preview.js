@@ -99,4 +99,3 @@ export class XtalLinkPreview extends XtalLinkPreviewBase {
     }
 }
 define(XtalLinkPreview);
-//# sourceMappingURL=xtal-link-preview.js.map

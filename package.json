@@ -3,15 +3,22 @@
   "version": "0.0.37",
   "description": "Provide preview of URL",
   "main": "xtal-link-preview.js",
+  "module": "xtal-link-preview.js",
   "repository": "https://github.com/bahrus/xtal-link-preview",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-latx": "0.0.85",
-    "ava-pwar": "0.0.17"
+    "xtal-element": "0.0.217",
+    "trans-render": "0.0.209"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "2.2.1",
-    "jiife": "0.0.10"
+    "es-module-shims": "0.4.7",
+    "xtal-test": "0.0.46",
+    "es-dev-server": "1.55.0"
+  },
+  "scripts": {
+    "test": "node test/test-all.js",
+    "serve": "node node_modules/xtal-test/serve.js",
+    "doc": "wca analyze p-*.js --outFile custom-elements.json"
   }
 }

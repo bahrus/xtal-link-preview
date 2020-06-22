@@ -1,12 +1,25 @@
-import {CorsAnywhere} from 'xtal-latx/cors-anywhere.js';
-import {define} from 'xtal-latx/define.js';
-
-export function qsa(css, from?: HTMLElement | Document | DocumentFragment): HTMLElement[] {
-    return [].slice.call((from ? from : this).querySelectorAll(css));
-}
+import {XtalFetchViewElement, define, AttributeProps, } from 'xtal-element/XtalFetchViewElement.js';
+import {createTemplate} from 'trans-render/createTemplate.js';
+import {TransformRules} from 'trans-render/types.d.js';
 
 const preview = 'preview';
 const image_width = 'image-width';
+
+const mainTemplate = createTemplate(/* html */`
+<style>
+</style>
+<div>
+<details open>
+        <summary></summary>
+        <p></p>
+    </details>
+    <img/>
+</div>
+`);
+
+const summarySym = Symbol('summarySym');
+const pSym = Symbol('pSym');
+const imgSym = Symbol('imgSym');
 
 /** 
 * `xtal-link-preview`
@@ -17,65 +30,126 @@ const image_width = 'image-width';
 * @polymer
 * @demo demo/index.html
 */
-export class XtalLinkPreviewBase extends CorsAnywhere {
-    static get is(){return 'xtal-link-preview-base';}
+export class XtalLinkPreviewBase extends XtalFetchViewElement {
+    static is = 'xtal-link-preview-base';
+
+    static attributeProps = ({href, baseLinkId, disabled, preview, title, description, imageWidth, imageSrc}: XtalLinkPreviewBase) =>({
+        bool: [disabled, preview, ],
+        str: [href, baseLinkId, title, description, imageSrc],
+        num: [imageWidth]
+    } as AttributeProps);
+
+    static defaultValues: any = {
+        imageWidth: 150,
+    } as XtalLinkPreviewBase;
+
     constructor() {
         super();
+        this.as = 'text';
         this.style.display = "block";
     }
 
+    get readyToInit(){
+        return this.preview && !this.disabled;
+    }
+
+    readyToRender = true;
+
+    mainTemplate = mainTemplate;
+
+    initTransform = {
+        div:{
+            details:{
+                summary: summarySym,
+                p: pSym,
+            },
+            img: imgSym
+        }
+
+    } as TransformRules;
+
+    updateTransforms = [
+        ({title}: XtalLinkPreviewBase) => ({
+            [summarySym]: title, 
+        }),
+        ({description}: XtalLinkPreviewBase) =>({
+            [pSym]: description
+        }),
+        ({title, imageWidth, imageSrc}: XtalLinkPreviewBase) => ({
+            [imgSym]:[{alt: title, width: imageWidth, src: imageSrc}]
+        })
+
+    ];
+
+    title: string;
+
+    description: string;
 
 
-    _serviceUrl: string = 'https://cors-anywhere.herokuapp.com/';
+
+    //_serviceUrl: string = 'https://cors-anywhere.herokuapp.com/';
    
 
-
-    _preview = false;
     /** 
     * @type {string} Must be true to preview the url specified by href
     * 
     */
-    get preview() {
-        return this._preview;
-    }
-    set preview(val: boolean) {
-        
-        this.attr(preview, val, '');
-    }
+    preview: boolean;
 
-    _imageWidth = 150;
-    get imageWidth(){
-        return this._imageWidth;
-    }
-    set imageWidth(val){
-        this.attr(image_width, val.toString());
-    }
+    imageWidth: number;
 
-    static get observedAttributes() {
-        return super.observedAttributes.concat( [preview, image_width]);
-    }
+    imageSrc: string;
 
-    connectedCallback(){
-        this._upgradeProperties([preview, 'imageWidth']);
-        super.connectedCallback();
-    }
+    filterInitData(data: string){
+        const parser = new DOMParser();
+        const htmlDoc = parser.parseFromString(data, "text/html");
+        let imageSrc = this.getMetaContent(htmlDoc, 'name', "twitter:image:src");
+        if(!imageSrc) imageSrc = this.getMetaContent(htmlDoc, 'name', "twitter:image"); 
+        if(!imageSrc) imageSrc = this.getMetaContent(htmlDoc, 'property', 'og:image');
+        if(!imageSrc) {
+            const img = htmlDoc.querySelector('img');
+            if(img){
+                imageSrc = img.getAttribute('src');
+                //imageSrc = this.getAbsPath(imageSrc);
+                //console.log(imageSrc);
+                
+            } 
 
-    calculateURL(){
-        return this._serviceUrl + this._href;
+        }
+             
+        if(!imageSrc) {
+            const iconLink = htmlDoc.querySelector('link[rel="icon"]') as HTMLLinkElement;
+            if(iconLink){
+                imageSrc = iconLink.getAttribute('href');
+                //imageSrc = this.getAbsPath(imageSrc);
+            }
+            
+        }
+        if(imageSrc) imageSrc =  this.getAbsPath(imageSrc);
+        //console.log(imageSrc);
+        let titleEl = htmlDoc.querySelector('title');
+        if(titleEl) this.title = titleEl.innerHTML;
+        let description = this.getMetaContent(htmlDoc, 'name', 'description');
+        if(!description) {
+            description = '';
+        }else{
+            this.title = this.title.replace(description, '');
+        }
+        this.description = description;
+        this.imageSrc = imageSrc;
+        return htmlDoc;
     }
-    onPropsChange() {
-        if (!this._connected || !this._preview || this.disabled || !this._href || !this._serviceUrl ) return;
-        this.doFetch();
-    }
+    
+
     getMetaContent(htmlDoc: Document,name: string, val: string){
-        let metas = qsa('meta[' + name + '="' + val + '"]', htmlDoc)  as HTMLMetaElement[];
+        let metas = Array.from(htmlDoc.querySelectorAll(`meta[${name} = "${val}"]`)) as HTMLMetaElement[];
         let meta = metas.filter(item => item.content);
         if(meta && meta.length > 0) return meta[0].content;
         return null;
     }
     getAbsPath(imageSrc: string){
         let newSrc = imageSrc;
-        let href = this._href;
+        let href = this.href;
         const iPosOfHash = href.indexOf('#');
         if(iPosOfHash > -1) href = href.substr(0, iPosOfHash);
         if(!imageSrc.startsWith('http') && !imageSrc.startsWith('data')){
@@ -91,72 +165,7 @@ export class XtalLinkPreviewBase extends CorsAnywhere {
         }
         return newSrc;
     }
-    processResponse(response: Response){
-        response.text().then(respText => {
-            this.fetchInProgress = false;
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(respText, "text/html");
-            let imageSrc = this.getMetaContent(htmlDoc, 'name', "twitter:image:src");
-            if(!imageSrc) imageSrc = this.getMetaContent(htmlDoc, 'name', "twitter:image"); 
-            if(!imageSrc) imageSrc = this.getMetaContent(htmlDoc, 'property', 'og:image');
-            if(!imageSrc) {
-                const img = htmlDoc.querySelector('img');
-                if(img){
-                    imageSrc = img.getAttribute('src');
-                    //imageSrc = this.getAbsPath(imageSrc);
-                    //console.log(imageSrc);
-                    
-                } 
 
-            }
-                 
-            if(!imageSrc) {
-                const iconLink = htmlDoc.querySelector('link[rel="icon"]') as HTMLLinkElement;
-                if(iconLink){
-                    imageSrc = iconLink.getAttribute('href');
-                    //imageSrc = this.getAbsPath(imageSrc);
-                }
-                
-            }
-            if(imageSrc) imageSrc =  this.getAbsPath(imageSrc);
-            //console.log(imageSrc);
-            let titleEl = htmlDoc.querySelector('title');
-            if(titleEl) this.title = titleEl.innerHTML;
-            let description = this.getMetaContent(htmlDoc, 'name', 'description');
-            if(!description) {
-                description = '';
-            }else{
-                this.title = this.title.replace(description, '');
-            }
-           
-            this.setInnerHTML(/* html */ `
-                <div>
-                    <details open>
-                        <summary>${this.title}</summary>
-                        <p>${description}</p>
-                    </details>
-                    <img alt="${this.title}" width="${this._imageWidth}" src="${imageSrc}"/>
-                </div>
-            `);
-            
-            this.fetchComplete = true;
-        })
-        
-    }
-    setInnerHTML(html){
-        this.innerHTML = html
-    }
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-        switch (name) {
-            case 'preview':
-                this._preview = newValue !== null;
-                if(!this._preview){
-                    this.abort = true;
-                }
-                break;
-        }
-        super.attributeChangedCallback(name, oldValue, newValue);
-    }
 }
 define(XtalLinkPreviewBase);
 
