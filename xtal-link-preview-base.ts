@@ -5,13 +5,15 @@ import {LinkPreviewViewModel} from './types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
-<div>
-    <details open>
-        <summary></summary>
-        <p></p>
-    </details>
-    <img/>
-</div>
+<main>
+    <div>
+        <details open>
+            <summary></summary>
+            <p></p>
+        </details>
+        <img/>
+    </div>
+</main>
 `);
 
 const summarySym = Symbol('summarySym');
@@ -58,14 +60,15 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     mainTemplate = mainTemplate;
 
     initTransform = {
-        div:{
-            details:{
-                summary: summarySym,
-                p: pSym,
-            },
-            img: imgSym
+        main:{
+            div:{
+                details:{
+                    summary: summarySym,
+                    p: pSym,
+                },
+                img: imgSym
+            }
         }
-
     } as TransformRules;
 
     updateTransforms = [

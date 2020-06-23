@@ -1,13 +1,15 @@
 import { XtalFetchViewElement, define, } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 const mainTemplate = createTemplate(/* html */ `
-<div>
-    <details open>
-        <summary></summary>
-        <p></p>
-    </details>
-    <img/>
-</div>
+<main>
+    <div>
+        <details open>
+            <summary></summary>
+            <p></p>
+        </details>
+        <img/>
+    </div>
+</main>
 `);
 const summarySym = Symbol('summarySym');
 const pSym = Symbol('pSym');
@@ -29,12 +31,14 @@ let XtalLinkPreviewBase = /** @class */ (() => {
             this.readyToRender = true;
             this.mainTemplate = mainTemplate;
             this.initTransform = {
-                div: {
-                    details: {
-                        summary: summarySym,
-                        p: pSym,
-                    },
-                    img: imgSym
+                main: {
+                    div: {
+                        details: {
+                            summary: summarySym,
+                            p: pSym,
+                        },
+                        img: imgSym
+                    }
                 }
             };
             this.updateTransforms = [
