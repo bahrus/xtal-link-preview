@@ -1,5 +1,5 @@
 import { XtalLinkPreviewBase } from "./xtal-link-preview-base.js";
-import { define } from "xtal-latx/define.js";
+import { define } from "xtal-element/xtal-latx.js";
 
 const template = document.createElement('template');
 template.innerHTML = /* html */`
@@ -88,7 +88,7 @@ main img {
 </style>
 `;
 export class XtalLinkPreview extends XtalLinkPreviewBase {
-    static get is() { return 'xtal-link-preview'; }
+    static is = 'xtal-link-preview'; 
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });

@@ -5,8 +5,6 @@ import {LinkPreviewViewModel} from './types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
-<style>
-</style>
 <div>
     <details open>
         <summary></summary>
