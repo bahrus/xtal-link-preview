@@ -10,16 +10,16 @@
 <body>
     <div>
         <div style="height:300px">
-            <xtal-link-preview style="height:100%"  preview href="https://onsen.io" base-link-id=corsAnywhere>
+            <xtal-link-preview-base style="height:100%"  preview href="https://onsen.io" base-link-id=corsAnywhere>
                 <div slot="loading">
                     I am here
                 </div>
-            </xtal-link-preview>
+            </xtal-link-preview-base>
 
             <button onclick="changeHref()">Change href</button>
             <script>
                 function changeHref(){
-                    document.querySelector('xtal-link-preview').href = 'https://www.predix-ui.com/';
+                    document.querySelector('xtal-link-preview-base').href = 'https://www.predix-ui.com/';
                 }
             </script>
         </div>
@@ -35,7 +35,7 @@
         }
         </script>
         <script  type="module-shim">
-            import '../xtal-link-preview.js';
+            import '../xtal-link-preview-base.js';
         </script>
     </div>
 </body>

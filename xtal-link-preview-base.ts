@@ -30,6 +30,8 @@ const imgSym = Symbol('imgSym');
 export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewModel> {
     static is = 'xtal-link-preview-base';
 
+    noShadow = true;
+
     static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth}: XtalLinkPreviewBase) =>({
         bool: [disabled, preview, ],
         str: [href, baseLinkId],

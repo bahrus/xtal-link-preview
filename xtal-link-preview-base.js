@@ -1,8 +1,6 @@
 import { XtalFetchViewElement, define, } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 const mainTemplate = createTemplate(/* html */ `
-<style>
-</style>
 <div>
     <details open>
         <summary></summary>
@@ -27,6 +25,7 @@ let XtalLinkPreviewBase = /** @class */ (() => {
     class XtalLinkPreviewBase extends XtalFetchViewElement {
         constructor() {
             super();
+            this.noShadow = true;
             this.readyToRender = true;
             this.mainTemplate = mainTemplate;
             this.initTransform = {
@@ -53,7 +52,7 @@ let XtalLinkPreviewBase = /** @class */ (() => {
             this.style.display = "block";
         }
         get readyToInit() {
-            return this.preview && !this.disabled;
+            return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined;
         }
         //imageSrc: string;
         filterInitData(data) {
@@ -127,7 +126,8 @@ let XtalLinkPreviewBase = /** @class */ (() => {
     XtalLinkPreviewBase.attributeProps = ({ href, baseLinkId, disabled, preview, imageWidth }) => ({
         bool: [disabled, preview,],
         str: [href, baseLinkId],
-        num: [imageWidth]
+        num: [imageWidth],
+        async: [href, baseLinkId]
     });
     XtalLinkPreviewBase.defaultValues = {
         imageWidth: 150,

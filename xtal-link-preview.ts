@@ -1,10 +1,9 @@
 import { XtalLinkPreviewBase } from "./xtal-link-preview-base.js";
 import { define } from "xtal-element/xtal-latx.js";
+import { RenderContext, RenderOptions } from "trans-render/types2.d.js";
 
 const template = document.createElement('template');
 template.innerHTML = /* html */`
-<slot name="loading"></slot>
-<main></main>
 <style>
 :host{
     display: block;
@@ -67,36 +66,40 @@ main img {
 
 }
 
-      main>div>details>summary{
-        list-style:none;
-      }
+main>div>details>summary{
+    list-style:none;
+}
 
-      main>div>details > summary::-webkit-details-marker {
-        display: none;
-      }
+main>div>details > summary::-webkit-details-marker {
+    display: none;
+}
 
 
-      main>div>details>summary {
-        margin-top: 5px;
-        font-weight: 800;
-      }
+main>div>details>summary {
+    margin-top: 5px;
+    font-weight: 800;
+}
 
-      main>div>details p {
-        text-align: left;
-        margin-left: 5px;
-      }
+main>div>details p {
+    text-align: left;
+    margin-left: 5px;
+}
 </style>
 `;
 export class XtalLinkPreview extends XtalLinkPreviewBase {
     static is = 'xtal-link-preview'; 
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot!.appendChild(template.content.cloneNode(true));
+
+    noShadow = false;
+
+    afterInitRenderCallback(ctx: RenderContext, target: HTMLElement | DocumentFragment, renderOptions: RenderOptions | undefined){
+        //this.root.querySelector('slot').style.display = 'none';
+        console.log('afterInitRenderCallback');
+        this.root.appendChild(template.content.cloneNode(true));
     }
-    setInnerHTML(html) {
-        this.shadowRoot!.querySelector('main').innerHTML = html;
-        this.shadowRoot!.querySelector('slot').style.display = 'none';
-    }
+
+    // setInnerHTML(html) {
+    //     this.shadowRoot!.querySelector('main').innerHTML = html;
+    //     this.shadowRoot!.querySelector('slot').style.display = 'none';
+    // }
 }
 define(XtalLinkPreview);
