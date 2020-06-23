@@ -35,7 +35,8 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth}: XtalLinkPreviewBase) =>({
         bool: [disabled, preview, ],
         str: [href, baseLinkId],
-        num: [imageWidth]
+        num: [imageWidth],
+        async: [href, baseLinkId]
     } as AttributeProps);
 
     static defaultValues: any = {
@@ -49,7 +50,7 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     }
 
     get readyToInit(){
-        return this.preview && !this.disabled;
+        return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined;
     }
 
     readyToRender = true;
