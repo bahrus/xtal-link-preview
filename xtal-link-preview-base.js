@@ -14,6 +14,28 @@ const mainTemplate = createTemplate(/* html */ `
 const summarySym = Symbol('summarySym');
 const pSym = Symbol('pSym');
 const imgSym = Symbol('imgSym');
+const initTransform = {
+    main: {
+        div: {
+            details: {
+                summary: summarySym,
+                p: pSym,
+            },
+            img: imgSym
+        }
+    }
+};
+const updateTransforms = [
+    ({ viewModel }) => ({
+        [summarySym]: viewModel.title,
+    }),
+    ({ viewModel }) => ({
+        [pSym]: viewModel.description
+    }),
+    ({ imageWidth, viewModel }) => ({
+        [imgSym]: [{ alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc }]
+    })
+];
 /**
 * `xtal-link-preview`
 * Provide preview of URL.
@@ -30,28 +52,8 @@ let XtalLinkPreviewBase = /** @class */ (() => {
             this.noShadow = true;
             this.readyToRender = true;
             this.mainTemplate = mainTemplate;
-            this.initTransform = {
-                main: {
-                    div: {
-                        details: {
-                            summary: summarySym,
-                            p: pSym,
-                        },
-                        img: imgSym
-                    }
-                }
-            };
-            this.updateTransforms = [
-                ({ viewModel }) => ({
-                    [summarySym]: viewModel.title,
-                }),
-                ({ viewModel }) => ({
-                    [pSym]: viewModel.description
-                }),
-                ({ imageWidth, viewModel }) => ({
-                    [imgSym]: [{ alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc }]
-                })
-            ];
+            this.initTransform = initTransform;
+            this.updateTransforms = updateTransforms;
             this.as = 'text';
             this.style.display = "block";
         }

@@ -20,6 +20,33 @@ const summarySym = Symbol('summarySym');
 const pSym = Symbol('pSym');
 const imgSym = Symbol('imgSym');
 
+const initTransform = {
+    main:{
+        div:{
+            details:{
+                summary: summarySym,
+                p: pSym,
+            },
+            img: imgSym
+        }
+    }
+} as TransformRules;
+
+const updateTransforms = [
+    ({viewModel}: XtalLinkPreviewBase) => ({
+        [summarySym]: viewModel.title, 
+    }),
+    ({viewModel}: XtalLinkPreviewBase) =>({
+        [pSym]: viewModel.description
+    }),
+    ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
+        [imgSym]:[{alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc}]
+    })
+
+];
+
+
+
 /** 
 * `xtal-link-preview`
 * Provide preview of URL.
@@ -59,30 +86,9 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
 
     mainTemplate = mainTemplate;
 
-    initTransform = {
-        main:{
-            div:{
-                details:{
-                    summary: summarySym,
-                    p: pSym,
-                },
-                img: imgSym
-            }
-        }
-    } as TransformRules;
+    initTransform = initTransform;
 
-    updateTransforms = [
-        ({viewModel}: XtalLinkPreviewBase) => ({
-            [summarySym]: viewModel.title, 
-        }),
-        ({viewModel}: XtalLinkPreviewBase) =>({
-            [pSym]: viewModel.description
-        }),
-        ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
-            [imgSym]:[{alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc}]
-        })
-
-    ];
+    updateTransforms = updateTransforms;
 
    
 
