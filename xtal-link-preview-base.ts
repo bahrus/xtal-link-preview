@@ -34,9 +34,7 @@ const initTransform = {
 
 const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({
-        [summarySym]: viewModel.title, 
-    }),
-    ({viewModel}: XtalLinkPreviewBase) =>({
+        [summarySym]: viewModel.title,
         [pSym]: viewModel.description
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({

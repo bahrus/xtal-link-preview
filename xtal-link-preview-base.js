@@ -28,8 +28,6 @@ const initTransform = {
 const updateTransforms = [
     ({ viewModel }) => ({
         [summarySym]: viewModel.title,
-    }),
-    ({ viewModel }) => ({
         [pSym]: viewModel.description
     }),
     ({ imageWidth, viewModel }) => ({
