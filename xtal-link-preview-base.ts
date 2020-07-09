@@ -7,11 +7,12 @@ import {LinkPreviewViewModel} from './types.d.js';
 const mainTemplate = createTemplate(/* html */`
 <main>
     <div>
+        <img/>
         <details open>
             <summary></summary>
             <p></p>
         </details>
-        <img/>
+        
     </div>
 </main>
 `);

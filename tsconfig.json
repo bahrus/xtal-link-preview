@@ -8,9 +8,7 @@
 		"watch": true
 	},
 	"exclude":[
-		"build",
-		"bower_components",
-		"demo/PolymerTests/bower_components"
+		"node_modules"
 	]
 
 }

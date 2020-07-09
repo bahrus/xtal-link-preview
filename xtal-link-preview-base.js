@@ -3,11 +3,12 @@ import { createTemplate } from 'trans-render/createTemplate.js';
 const mainTemplate = createTemplate(/* html */ `
 <main>
     <div>
+        <img/>
         <details open>
             <summary></summary>
             <p></p>
         </details>
-        <img/>
+        
     </div>
 </main>
 `);

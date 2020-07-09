@@ -24,6 +24,7 @@ main {
     flex-direction:column;
     align-items: center;
     justify-content: center;
+    max-width: 500px;
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -33,13 +34,15 @@ main:hover {
 
 main>div {
     display: flex;
+    flex-direction:column;
+    place-items: center;
     height: 100%;
     padding: 5px;
 }
 main img {
     object-fit: scale-down;
 }
-@media (min-width: 800px) {
+/* @media (min-width: 800px) {
     main>div {
         flex-direction: row-reverse;
         justify-content: space-around;
@@ -62,7 +65,7 @@ main img {
         border: 1px solid #ccc;
     }
 
-}
+} */
 
 main>div>details>summary{
     list-style:none;
