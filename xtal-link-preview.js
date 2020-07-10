@@ -42,30 +42,7 @@ main>div {
 main img {
     object-fit: scale-down;
 }
-/* @media (min-width: 800px) {
-    main>div {
-        flex-direction: row-reverse;
-        justify-content: space-around;
-    }
-    main img {
-        align-self: stretch;
-        filter: drop-shadow(0px 0px 1px rgba(0,0,0,.3))
-        drop-shadow(0px 0px 10px rgba(0,0,0,.3));
-    }
 
-}
-
-@media (max-width: 800px) {
-    main>div {
-        flex-direction: column-reverse;
-        align-items: center;
-        justify-content: center;
-    }
-    main img {
-        border: 1px solid #ccc;
-    }
-
-} */
 
 main>div>a>details>summary{
     list-style:none;
@@ -96,14 +73,8 @@ let XtalLinkPreview = /** @class */ (() => {
         constructor() {
             super(...arguments);
             this.noShadow = false;
-            // setInnerHTML(html) {
-            //     this.shadowRoot!.querySelector('main').innerHTML = html;
-            //     this.shadowRoot!.querySelector('slot').style.display = 'none';
-            // }
         }
         afterInitRenderCallback(ctx, target, renderOptions) {
-            //this.root.querySelector('slot').style.display = 'none';
-            console.log('afterInitRenderCallback');
             this.root.appendChild(template.content.cloneNode(true));
         }
     }
