@@ -9,7 +9,8 @@
 </head>
 <body>
     <div>
-        <div style="height:300px">
+        <div>
+            <input id=href value=https://www.cbc.ca/news/politics/letter-release-meng-1.5625669 style="width:700px">
             <xtal-link-preview style="height:100%"  preview href="https://onsen.io" base-link-id=corsAnywhere>
                 <div slot="loading">
                     I am here
@@ -19,7 +20,7 @@
             <button onclick="changeHref()">Change href</button>
             <script>
                 function changeHref(){
-                    document.querySelector('xtal-link-preview').href = 'https://www.cbc.ca/news/politics/letter-release-meng-1.5625669';
+                    document.querySelector('xtal-link-preview').href = href.value;
                 }
             </script>
         </div>

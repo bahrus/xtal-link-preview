@@ -1,28 +1,29 @@
 import { XtalFetchViewElement, define, } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 const mainTemplate = createTemplate(/* html */ `
-<main>
-    <div>
-        <img/>
-        <details open>
-            <summary></summary>
-            <p></p>
-        </details>
-        
+<main part=main>
+    <div part=div>
+        <a open part=hyperlink target=_blank>
+            <img part=image/>
+            <details open part=details>
+                <summary part=summary></summary>
+                <p part=p></p>
+            </details>
+        </a>
     </div>
 </main>
 `);
-const summarySym = Symbol('summarySym');
-const pSym = Symbol('pSym');
-const imgSym = Symbol('imgSym');
+const [summarySym, pSym, imgSym, aSym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a')];
 const initTransform = {
     main: {
         div: {
-            details: {
-                summary: summarySym,
-                p: pSym,
-            },
-            img: imgSym
+            a: [, , , {
+                    details: {
+                        summary: summarySym,
+                        p: pSym,
+                    },
+                    img: imgSym
+                }, aSym]
         }
     }
 };
@@ -32,7 +33,10 @@ const updateTransforms = [
         [pSym]: viewModel.description
     }),
     ({ imageWidth, viewModel }) => ({
-        [imgSym]: [{ alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc }]
+        [imgSym]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
+    }),
+    ({ href }) => ({
+        [aSym]: [, , { href: href }]
     })
 ];
 /**
@@ -57,7 +61,7 @@ let XtalLinkPreviewBase = /** @class */ (() => {
             this.style.display = "block";
         }
         get readyToInit() {
-            return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined;
+            return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
         }
         //imageSrc: string;
         filterInitData(data) {
@@ -129,13 +133,12 @@ let XtalLinkPreviewBase = /** @class */ (() => {
     }
     XtalLinkPreviewBase.is = 'xtal-link-preview-base';
     XtalLinkPreviewBase.attributeProps = ({ href, baseLinkId, disabled, preview, imageWidth }) => ({
-        bool: [disabled, preview,],
-        str: [href, baseLinkId],
-        num: [imageWidth],
+        bool: [disabled, preview],
+        str: [href, baseLinkId, imageWidth],
         async: [href, baseLinkId]
     });
     XtalLinkPreviewBase.defaultValues = {
-        imageWidth: 150,
+        imageWidth: '100%',
     };
     return XtalLinkPreviewBase;
 })();

@@ -5,30 +5,31 @@ import {LinkPreviewViewModel} from './types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
-<main>
-    <div>
-        <img/>
-        <details open>
-            <summary></summary>
-            <p></p>
-        </details>
-        
+<main part=main>
+    <div part=div>
+        <a open part=hyperlink target=_blank>
+            <img part=image/>
+            <details open part=details>
+                <summary part=summary></summary>
+                <p part=p></p>
+            </details>
+        </a>
     </div>
 </main>
 `);
 
-const summarySym = Symbol('summarySym');
-const pSym = Symbol('pSym');
-const imgSym = Symbol('imgSym');
+const [summarySym, pSym, imgSym, aSym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a')];
 
 const initTransform = {
     main:{
         div:{
-            details:{
-                summary: summarySym,
-                p: pSym,
-            },
-            img: imgSym
+            a:[,,,{
+                details:{
+                    summary: summarySym,
+                    p: pSym,
+                },
+                img: imgSym
+            }, aSym] 
         }
     }
 } as TransformRules;
@@ -39,7 +40,10 @@ const updateTransforms = [
         [pSym]: viewModel.description
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
-        [imgSym]:[{alt: viewModel.title, width: imageWidth, src: viewModel.imageSrc}]
+        [imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
+    }),
+    ({href}: XtalLinkPreviewBase) => ({
+        [aSym]:[,,{href: href}]
     })
 
 ];
@@ -61,14 +65,13 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     noShadow = true;
 
     static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth}: XtalLinkPreviewBase) =>({
-        bool: [disabled, preview, ],
-        str: [href, baseLinkId],
-        num: [imageWidth],
+        bool: [disabled, preview],
+        str: [href, baseLinkId, imageWidth],
         async: [href, baseLinkId]
     } as AttributeProps);
 
     static defaultValues: any = {
-        imageWidth: 150,
+        imageWidth: '100%',
     } as XtalLinkPreviewBase;
 
     constructor() {
@@ -78,7 +81,7 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     }
 
     get readyToInit(){
-        return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined;
+        return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
     }
 
     readyToRender = true;
@@ -97,7 +100,7 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     */
     preview: boolean;
 
-    imageWidth: number;
+    imageWidth: string;
 
     //imageSrc: string;
 

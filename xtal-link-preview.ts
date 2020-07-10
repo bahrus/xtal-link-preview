@@ -69,21 +69,25 @@ main img {
 
 } */
 
-main>div>details>summary{
+main>div>a>details>summary{
     list-style:none;
 }
 
-main>div>details > summary::-webkit-details-marker {
+main>div>a>details > summary::-webkit-details-marker {
     display: none;
 }
 
+a:link{
+    text-decoration:none;
+}
 
-main>div>details>summary {
+
+main>div>a>details>summary {
     margin-top: 5px;
     font-weight: 800;
 }
 
-main>div>details p {
+main>div>a>details p {
     text-align: left;
     margin-left: 5px;
 }
