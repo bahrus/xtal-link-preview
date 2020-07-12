@@ -1,6 +1,6 @@
 {
   "name": "xtal-link-preview",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Provide preview of URL",
   "main": "xtal-link-preview.js",
   "module": "xtal-link-preview.js",
