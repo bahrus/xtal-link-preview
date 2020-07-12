@@ -1,8 +1,9 @@
-import {XtalFetchViewElement, define, AttributeProps, } from 'xtal-element/XtalFetchViewElement.js';
+import {XtalFetchViewElement, define, AttributeProps} from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
+import {SelectiveUpdate} from 'xtal-element/types.d.js';
 import {TransformRules} from 'trans-render/types.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
-
+import {XtalElement} from 'xtal-element/XtalElement.js';
 
 const mainTemplate = createTemplate(/* html */`
 <main part=main>
@@ -46,7 +47,7 @@ const updateTransforms = [
         [aSym]:[,,{href: href}]
     })
 
-];
+] as SelectiveUpdate<any>[];
 
 
 
@@ -64,9 +65,11 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
 
     noShadow = true;
 
-    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth}: XtalLinkPreviewBase) =>({
+    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth, eventScopes}: XtalLinkPreviewBase) =>({
         bool: [disabled, preview],
         str: [href, baseLinkId, imageWidth],
+        obj: [eventScopes],
+        jsonProp: [eventScopes],
         async: [href, baseLinkId]
     } as AttributeProps);
 
@@ -91,8 +94,6 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     initTransform = initTransform;
 
     updateTransforms = updateTransforms;
-
-   
 
     /** 
     * @type {string} Must be true to preview the url specified by href

@@ -68,18 +68,14 @@ main>div>a>details p {
 }
 </style>
 `;
-let XtalLinkPreview = /** @class */ (() => {
-    class XtalLinkPreview extends XtalLinkPreviewBase {
-        constructor() {
-            super(...arguments);
-            this.noShadow = false;
-        }
-        afterInitRenderCallback(ctx, target, renderOptions) {
-            this.root.appendChild(template.content.cloneNode(true));
-        }
+export class XtalLinkPreview extends XtalLinkPreviewBase {
+    constructor() {
+        super(...arguments);
+        this.noShadow = false;
     }
-    XtalLinkPreview.is = 'xtal-link-preview';
-    return XtalLinkPreview;
-})();
-export { XtalLinkPreview };
+    afterInitRenderCallback(ctx, target, renderOptions) {
+        this.root.appendChild(template.content.cloneNode(true));
+    }
+}
+XtalLinkPreview.is = 'xtal-link-preview';
 define(XtalLinkPreview);
