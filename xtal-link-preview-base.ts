@@ -3,7 +3,6 @@ import {createTemplate} from 'trans-render/createTemplate.js';
 import {SelectiveUpdate} from 'xtal-element/types.d.js';
 import {TransformRules} from 'trans-render/types.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
-import {XtalElement} from 'xtal-element/XtalElement.js';
 
 const mainTemplate = createTemplate(/* html */`
 <main part=main>
