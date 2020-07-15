@@ -35,8 +35,8 @@ const updateTransforms = [
     ({ imageWidth, viewModel }) => ({
         [imgSym]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
     }),
-    ({ href }) => ({
-        [aSym]: [, , { href: href }]
+    ({ href, linkEverything }) => ({
+        [aSym]: [, , { href: linkEverything ? href : null }]
     })
 ];
 /**
@@ -131,8 +131,8 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     }
 }
 XtalLinkPreviewBase.is = 'xtal-link-preview-base';
-XtalLinkPreviewBase.attributeProps = ({ href, baseLinkId, disabled, preview, imageWidth, eventScopes }) => ({
-    bool: [disabled, preview],
+XtalLinkPreviewBase.attributeProps = ({ href, baseLinkId, disabled, preview, imageWidth, eventScopes, linkEverything }) => ({
+    bool: [disabled, preview, linkEverything],
     str: [href, baseLinkId, imageWidth],
     obj: [eventScopes],
     jsonProp: [eventScopes],

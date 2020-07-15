@@ -42,8 +42,8 @@ const updateTransforms = [
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
         [imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
-    ({href}: XtalLinkPreviewBase) => ({
-        [aSym]:[,,{href: href}]
+    ({href, linkEverything}: XtalLinkPreviewBase) => ({
+        [aSym]:[,,{href: linkEverything ? href : null}]
     })
 
 ] as SelectiveUpdate<any>[];
@@ -64,8 +64,8 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
 
     noShadow = true;
 
-    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth, eventScopes}: XtalLinkPreviewBase) =>({
-        bool: [disabled, preview],
+    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth, eventScopes, linkEverything}: XtalLinkPreviewBase) =>({
+        bool: [disabled, preview, linkEverything],
         str: [href, baseLinkId, imageWidth],
         obj: [eventScopes],
         jsonProp: [eventScopes],
@@ -99,6 +99,8 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     * 
     */
     preview: boolean;
+
+    linkEverything: boolean;
 
     imageWidth: string;
 
