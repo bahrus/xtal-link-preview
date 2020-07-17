@@ -11,23 +11,29 @@ const innerTemplate = createTemplate(/* html */`
         <p part=p></p>
     </details>
     <div part=linkContainer>
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        viewBox="0 0 31.891 31.891" style="enable-background:new 0 0 31.891 31.891;" xml:space="preserve">
-            <g>
-                <path d="M30.543,5.74l-4.078-4.035c-1.805-1.777-4.736-1.789-6.545-0.02l-4.525,4.414c-1.812,1.768-1.82,4.648-0.02,6.424
-                    l2.586-2.484c-0.262-0.791,0.061-1.697,0.701-2.324l2.879-2.807c0.912-0.885,2.375-0.881,3.275,0.01l2.449,2.42
-                    c0.9,0.891,0.896,2.326-0.01,3.213l-2.879,2.809c-0.609,0.594-1.609,0.92-2.385,0.711l-2.533,2.486
-                    c1.803,1.781,4.732,1.789,6.545,0.02l4.52-4.41C32.34,10.396,32.346,7.519,30.543,5.74z"/>
-                <path d="M13.975,21.894c0.215,0.773-0.129,1.773-0.752,2.381l-2.689,2.627c-0.922,0.9-2.414,0.895-3.332-0.012l-2.498-2.461
-                    c-0.916-0.906-0.91-2.379,0.012-3.275l2.691-2.627c0.656-0.637,1.598-0.961,2.42-0.689l2.594-2.57
-                    c-1.836-1.811-4.824-1.82-6.668-0.02l-4.363,4.26c-1.846,1.803-1.855,4.734-0.02,6.549l4.154,4.107
-                    c1.834,1.809,4.82,1.818,6.668,0.018l4.363-4.26c1.844-1.805,1.852-4.734,0.02-6.547L13.975,21.894z"/>
-                <path d="M11.139,20.722c0.611,0.617,1.611,0.623,2.234,0.008l7.455-7.416c0.621-0.617,0.625-1.615,0.008-2.234
-                    c-0.613-0.615-1.611-0.619-2.23-0.006l-7.457,7.414C10.529,19.103,10.525,20.101,11.139,20.722z"/>
-        <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
-        </svg>
+        <svg viewBox="0 0 24 24" style="width:16.25px;height:16.25px"><g><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.942-2.605 2.068-3.438l3.53-2.608c2.322-1.716 5.61-1.224 7.33 1.1.83 1.127 1.175 2.51.967 3.895s-.943 2.605-2.07 3.438l-1.48 1.094c-.333.246-.804.175-1.05-.158-.246-.334-.176-.804.158-1.05l1.48-1.095c.803-.592 1.327-1.463 1.476-2.45.148-.988-.098-1.975-.69-2.778-1.225-1.656-3.572-2.01-5.23-.784l-3.53 2.608c-.802.593-1.326 1.464-1.475 2.45-.15.99.097 1.975.69 2.778.498.675 1.187 1.15 1.992 1.377.4.114.633.528.52.928-.092.33-.394.547-.722.547z"></path><path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path></g></svg>
     </div>
 `);
+
+const innerTemplateInitTransform = ({linkEverything}: XtalLinkPreviewBase) => ({
+    img: imgSym,
+    details:{
+        summary: summarySym,
+        p: pSym
+    },
+    div: [linkEverything, spanTemplate, hyperlinkedTemplate],
+    '"':{
+        a: littleASym,
+        span: spanSym
+    }
+} as TransformRules);
+
+const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
+    const splitHref = href.split('/');
+    const domain = splitHref[2];
+    const splitDomain = domain.split('.');
+    self.domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
+}
 
 const hyperlinkedTemplate = createTemplate(/* html */`
     <a part=hyperlink target=_blank></a>
@@ -41,41 +47,38 @@ const mainTemplate = createTemplate(/* html */`
 <main part=main></main>
 `);
 
-const [summarySym, pSym, imgSym, aSym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a')];
+const [summarySym, pSym, imgSym, bigASym, spanSym, littleASym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a'), Symbol('span'), Symbol('a')];
 
-const innerTemplateTransform = ({linkEverything}: XtalLinkPreviewBase) => ({
-    img: imgSym,
-    details:{
-        summary: summarySym,
-        p: pSym
-    },
-    div: [!linkEverything, hyperlinkedTemplate],
-    '"':{
-        a: aSym
-    }
-} as TransformRules);
+
 
 const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
     main: [linkEverything, hyperlinkedTemplate, innerTemplate],
     '"': {
-        a: aSym,
+        a: bigASym,
         '"': innerTemplate,
-        '""': innerTemplateTransform(self)
+        '""': innerTemplateInitTransform(self)
     },
-    '""': innerTemplateTransform(self)
+    '""': innerTemplateInitTransform(self)
 }  as TransformValueOptions);
 
 const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({
         [summarySym]: viewModel.title,
-        [pSym]: viewModel.description
+        [pSym]: viewModel.description,
+        
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
         [imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
     ({href, linkEverything}: XtalLinkPreviewBase) => ({
-        [aSym]:[,,{href: linkEverything ? href : null}]
-    })
+        [bigASym]:[,,{href: linkEverything ? href : null}],
+        [littleASym]:[,,{href: href}]
+    }),
+    ({domainName}: XtalLinkPreviewBase) => ({
+        [spanSym]: domainName,
+        [littleASym]: domainName,
+    }),
+    
 
 ] as SelectiveUpdate<any>[];
 
@@ -95,10 +98,10 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
 
     noShadow = true;
 
-    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth, eventScopes, linkEverything}: XtalLinkPreviewBase) =>({
+    static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth, eventScopes, linkEverything, domainName}: XtalLinkPreviewBase) =>({
         bool: [disabled, preview, linkEverything],
         str: [href, baseLinkId, imageWidth],
-        obj: [eventScopes],
+        obj: [eventScopes, domainName],
         jsonProp: [eventScopes],
         async: [href, baseLinkId]
     } as AttributeProps);
@@ -124,6 +127,8 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
 
     initTransform = initTransform;
 
+    propActions = [linkDomainName];
+
     updateTransforms = updateTransforms;
 
     /** 
@@ -135,6 +140,8 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     linkEverything: boolean;
 
     imageWidth: string;
+
+    domainName!: string;
 
     //imageSrc: string;
 

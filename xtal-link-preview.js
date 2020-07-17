@@ -34,10 +34,10 @@ main:hover {
 
 main>div {
     display: flex;
-    flex-direction:column;
-    place-items: center;
+    flex-direction:row;
+    /* place-items: center;
     height: 100%;
-    padding: 5px;
+    padding: 5px; */
 }
 main img {
     object-fit: scale-down;
