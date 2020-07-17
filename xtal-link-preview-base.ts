@@ -4,6 +4,25 @@ import {SelectiveUpdate} from 'xtal-element/types.d.js';
 import {TransformRules, TransformValueOptions} from 'trans-render/types.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
+
+const mainTemplate = createTemplate(/* html */`
+<main part=main></main>
+`);
+
+const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
+    main: [linkEverything, hyperlinkedTemplate, innerTemplate],
+    '"': {
+        a: bigASym,
+        '"': innerTemplate,
+        '""': innerTemplateInitTransform({linkEverything})
+    },
+    '""': innerTemplateInitTransform({linkEverything})
+}  as TransformValueOptions);
+
+const hyperlinkedTemplate = createTemplate(/* html */`
+    <a part=hyperlink target=_blank></a>
+`);
+
 const innerTemplate = createTemplate(/* html */`
     <img part=image/>
     <details open part=details>
@@ -20,7 +39,11 @@ const innerTemplate = createTemplate(/* html */`
     </div>
 `);
 
-const innerTemplateInitTransform = ({linkEverything}: XtalLinkPreviewBase) => ({
+interface ILinkEverything {
+    linkEverything: boolean,
+}
+
+const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
     img: imgSym,
     details:{
         summary: summarySym,
@@ -33,6 +56,10 @@ const innerTemplateInitTransform = ({linkEverything}: XtalLinkPreviewBase) => ({
     }
 } as TransformRules);
 
+const spanTemplate = createTemplate(/* html */`
+    <span part=hyperlink></span>
+`);
+
 const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
     const splitHref = href.split('/');
     const domain = splitHref[2];
@@ -40,29 +67,10 @@ const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
     self.domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
 }
 
-const hyperlinkedTemplate = createTemplate(/* html */`
-    <a part=hyperlink target=_blank></a>
-`);
-
-const spanTemplate = createTemplate(/* html */`
-    <span part=hyperlink></span>
-`);
-
-const mainTemplate = createTemplate(/* html */`
-<main part=main></main>
-`);
 
 const [summarySym, pSym, imgSym, bigASym, spanSym, littleASym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a'), Symbol('span'), Symbol('a')];
 
-const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, innerTemplate],
-    '"': {
-        a: bigASym,
-        '"': innerTemplate,
-        '""': innerTemplateInitTransform(self)
-    },
-    '""': innerTemplateInitTransform(self)
-}  as TransformValueOptions);
+
 
 const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({

@@ -1,5 +1,20 @@
 import { XtalFetchViewElement, define } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
+const mainTemplate = createTemplate(/* html */ `
+<main part=main></main>
+`);
+const initTransform = ({ linkEverything, self }) => ({
+    main: [linkEverything, hyperlinkedTemplate, innerTemplate],
+    '"': {
+        a: bigASym,
+        '"': innerTemplate,
+        '""': innerTemplateInitTransform({ linkEverything })
+    },
+    '""': innerTemplateInitTransform({ linkEverything })
+});
+const hyperlinkedTemplate = createTemplate(/* html */ `
+    <a part=hyperlink target=_blank></a>
+`);
 const innerTemplate = createTemplate(/* html */ `
     <img part=image/>
     <details open part=details>
@@ -27,31 +42,16 @@ const innerTemplateInitTransform = ({ linkEverything }) => ({
         span: spanSym
     }
 });
+const spanTemplate = createTemplate(/* html */ `
+    <span part=hyperlink></span>
+`);
 const linkDomainName = ({ self, href }) => {
     const splitHref = href.split('/');
     const domain = splitHref[2];
     const splitDomain = domain.split('.');
     self.domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
 };
-const hyperlinkedTemplate = createTemplate(/* html */ `
-    <a part=hyperlink target=_blank></a>
-`);
-const spanTemplate = createTemplate(/* html */ `
-    <span part=hyperlink></span>
-`);
-const mainTemplate = createTemplate(/* html */ `
-<main part=main></main>
-`);
 const [summarySym, pSym, imgSym, bigASym, spanSym, littleASym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a'), Symbol('span'), Symbol('a')];
-const initTransform = ({ linkEverything, self }) => ({
-    main: [linkEverything, hyperlinkedTemplate, innerTemplate],
-    '"': {
-        a: bigASym,
-        '"': innerTemplate,
-        '""': innerTemplateInitTransform(self)
-    },
-    '""': innerTemplateInitTransform(self)
-});
 const updateTransforms = [
     ({ viewModel }) => ({
         [summarySym]: viewModel.title,
