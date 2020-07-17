@@ -4,7 +4,10 @@ const template = document.createElement('template');
 template.innerHTML = /* html */ `
 <style>
 :host{
-    display: block;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;    
 }
 slot {
     height:100%;
@@ -35,20 +38,19 @@ main:hover {
 main>div {
     display: flex;
     flex-direction:row;
-    /* place-items: center;
-    height: 100%;
-    padding: 5px; */
+    align-self:self-start;
 }
+
 main img {
     object-fit: scale-down;
 }
 
 
-main>div>a>details>summary{
+main details>summary{
     list-style:none;
 }
 
-main>div>a>details > summary::-webkit-details-marker {
+main details>summary::-webkit-details-marker {
     display: none;
 }
 
@@ -57,12 +59,12 @@ a:link{
 }
 
 
-main>div>a>details>summary {
+main details>summary {
     margin-top: 5px;
     font-weight: 800;
 }
 
-main>div>a>details p {
+main details p {
     text-align: left;
     margin-left: 5px;
 }
