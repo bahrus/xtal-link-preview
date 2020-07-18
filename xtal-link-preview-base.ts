@@ -1,7 +1,7 @@
 import {XtalFetchViewElement, define, AttributeProps} from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
 import {SelectiveUpdate} from 'xtal-element/types.d.js';
-import {TransformRules, TransformValueOptions} from 'trans-render/types.d.js';
+import {TransformValueOptions, CATMINT} from 'trans-render/types2.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
 
@@ -10,13 +10,13 @@ const mainTemplate = createTemplate(/* html */`
 `);
 
 const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, innerTemplate],
-    '"': {
+    main: [linkEverything, hyperlinkedTemplate, {affirmativeVal: 'true', negativeVal: 'false', attributeName: 'data-wrap-in-hyperlink'}, innerTemplate] as CATMINT,
+    '[data-wrap-in-hyperlink="true"]': {
         a: bigASym,
         '"': innerTemplate,
         '""': innerTemplateInitTransform({linkEverything})
     },
-    '""': innerTemplateInitTransform({linkEverything})
+    '[data-wrap-in-hyperlink="false"]': innerTemplateInitTransform({linkEverything})
 }  as TransformValueOptions);
 
 const hyperlinkedTemplate = createTemplate(/* html */`
@@ -49,12 +49,14 @@ const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
         summary: summarySym,
         p: pSym
     },
-    div: [linkEverything, spanTemplate, hyperlinkedTemplate],
-    '"':{
+    div: [linkEverything, spanTemplate,{attributeName:'data-need-hyperlink', affirmativeVal: 'false', negativeVal: 'true'},hyperlinkedTemplate]  as CATMINT,
+    '[data-need-hyperlink="true"]':{
         a: littleASym,
+    },
+    '[data-need-hyperlink="false"]':{
         span: spanSym
     }
-} as TransformRules);
+} as TransformValueOptions);
 
 const spanTemplate = createTemplate(/* html */`
     <span part=hyperlink></span>
