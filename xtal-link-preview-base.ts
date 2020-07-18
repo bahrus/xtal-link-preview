@@ -1,7 +1,7 @@
 import {XtalFetchViewElement, define, AttributeProps} from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
 import {SelectiveUpdate} from 'xtal-element/types.d.js';
-import {TransformValueOptions, CATMINT} from 'trans-render/types2.d.js';
+import {TransformValueOptions, CATMINT, TransformMatch, TransformGetter} from 'trans-render/types2.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
 
@@ -17,7 +17,7 @@ const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
         '""': innerTemplateInitTransform({linkEverything})
     },
     '[data-wrap-in-hyperlink="false"]': innerTemplateInitTransform({linkEverything})
-}  as TransformValueOptions);
+}  as TransformMatch) as TransformGetter<XtalLinkPreviewBase>;
 
 const hyperlinkedTemplate = createTemplate(/* html */`
     <a part=hyperlink target=_blank></a>
