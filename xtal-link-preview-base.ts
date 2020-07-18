@@ -10,7 +10,7 @@ const mainTemplate = createTemplate(/* html */`
 `);
 
 const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, {affirmativeVal: 'true', negativeVal: 'false', attributeName: 'data-wrap-in-hyperlink'}, innerTemplate] as CATMINT,
+    main: [linkEverything, hyperlinkedTemplate, {attr: 'data-wrap-in-hyperlink'}, innerTemplate] as CATMINT,
     '[data-wrap-in-hyperlink="true"]': {
         a: bigASym,
         '"': innerTemplate,
@@ -49,11 +49,11 @@ const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
         summary: summarySym,
         p: pSym
     },
-    div: [linkEverything, spanTemplate,{attributeName:'data-need-hyperlink', affirmativeVal: 'false', negativeVal: 'true'},hyperlinkedTemplate]  as CATMINT,
-    '[data-need-hyperlink="true"]':{
+    div: [linkEverything, spanTemplate,{attr:'data-no-hyperlink'},hyperlinkedTemplate]  as CATMINT,
+    '[data-no-hyperlink="false"]':{
         a: littleASym,
     },
-    '[data-need-hyperlink="false"]':{
+    '[data-no-hyperlink="true"]':{
         span: spanSym
     }
 } as TransformValueOptions);

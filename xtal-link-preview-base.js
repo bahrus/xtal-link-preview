@@ -4,7 +4,7 @@ const mainTemplate = createTemplate(/* html */ `
 <main part=main></main>
 `);
 const initTransform = ({ linkEverything, self }) => ({
-    main: [linkEverything, hyperlinkedTemplate, { affirmativeVal: 'true', negativeVal: 'false', attributeName: 'data-wrap-in-hyperlink' }, innerTemplate],
+    main: [linkEverything, hyperlinkedTemplate, { attr: 'data-wrap-in-hyperlink' }, innerTemplate],
     '[data-wrap-in-hyperlink="true"]': {
         a: bigASym,
         '"': innerTemplate,
@@ -36,11 +36,11 @@ const innerTemplateInitTransform = ({ linkEverything }) => ({
         summary: summarySym,
         p: pSym
     },
-    div: [linkEverything, spanTemplate, { attributeName: 'data-need-hyperlink', affirmativeVal: 'false', negativeVal: 'true' }, hyperlinkedTemplate],
-    '[data-need-hyperlink="true"]': {
+    div: [linkEverything, spanTemplate, { attr: 'data-no-hyperlink' }, hyperlinkedTemplate],
+    '[data-no-hyperlink="false"]': {
         a: littleASym,
     },
-    '[data-need-hyperlink="false"]': {
+    '[data-no-hyperlink="true"]': {
         span: spanSym
     }
 });
