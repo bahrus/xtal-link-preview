@@ -11,18 +11,19 @@
     <div>
         <div>
             <input id=href value=https://www.cbc.ca/news/politics/letter-release-meng-1.5625669 style="width:700px">
-            <xtal-link-preview  event-scopes='[["view-model-changed","bubbles"]]'   preview href="https://onsen.io" base-link-id=corsAnywhere>
+            <p-d on=input to=[-href] m=1></p-d>
+            <button -href>Change</button>
+            <p-d on=click to=[-href] m=1 val=target.href skip-init></p-d>
+            <div>
+                <label>Link Everything <input type=checkbox></label>
+            </div>
+            <p-d on=change to=[-link-everything] skip-init val=target.checked m=1></p-d>
+            <xtal-link-preview -href -link-everything preview href="https://onsen.io" base-link-id=corsAnywhere>
                 <div slot="loading">
                     I am here
                 </div>
             </xtal-link-preview>
 
-            <button onclick="changeHref()">Change href</button>
-            <script>
-                function changeHref(){
-                    document.querySelector('xtal-link-preview').href = href.value;
-                }
-            </script>
         </div>
         
         
@@ -31,12 +32,14 @@
         {
           "imports": {
             "xtal-element/": "../node_modules/xtal-element/",
-            "trans-render/": "../node_modules/trans-render/"
+            "trans-render/": "../node_modules/trans-render/",
+            "p-et-alia/": "../node_modules/p-et-alia/"
           }
         }
         </script>
         <script  type="module-shim">
             import '../xtal-link-preview.js';
+            import 'p-et-alia/p-d.js';
         </script>
     </div>
 </body>

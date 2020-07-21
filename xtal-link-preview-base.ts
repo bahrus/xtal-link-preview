@@ -58,15 +58,9 @@ const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
     [hyperLinkContainer]:{
         a: littleASym,
     },
-    // [hyperLinkContainer]: ({}) =>{
-    //     debugger;
-    // },
     [spanContainer]:{
         span: spanSym
     }
-    // [spanContainer]: ({}) =>{
-    //     debugger;
-    // }
 } as TransformValueOptions);
 
 const spanTemplate = createTemplate(/* html */`

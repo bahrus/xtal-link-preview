@@ -15,7 +15,8 @@
     "es-module-shims": "0.4.7",
     "xtal-test": "0.0.46",
     "es-dev-server": "1.56.1",
-    "api-viewer-element": "0.4.4"
+    "api-viewer-element": "0.4.4",
+    "p-et-alia": "0.0.105"
   },
   "scripts": {
     "test": "node test/test-all.js",
