@@ -45,6 +45,8 @@ const innerTemplate = createTemplate(/* html */`
 interface ILinkEverything {
     linkEverything: boolean,
 }
+const hyperLinkContainer = Symbol('divWithHyper');
+const spanContainer = Symbol('divNoHyper');
 
 const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
     img: imgSym,
@@ -52,13 +54,19 @@ const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
         summary: summarySym,
         p: pSym
     },
-    div: [linkEverything, spanTemplate,{attr:'data-no-hyperlink'},hyperlinkedTemplate]  as CATMINT,
-    '[data-no-hyperlink="false"]':{
+    div: [linkEverything, spanTemplate,{yesSym: spanContainer, noSym: hyperLinkContainer}, hyperlinkedTemplate]  as CATMINT,
+    [hyperLinkContainer]:{
         a: littleASym,
     },
-    '[data-no-hyperlink="true"]':{
+    // [hyperLinkContainer]: ({}) =>{
+    //     debugger;
+    // },
+    [spanContainer]:{
         span: spanSym
     }
+    // [spanContainer]: ({}) =>{
+    //     debugger;
+    // }
 } as TransformValueOptions);
 
 const spanTemplate = createTemplate(/* html */`

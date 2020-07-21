@@ -32,19 +32,27 @@ const innerTemplate = createTemplate(/* html */ `
         </svg>
     </div>
 `);
+const hyperLinkContainer = Symbol('divWithHyper');
+const spanContainer = Symbol('divNoHyper');
 const innerTemplateInitTransform = ({ linkEverything }) => ({
     img: imgSym,
     details: {
         summary: summarySym,
         p: pSym
     },
-    div: [linkEverything, spanTemplate, { attr: 'data-no-hyperlink' }, hyperlinkedTemplate],
-    '[data-no-hyperlink="false"]': {
+    div: [linkEverything, spanTemplate, { yesSym: spanContainer, noSym: hyperLinkContainer }, hyperlinkedTemplate],
+    [hyperLinkContainer]: {
         a: littleASym,
     },
-    '[data-no-hyperlink="true"]': {
+    // [hyperLinkContainer]: ({}) =>{
+    //     debugger;
+    // },
+    [spanContainer]: {
         span: spanSym
     }
+    // [spanContainer]: ({}) =>{
+    //     debugger;
+    // }
 });
 const spanTemplate = createTemplate(/* html */ `
     <span part=hyperlink></span>
