@@ -3,14 +3,16 @@ import { createTemplate } from 'trans-render/createTemplate.js';
 const mainTemplate = createTemplate(/* html */ `
 <main part=main></main>
 `);
+const bigAMainSym = Symbol('bigAMainSym');
+const innerAMainSym = Symbol('innerAMainSym');
 const initTransform = ({ linkEverything, self }) => ({
-    main: [linkEverything, hyperlinkedTemplate, { attr: 'data-wrap-in-hyperlink' }, innerTemplate],
-    '[data-wrap-in-hyperlink="true"]': {
+    main: [linkEverything, hyperlinkedTemplate, { yesSym: bigAMainSym, noSym: innerAMainSym }, innerTemplate],
+    [bigAMainSym]: {
         a: bigASym,
         '"': innerTemplate,
         '""': innerTemplateInitTransform({ linkEverything })
     },
-    '[data-wrap-in-hyperlink="false"]': innerTemplateInitTransform({ linkEverything })
+    [innerAMainSym]: innerTemplateInitTransform({ linkEverything })
 });
 const hyperlinkedTemplate = createTemplate(/* html */ `
     <a part=hyperlink target=_blank></a>

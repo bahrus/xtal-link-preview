@@ -8,17 +8,18 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-element": "0.0.238",
-    "trans-render": "0.0.222"
+    "xtal-element": "0.0.242",
+    "trans-render": "0.0.224"
   },
   "devDependencies": {
     "es-module-shims": "0.4.7",
     "xtal-test": "0.0.46",
-    "es-dev-server": "1.56.1"
+    "es-dev-server": "1.56.1",
+    "api-viewer-element": "0.4.4"
   },
   "scripts": {
     "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
-    "doc": "wca analyze p-*.js --outFile custom-elements.json"
+    "doc": "wca analyze xtal-*.js --outFile custom-elements.json"
   }
 }

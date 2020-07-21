@@ -1,7 +1,7 @@
 import {XtalFetchViewElement, define, AttributeProps} from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
-import {SelectiveUpdate} from 'xtal-element/types.d.js';
-import {TransformValueOptions, CATMINT, TransformMatch, TransformGetter} from 'trans-render/types2.d.js';
+import {SelectiveUpdate, TransformGetter} from 'xtal-element/types.d.js';
+import {TransformValueOptions, CATMINT, TransformMatch} from 'trans-render/types2.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
 
@@ -9,15 +9,18 @@ const mainTemplate = createTemplate(/* html */`
 <main part=main></main>
 `);
 
+const bigAMainSym = Symbol('bigAMainSym');
+const innerAMainSym = Symbol('innerAMainSym');
+
 const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, {attr: 'data-wrap-in-hyperlink'}, innerTemplate] as CATMINT,
-    '[data-wrap-in-hyperlink="true"]': {
+    main: [linkEverything, hyperlinkedTemplate, {yesSym: bigAMainSym, noSym: innerAMainSym}, innerTemplate] as CATMINT,
+    [bigAMainSym]: {
         a: bigASym,
         '"': innerTemplate,
         '""': innerTemplateInitTransform({linkEverything})
     },
-    '[data-wrap-in-hyperlink="false"]': innerTemplateInitTransform({linkEverything})
-}  as TransformMatch) as TransformGetter<XtalLinkPreviewBase>;
+    [innerAMainSym]: innerTemplateInitTransform({linkEverything})
+} as TransformValueOptions) as TransformGetter;
 
 const hyperlinkedTemplate = createTemplate(/* html */`
     <a part=hyperlink target=_blank></a>
@@ -78,7 +81,6 @@ const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({
         [summarySym]: viewModel.title,
         [pSym]: viewModel.description,
-        
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
         [imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]

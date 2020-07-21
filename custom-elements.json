@@ -1,0 +1,124 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "",
+      "path": "./xtal-link-preview-base.js",
+      "description": "`xtal-link-preview`\nProvide preview of URL.",
+      "attributes": [
+        {
+          "name": "href",
+          "description": "URL (path) to fetch.",
+          "type": "string"
+        },
+        {
+          "name": "req-init",
+          "description": "Object to use for second parameter of fetch method.  Can parse the value from the attribute if the attribute is in JSON format.\r\nSupports JSON formatted attribute",
+          "type": "object"
+        },
+        {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "as",
+          "type": "string",
+          "default": "\"text\""
+        },
+        {
+          "name": "href",
+          "attribute": "href",
+          "description": "URL (path) to fetch.",
+          "type": "string"
+        },
+        {
+          "name": "reqInit",
+          "attribute": "req-init",
+          "description": "Object to use for second parameter of fetch method.  Can parse the value from the attribute if the attribute is in JSON format.\r\nSupports JSON formatted attribute",
+          "type": "object"
+        },
+        {
+          "name": "reqInitRequired",
+          "description": "Indicates that no fetch request should proceed until reqInit property / attribute is set.",
+          "type": "boolean"
+        },
+        {
+          "name": "initViewModel",
+          "type": "PromisedInitViewAngle<this, TInitViewModel, TRefreshViewModel>",
+          "default": "\"({href, reqInit} : Partial<XtalFetchViewElement<TInitViewModel, TRefreshViewModel>>) => new Promise<TInitViewModel>(resolve =>{\\r\\n        fetch(getFullURL(this, href!), reqInit).then(resp => resp[this.as]().then(data =>{\\r\\n            resolve(this.filterInitData(data));\\r\\n        }))\\r\\n    })\""
+        },
+        {
+          "name": "refreshViewModel",
+          "type": "PromisedRefreshViewAngles<this, InitViewModel, RefreshViewModel> | undefined"
+        },
+        {
+          "name": "viewModel",
+          "type": "InitViewModel | RefreshViewModel"
+        },
+        {
+          "name": "noShadow",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "renderOptions",
+          "type": "RenderOptions"
+        },
+        {
+          "name": "mainTemplate",
+          "default": "\"mainTemplate\""
+        },
+        {
+          "name": "initTransform",
+          "default": "\"initTransform\""
+        },
+        {
+          "name": "readyToInit",
+          "type": "boolean"
+        },
+        {
+          "name": "readyToRender",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "updateTransforms",
+          "type": "(any | any | any)[]",
+          "default": "[null,null,null,null]"
+        },
+        {
+          "name": "root",
+          "type": "HTMLElement | ShadowRoot"
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "array",
+          "default": "[\"linkDomainName\"]"
+        },
+        {
+          "name": "eventScopes",
+          "description": "Needed for asynchronous loading",
+          "type": "EventScopes | undefined"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "baseLinkId",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
