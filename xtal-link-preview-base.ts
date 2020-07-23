@@ -1,25 +1,40 @@
 import {XtalFetchViewElement, define, AttributeProps} from 'xtal-element/XtalFetchViewElement.js';
+import {symbolize} from 'xtal-element/symbolize.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
 import {SelectiveUpdate, TransformGetter} from 'xtal-element/types.d.js';
 import {TransformValueOptions, CATMINT, TransformMatch} from 'trans-render/types2.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
+interface IMySymbols{
+    bigAMain: symbol,
+    innerAMainSym: symbol,
+    hyperLinkContainer: symbol,
+    spanContainer: symbol,
+    summarySym: symbol,
+    pSym: symbol,
+    imgSym: symbol,
+    bigASym: symbol,
+    spanSym: symbol,
+    littleASym: symbol
+}
+
+const symbolGen = ({bigAMain, innerAMainSym, hyperLinkContainer, spanContainer, summarySym, pSym, imgSym, bigASym, spanSym, littleASym}: IMySymbols) => 0;
+
+const sym = symbolize(symbolGen);
 
 const mainTemplate = createTemplate(/* html */`
 <main part=main></main>
 `);
 
-const bigAMainSym = Symbol('bigAMainSym');
-const innerAMainSym = Symbol('innerAMainSym');
 
 const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, {yesSym: bigAMainSym, noSym: innerAMainSym}, innerTemplate] as CATMINT,
-    [bigAMainSym]: {
-        a: bigASym,
+    main: [linkEverything, hyperlinkedTemplate, {yesSym: sym.bigAMainSym, noSym: sym.innerAMainSym}, innerTemplate] as CATMINT,
+    [sym.bigAMainSym]: {
+        a: sym.bigASym,
         '"': innerTemplate,
         '""': innerTemplateInitTransform({linkEverything})
     },
-    [innerAMainSym]: innerTemplateInitTransform({linkEverything})
+    [sym.innerAMainSym]: innerTemplateInitTransform({linkEverything})
 } as TransformValueOptions) as TransformGetter;
 
 const hyperlinkedTemplate = createTemplate(/* html */`
@@ -42,24 +57,20 @@ const innerTemplate = createTemplate(/* html */`
     </div>
 `);
 
-interface ILinkEverything {
-    linkEverything: boolean,
-}
-const hyperLinkContainer = Symbol('divWithHyper');
-const spanContainer = Symbol('divNoHyper');
+
 
 const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
-    img: imgSym,
+    img: sym.imgSym,
     details:{
-        summary: summarySym,
-        p: pSym
+        summary: sym.summarySym,
+        p: sym.pSym
     },
-    div: [linkEverything, spanTemplate,{yesSym: spanContainer, noSym: hyperLinkContainer}, hyperlinkedTemplate]  as CATMINT,
-    [hyperLinkContainer]:{
-        a: littleASym,
+    div: [linkEverything, spanTemplate,{yesSym: sym.spanContainer, noSym: sym.hyperLinkContainer}, hyperlinkedTemplate]  as CATMINT,
+    [sym.hyperLinkContainer]:{
+        a: sym.littleASym,
     },
-    [spanContainer]:{
-        span: spanSym
+    [sym.spanContainer]:{
+        span: sym.spanSym
     }
 } as TransformValueOptions);
 
@@ -74,26 +85,21 @@ const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
     self.domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
 }
 
-
-const [summarySym, pSym, imgSym, bigASym, spanSym, littleASym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a'), Symbol('span'), Symbol('a')];
-
-
-
 const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({
-        [summarySym]: viewModel.title,
-        [pSym]: viewModel.description,
+        [sym.summarySym]: viewModel.title,
+        [sym.pSym]: viewModel.description,
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
-        [imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
+        [sym.imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
     ({href, linkEverything}: XtalLinkPreviewBase) => ({
-        [bigASym]:[,,{href: linkEverything ? href : null}],
-        [littleASym]:[,,{href: href}]
+        [sym.bigASym]:[,,{href: linkEverything ? href : null}],
+        [sym.littleASym]:[,,{href: href}]
     }),
     ({domainName}: XtalLinkPreviewBase) => ({
-        [spanSym]: domainName,
-        [littleASym]: domainName,
+        [sym.spanSym]: domainName,
+        [sym.littleASym]: domainName,
     }),
     
 
@@ -229,6 +235,10 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
 
 }
 define(XtalLinkPreviewBase);
+
+interface ILinkEverything {
+    linkEverything: boolean,
+}
 
 
 

@@ -1,5 +1,6 @@
 import { XtalFetchViewElement, define } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
+const symbolGen = ({ bigAMain, innerAMainSym }) => 0;
 const mainTemplate = createTemplate(/* html */ `
 <main part=main></main>
 `);
