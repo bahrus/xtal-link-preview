@@ -8,15 +8,15 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-element": "0.0.244",
-    "trans-render": "0.0.225"
+    "xtal-element": "0.0.259",
+    "trans-render": "0.0.234"
   },
   "devDependencies": {
-    "es-module-shims": "0.4.7",
+    "es-module-shims": "0.5.1",
     "xtal-test": "0.0.46",
-    "es-dev-server": "1.56.1",
+    "es-dev-server": "1.57.2",
     "api-viewer-element": "0.4.4",
-    "p-et-alia": "0.0.105"
+    "p-et-alia": "0.0.109"
   },
   "scripts": {
     "test": "node test/test-all.js",

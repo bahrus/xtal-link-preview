@@ -1,19 +1,29 @@
-import { XtalFetchViewElement, define } from 'xtal-element/XtalFetchViewElement.js';
+import { XtalFetchViewElement, define, symbolize, p } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
-const symbolGen = ({ bigAMain, innerAMainSym }) => 0;
+const uiRefs = {
+    bigAMainSym: p,
+    innerAMainSym: p,
+    hyperLinkContainer: p,
+    spanContainer: p,
+    summarySym: p,
+    pSym: p,
+    imgSym: p,
+    bigASym: p,
+    spanSym: p,
+    littleASym: p
+};
+symbolize(uiRefs);
 const mainTemplate = createTemplate(/* html */ `
 <main part=main></main>
 `);
-const bigAMainSym = Symbol('bigAMainSym');
-const innerAMainSym = Symbol('innerAMainSym');
 const initTransform = ({ linkEverything, self }) => ({
-    main: [linkEverything, hyperlinkedTemplate, { yesSym: bigAMainSym, noSym: innerAMainSym }, innerTemplate],
-    [bigAMainSym]: {
-        a: bigASym,
+    main: [linkEverything, hyperlinkedTemplate, { yesSym: uiRefs.bigAMainSym, noSym: uiRefs.innerAMainSym }, innerTemplate],
+    [uiRefs.bigAMainSym]: {
+        a: uiRefs.bigASym,
         '"': innerTemplate,
         '""': innerTemplateInitTransform({ linkEverything })
     },
-    [innerAMainSym]: innerTemplateInitTransform({ linkEverything })
+    [uiRefs.innerAMainSym]: innerTemplateInitTransform({ linkEverything })
 });
 const hyperlinkedTemplate = createTemplate(/* html */ `
     <a part=hyperlink target=_blank></a>
@@ -33,20 +43,18 @@ const innerTemplate = createTemplate(/* html */ `
         </svg>
     </div>
 `);
-const hyperLinkContainer = Symbol('divWithHyper');
-const spanContainer = Symbol('divNoHyper');
 const innerTemplateInitTransform = ({ linkEverything }) => ({
-    img: imgSym,
+    img: uiRefs.imgSym,
     details: {
-        summary: summarySym,
-        p: pSym
+        summary: uiRefs.summarySym,
+        p: uiRefs.pSym
     },
-    div: [linkEverything, spanTemplate, { yesSym: spanContainer, noSym: hyperLinkContainer }, hyperlinkedTemplate],
-    [hyperLinkContainer]: {
-        a: littleASym,
+    div: [linkEverything, spanTemplate, { yesSym: uiRefs.spanContainer, noSym: uiRefs.hyperLinkContainer }, hyperlinkedTemplate],
+    [uiRefs.hyperLinkContainer]: {
+        a: uiRefs.littleASym,
     },
-    [spanContainer]: {
-        span: spanSym
+    [uiRefs.spanContainer]: {
+        span: uiRefs.spanSym
     }
 });
 const spanTemplate = createTemplate(/* html */ `
@@ -58,22 +66,21 @@ const linkDomainName = ({ self, href }) => {
     const splitDomain = domain.split('.');
     self.domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
 };
-const [summarySym, pSym, imgSym, bigASym, spanSym, littleASym] = [Symbol('summ'), Symbol('p'), Symbol('img'), Symbol('a'), Symbol('span'), Symbol('a')];
 const updateTransforms = [
     ({ viewModel }) => ({
-        [summarySym]: viewModel.title,
-        [pSym]: viewModel.description,
+        [uiRefs.summarySym]: viewModel.title,
+        [uiRefs.pSym]: viewModel.description,
     }),
     ({ imageWidth, viewModel }) => ({
-        [imgSym]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
+        [uiRefs.imgSym]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
     }),
     ({ href, linkEverything }) => ({
-        [bigASym]: [, , { href: linkEverything ? href : null }],
-        [littleASym]: [, , { href: href }]
+        [uiRefs.bigASym]: [, , { href: linkEverything ? href : null }],
+        [uiRefs.littleASym]: [, , { href: href }]
     }),
     ({ domainName }) => ({
-        [spanSym]: domainName,
-        [littleASym]: domainName,
+        [uiRefs.spanSym]: domainName,
+        [uiRefs.littleASym]: domainName,
     }),
 ];
 /**

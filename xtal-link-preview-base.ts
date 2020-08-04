@@ -1,26 +1,22 @@
-import {XtalFetchViewElement, define, AttributeProps} from 'xtal-element/XtalFetchViewElement.js';
-import {symbolize} from 'xtal-element/symbolize.js';
+import {XtalFetchViewElement, define, AttributeProps, symbolize, p} from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
 import {SelectiveUpdate, TransformGetter} from 'xtal-element/types.d.js';
 import {TransformValueOptions, CATMINT, TransformMatch} from 'trans-render/types2.d.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
-interface IMySymbols{
-    bigAMain: symbol,
-    innerAMainSym: symbol,
-    hyperLinkContainer: symbol,
-    spanContainer: symbol,
-    summarySym: symbol,
-    pSym: symbol,
-    imgSym: symbol,
-    bigASym: symbol,
-    spanSym: symbol,
-    littleASym: symbol
-}
-
-const symbolGen = ({bigAMain, innerAMainSym, hyperLinkContainer, spanContainer, summarySym, pSym, imgSym, bigASym, spanSym, littleASym}: IMySymbols) => 0;
-
-const sym = symbolize(symbolGen);
+const uiRefs = {
+    bigAMainSym: p,
+    innerAMainSym: p,
+    hyperLinkContainer: p,
+    spanContainer: p,
+    summarySym: p,
+    pSym: p,
+    imgSym: p,
+    bigASym: p,
+    spanSym: p,
+    littleASym: p
+};
+symbolize(uiRefs);
 
 const mainTemplate = createTemplate(/* html */`
 <main part=main></main>
@@ -28,13 +24,13 @@ const mainTemplate = createTemplate(/* html */`
 
 
 const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, {yesSym: sym.bigAMainSym, noSym: sym.innerAMainSym}, innerTemplate] as CATMINT,
-    [sym.bigAMainSym]: {
-        a: sym.bigASym,
+    main: [linkEverything, hyperlinkedTemplate, {yesSym: uiRefs.bigAMainSym, noSym: uiRefs.innerAMainSym}, innerTemplate] as CATMINT,
+    [uiRefs.bigAMainSym]: {
+        a: uiRefs.bigASym,
         '"': innerTemplate,
         '""': innerTemplateInitTransform({linkEverything})
     },
-    [sym.innerAMainSym]: innerTemplateInitTransform({linkEverything})
+    [uiRefs.innerAMainSym]: innerTemplateInitTransform({linkEverything})
 } as TransformValueOptions) as TransformGetter;
 
 const hyperlinkedTemplate = createTemplate(/* html */`
@@ -60,17 +56,17 @@ const innerTemplate = createTemplate(/* html */`
 
 
 const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
-    img: sym.imgSym,
+    img: uiRefs.imgSym,
     details:{
-        summary: sym.summarySym,
-        p: sym.pSym
+        summary: uiRefs.summarySym,
+        p: uiRefs.pSym
     },
-    div: [linkEverything, spanTemplate,{yesSym: sym.spanContainer, noSym: sym.hyperLinkContainer}, hyperlinkedTemplate]  as CATMINT,
-    [sym.hyperLinkContainer]:{
-        a: sym.littleASym,
+    div: [linkEverything, spanTemplate,{yesSym: uiRefs.spanContainer, noSym: uiRefs.hyperLinkContainer}, hyperlinkedTemplate]  as CATMINT,
+    [uiRefs.hyperLinkContainer]:{
+        a: uiRefs.littleASym,
     },
-    [sym.spanContainer]:{
-        span: sym.spanSym
+    [uiRefs.spanContainer]:{
+        span: uiRefs.spanSym
     }
 } as TransformValueOptions);
 
@@ -87,19 +83,19 @@ const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
 
 const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({
-        [sym.summarySym]: viewModel.title,
-        [sym.pSym]: viewModel.description,
+        [uiRefs.summarySym]: viewModel.title,
+        [uiRefs.pSym]: viewModel.description,
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
-        [sym.imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
+        [uiRefs.imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
     ({href, linkEverything}: XtalLinkPreviewBase) => ({
-        [sym.bigASym]:[,,{href: linkEverything ? href : null}],
-        [sym.littleASym]:[,,{href: href}]
+        [uiRefs.bigASym]:[,,{href: linkEverything ? href : null}],
+        [uiRefs.littleASym]:[,,{href: href}]
     }),
     ({domainName}: XtalLinkPreviewBase) => ({
-        [sym.spanSym]: domainName,
-        [sym.littleASym]: domainName,
+        [uiRefs.spanSym]: domainName,
+        [uiRefs.littleASym]: domainName,
     }),
     
 
@@ -240,5 +236,10 @@ interface ILinkEverything {
     linkEverything: boolean,
 }
 
+declare global {
+    interface HTMLElementTagNameMap {
+        "xtal-link-preview-base": XtalLinkPreviewBase,
+    }
+}
 
 
