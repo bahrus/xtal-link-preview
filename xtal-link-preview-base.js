@@ -1,10 +1,8 @@
 import { XtalFetchViewElement, define, symbolize, p } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { templStampSym } from 'trans-render/standardPlugins.js';
-const mainTemplateWithInnerLink = createTemplate(/* html */ `
+const mainTemplate = createTemplate(/* html */ `
 <main part=main></main>
-`);
-const mainTemplateWithOuterLink = createTemplate(/* html */ `
 <a part="outerLink" target=_blank></a>
 `);
 const innerTemplate = createTemplate(/* html */ `
@@ -26,10 +24,11 @@ const innerTemplate = createTemplate(/* html */ `
 `);
 const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p, domain: p };
 symbolize(uiRefs);
-const initTransform = {
-    'a,main': innerTemplate,
-    '"': [templStampSym, uiRefs],
-};
+const initTransform = ({ linkEverything }) => ({
+    a: linkEverything ? innerTemplate : false,
+    main: linkEverything ? false : innerTemplate,
+    'a,main': [templStampSym, uiRefs],
+});
 const linkDomainName = ({ self, href }) => {
     const splitHref = href.split('/');
     const domain = splitHref[2];
@@ -63,6 +62,7 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     constructor() {
         super();
         this.noShadow = true;
+        this.mainTemplate = mainTemplate;
         this.initTransform = initTransform;
         this.propActions = [linkDomainName];
         this.updateTransforms = updateTransforms;
@@ -73,9 +73,6 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     }
     get readyToRender() {
         return this.viewModel !== undefined;
-    }
-    get mainTemplate() {
-        return this.linkEverything ? mainTemplateWithOuterLink : mainTemplateWithInnerLink;
     }
     //imageSrc: string;
     filterInitData(data) {

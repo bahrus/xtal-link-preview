@@ -6,14 +6,11 @@ import { templStampSym} from 'trans-render/standardPlugins.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
 
-
-const mainTemplateWithInnerLink = createTemplate(/* html */`
+const mainTemplate = createTemplate(/* html */`
 <main part=main></main>
-`);
-
-const mainTemplateWithOuterLink = createTemplate(/* html */`
 <a part="outerLink" target=_blank></a>
 `);
+
 
 const innerTemplate = createTemplate(/* html */`
     <img part="image"/>
@@ -36,10 +33,11 @@ const innerTemplate = createTemplate(/* html */`
 const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p, domain: p };
 symbolize(uiRefs);
 
-const initTransform = {
-    'a,main':innerTemplate,
-    '"': [templStampSym, uiRefs],
-} as TransformValueOptions;
+const initTransform = ({linkEverything}: XtalLinkPreviewBase) => ({
+    a: linkEverything ? innerTemplate : false,
+    main: linkEverything ? false : innerTemplate,
+    'a,main': [templStampSym, uiRefs],
+} as TransformValueOptions);
 
 
 const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
@@ -106,9 +104,7 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
         return this.viewModel !== undefined;
     }
 
-    get mainTemplate(){
-        return this.linkEverything ? mainTemplateWithOuterLink : mainTemplateWithInnerLink;
-    }
+    mainTemplate = mainTemplate;
 
     initTransform = initTransform;
 
