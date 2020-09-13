@@ -48,11 +48,13 @@ img {
 }
 
 
-main details>summary{
+summary{
     list-style:none;
+    margin-top: 5px;
+    font-weight: 800;
 }
 
-main details>summary::-webkit-details-marker {
+summary::-webkit-details-marker {
     display: none;
 }
 
@@ -61,10 +63,6 @@ a:link{
 }
 
 
-main details>summary {
-    margin-top: 5px;
-    font-weight: 800;
-}
 
 main details p {
     text-align: left;
