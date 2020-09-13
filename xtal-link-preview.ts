@@ -37,7 +37,7 @@ main:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-main>div {
+[part="linkContainer"] {
     display: flex;
     flex-direction:row;
     align-self:self-start;
