@@ -1,35 +1,14 @@
 import { XtalFetchViewElement, define, symbolize, p } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
-const uiRefs = {
-    bigAMainSym: p,
-    innerAMainSym: p,
-    hyperLinkContainer: p,
-    spanContainer: p,
-    summarySym: p,
-    pSym: p,
-    imgSym: p,
-    bigASym: p,
-    spanSym: p,
-    littleASym: p
-};
-symbolize(uiRefs);
-const mainTemplate = createTemplate(/* html */ `
+import { templStampSym } from 'trans-render/standardPlugins.js';
+const mainTemplateWithInnerLink = createTemplate(/* html */ `
 <main part=main></main>
 `);
-const initTransform = ({ linkEverything, self }) => ({
-    main: [linkEverything, hyperlinkedTemplate, { yesSym: uiRefs.bigAMainSym, noSym: uiRefs.innerAMainSym }, innerTemplate],
-    [uiRefs.bigAMainSym]: {
-        a: uiRefs.bigASym,
-        '"': innerTemplate,
-        '""': innerTemplateInitTransform({ linkEverything })
-    },
-    [uiRefs.innerAMainSym]: innerTemplateInitTransform({ linkEverything })
-});
-const hyperlinkedTemplate = createTemplate(/* html */ `
-    <a part=hyperlink target=_blank></a>
+const mainTemplateWithOuterLink = createTemplate(/* html */ `
+<a part="outerLink" target=_blank></a>
 `);
 const innerTemplate = createTemplate(/* html */ `
-    <img part=image/>
+    <img part=image></img>
     <details open part=details>
         <summary part=summary></summary>
         <p part=p></p>
@@ -42,24 +21,14 @@ const innerTemplate = createTemplate(/* html */ `
             </g>
         </svg>
     </div>
+    <a part=innerLink target=_blank></a>
 `);
-const innerTemplateInitTransform = ({ linkEverything }) => ({
-    img: uiRefs.imgSym,
-    details: {
-        summary: uiRefs.summarySym,
-        p: uiRefs.pSym
-    },
-    div: [linkEverything, spanTemplate, { yesSym: uiRefs.spanContainer, noSym: uiRefs.hyperLinkContainer }, hyperlinkedTemplate],
-    [uiRefs.hyperLinkContainer]: {
-        a: uiRefs.littleASym,
-    },
-    [uiRefs.spanContainer]: {
-        span: uiRefs.spanSym
-    }
-});
-const spanTemplate = createTemplate(/* html */ `
-    <span part=hyperlink></span>
-`);
+const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p };
+symbolize(uiRefs);
+const initTransform = {
+    'a,main': innerTemplate,
+    '"': [templStampSym, uiRefs],
+};
 const linkDomainName = ({ self, href }) => {
     const splitHref = href.split('/');
     const domain = splitHref[2];
@@ -68,19 +37,19 @@ const linkDomainName = ({ self, href }) => {
 };
 const updateTransforms = [
     ({ viewModel }) => ({
-        [uiRefs.summarySym]: viewModel.title,
-        [uiRefs.pSym]: viewModel.description,
+        [uiRefs.summary]: viewModel.title,
+        [uiRefs.p]: viewModel.description,
     }),
     ({ imageWidth, viewModel }) => ({
-        [uiRefs.imgSym]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
+        [uiRefs.image]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
     }),
     ({ href, linkEverything }) => ({
-        [uiRefs.bigASym]: [, , { href: linkEverything ? href : null }],
-        [uiRefs.littleASym]: [, , { href: href }]
+        [uiRefs.outerLink]: [, , { href: href }],
+        [uiRefs.innerLink]: linkEverything ? false : [{ textContent: href, href: href }]
     }),
     ({ domainName }) => ({
-        [uiRefs.spanSym]: domainName,
-        [uiRefs.littleASym]: domainName,
+        //[uiRefs.spanSym]: domainName,
+        [uiRefs.innerLink]: domainName,
     }),
 ];
 /**
@@ -96,8 +65,6 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     constructor() {
         super();
         this.noShadow = true;
-        this.readyToRender = true;
-        this.mainTemplate = mainTemplate;
         this.initTransform = initTransform;
         this.propActions = [linkDomainName];
         this.updateTransforms = updateTransforms;
@@ -105,6 +72,12 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     }
     get readyToInit() {
         return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
+    }
+    get readyToRender() {
+        return this.viewModel !== undefined;
+    }
+    get mainTemplate() {
+        return this.linkEverything ? mainTemplateWithOuterLink : mainTemplateWithInnerLink;
     }
     //imageSrc: string;
     filterInitData(data) {

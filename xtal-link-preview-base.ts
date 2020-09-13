@@ -1,44 +1,22 @@
 import {XtalFetchViewElement, define, AttributeProps, symbolize, p} from 'xtal-element/XtalFetchViewElement.js';
 import {createTemplate} from 'trans-render/createTemplate.js';
-import {SelectiveUpdate, TransformGetter} from 'xtal-element/types.d.js';
-import {TransformValueOptions, CATMINT, TransformMatch} from 'trans-render/types2.d.js';
+import {SelectiveUpdate} from 'xtal-element/types.d.js';
+import {TransformValueOptions, CATMINT_Conditional} from 'trans-render/types.d.js';
+import { templStampSym} from 'trans-render/standardPlugins.js';
 import {LinkPreviewViewModel} from './types.d.js';
 
-const uiRefs = {
-    bigAMainSym: p,
-    innerAMainSym: p,
-    hyperLinkContainer: p,
-    spanContainer: p,
-    summarySym: p,
-    pSym: p,
-    imgSym: p,
-    bigASym: p,
-    spanSym: p,
-    littleASym: p
-};
-symbolize(uiRefs);
 
-const mainTemplate = createTemplate(/* html */`
+
+const mainTemplateWithInnerLink = createTemplate(/* html */`
 <main part=main></main>
 `);
 
-
-const initTransform = ({linkEverything, self}: XtalLinkPreviewBase) => ({
-    main: [linkEverything, hyperlinkedTemplate, {yesSym: uiRefs.bigAMainSym, noSym: uiRefs.innerAMainSym}, innerTemplate] as CATMINT,
-    [uiRefs.bigAMainSym]: {
-        a: uiRefs.bigASym,
-        '"': innerTemplate,
-        '""': innerTemplateInitTransform({linkEverything})
-    },
-    [uiRefs.innerAMainSym]: innerTemplateInitTransform({linkEverything})
-} as TransformValueOptions) as TransformGetter;
-
-const hyperlinkedTemplate = createTemplate(/* html */`
-    <a part=hyperlink target=_blank></a>
+const mainTemplateWithOuterLink = createTemplate(/* html */`
+<a part="outerLink" target=_blank></a>
 `);
 
 const innerTemplate = createTemplate(/* html */`
-    <img part=image/>
+    <img part=image></img>
     <details open part=details>
         <summary part=summary></summary>
         <p part=p></p>
@@ -51,28 +29,17 @@ const innerTemplate = createTemplate(/* html */`
             </g>
         </svg>
     </div>
+    <a part=innerLink target=_blank></a>
 `);
 
+const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p };
+symbolize(uiRefs);
 
+const initTransform = {
+    'a,main':innerTemplate,
+    '"': [templStampSym, uiRefs],
+} as TransformValueOptions;
 
-const innerTemplateInitTransform = ({linkEverything}: ILinkEverything) => ({
-    img: uiRefs.imgSym,
-    details:{
-        summary: uiRefs.summarySym,
-        p: uiRefs.pSym
-    },
-    div: [linkEverything, spanTemplate,{yesSym: uiRefs.spanContainer, noSym: uiRefs.hyperLinkContainer}, hyperlinkedTemplate]  as CATMINT,
-    [uiRefs.hyperLinkContainer]:{
-        a: uiRefs.littleASym,
-    },
-    [uiRefs.spanContainer]:{
-        span: uiRefs.spanSym
-    }
-} as TransformValueOptions);
-
-const spanTemplate = createTemplate(/* html */`
-    <span part=hyperlink></span>
-`);
 
 const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
     const splitHref = href.split('/');
@@ -83,19 +50,19 @@ const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
 
 const updateTransforms = [
     ({viewModel}: XtalLinkPreviewBase) => ({
-        [uiRefs.summarySym]: viewModel.title,
-        [uiRefs.pSym]: viewModel.description,
+        [uiRefs.summary]: viewModel.title,
+        [uiRefs.p]: viewModel.description,
     }),
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
-        [uiRefs.imgSym]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
+        [uiRefs.image]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
     ({href, linkEverything}: XtalLinkPreviewBase) => ({
-        [uiRefs.bigASym]:[,,{href: linkEverything ? href : null}],
-        [uiRefs.littleASym]:[,,{href: href}]
+        [uiRefs.outerLink]: [,,{href: href}],
+        [uiRefs.innerLink]: linkEverything ? false : [{textContent: href, href: href}]
     }),
     ({domainName}: XtalLinkPreviewBase) => ({
-        [uiRefs.spanSym]: domainName,
-        [uiRefs.littleASym]: domainName,
+        //[uiRefs.spanSym]: domainName,
+        [uiRefs.innerLink]: domainName,
     }),
     
 
@@ -139,9 +106,13 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
         return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
     }
 
-    readyToRender = true;
+    get readyToRender(){
+        return this.viewModel !== undefined;
+    }
 
-    mainTemplate = mainTemplate;
+    get mainTemplate(){
+        return this.linkEverything ? mainTemplateWithOuterLink : mainTemplateWithInnerLink;
+    }
 
     initTransform = initTransform;
 
