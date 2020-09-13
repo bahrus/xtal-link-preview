@@ -7,8 +7,8 @@ import {LinkPreviewViewModel} from './types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
-<main part=main></main>
-<a part="outerLink" target=_blank></a>
+    <main part=main></main>
+    <a part="outerLink" target=_blank></a>
 `);
 
 
@@ -35,8 +35,9 @@ symbolize(uiRefs);
 
 const initTransform = ({linkEverything}: XtalLinkPreviewBase) => ({
     a: linkEverything ? innerTemplate : false,
+    outerLinkPart: linkEverything ? [templStampSym, uiRefs]: false,
     main: linkEverything ? false : innerTemplate,
-    'a,main': [templStampSym, uiRefs],
+    mainPart: linkEverything ? false : [templStampSym, uiRefs],
 } as TransformValueOptions);
 
 
@@ -48,11 +49,11 @@ const linkDomainName = ({self, href}: XtalLinkPreviewBase) => {
 }
 
 const updateTransforms = [
-    ({viewModel}: XtalLinkPreviewBase) => ({
+    ({viewModel, linkEverything}: XtalLinkPreviewBase) => ({
         [uiRefs.summary]: viewModel.title,
         [uiRefs.p]: viewModel.description,
     }),
-    ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
+    ({imageWidth, viewModel, linkEverything}: XtalLinkPreviewBase) => ({
         [uiRefs.image]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
     ({href, linkEverything, domainName}: XtalLinkPreviewBase) => ({
@@ -100,9 +101,10 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
         return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
     }
 
-    get readyToRender(){
-        return this.viewModel !== undefined;
-    }
+    // get readyToRender(){
+    //     return this.viewModel !== undefined;
+    // }
+    readyToRender = true;
 
     mainTemplate = mainTemplate;
 

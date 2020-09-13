@@ -8,8 +8,8 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-element": "0.0.295",
-    "trans-render": "0.0.255"
+    "xtal-element": "0.0.296",
+    "trans-render": "0.0.256"
   },
   "devDependencies": {
     "es-module-shims": "0.5.2",

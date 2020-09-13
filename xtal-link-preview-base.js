@@ -2,8 +2,8 @@ import { XtalFetchViewElement, define, symbolize, p } from 'xtal-element/XtalFet
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { templStampSym } from 'trans-render/standardPlugins.js';
 const mainTemplate = createTemplate(/* html */ `
-<main part=main></main>
-<a part="outerLink" target=_blank></a>
+    <main part=main></main>
+    <a part="outerLink" target=_blank></a>
 `);
 const innerTemplate = createTemplate(/* html */ `
     <img part="image"/>
@@ -26,8 +26,9 @@ const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p
 symbolize(uiRefs);
 const initTransform = ({ linkEverything }) => ({
     a: linkEverything ? innerTemplate : false,
+    outerLinkPart: linkEverything ? [templStampSym, uiRefs] : false,
     main: linkEverything ? false : innerTemplate,
-    'a,main': [templStampSym, uiRefs],
+    mainPart: linkEverything ? false : [templStampSym, uiRefs],
 });
 const linkDomainName = ({ self, href }) => {
     const splitHref = href.split('/');
@@ -36,11 +37,11 @@ const linkDomainName = ({ self, href }) => {
     self.domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
 };
 const updateTransforms = [
-    ({ viewModel }) => ({
+    ({ viewModel, linkEverything }) => ({
         [uiRefs.summary]: viewModel.title,
         [uiRefs.p]: viewModel.description,
     }),
-    ({ imageWidth, viewModel }) => ({
+    ({ imageWidth, viewModel, linkEverything }) => ({
         [uiRefs.image]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
     }),
     ({ href, linkEverything, domainName }) => ({
@@ -62,6 +63,10 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     constructor() {
         super();
         this.noShadow = true;
+        // get readyToRender(){
+        //     return this.viewModel !== undefined;
+        // }
+        this.readyToRender = true;
         this.mainTemplate = mainTemplate;
         this.initTransform = initTransform;
         this.propActions = [linkDomainName];
@@ -70,9 +75,6 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
     }
     get readyToInit() {
         return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
-    }
-    get readyToRender() {
-        return this.viewModel !== undefined;
     }
     //imageSrc: string;
     filterInitData(data) {
