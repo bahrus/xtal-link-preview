@@ -16,7 +16,7 @@ const mainTemplateWithOuterLink = createTemplate(/* html */`
 `);
 
 const innerTemplate = createTemplate(/* html */`
-    <img part=image></img>
+    <img part="image"/>
     <details open part=details>
         <summary part=summary></summary>
         <p part=p></p>
@@ -30,9 +30,10 @@ const innerTemplate = createTemplate(/* html */`
         </svg>
     </div>
     <a part=innerLink target=_blank></a>
+    <span part=domain></span>
 `);
 
-const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p };
+const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p, domain: p };
 symbolize(uiRefs);
 
 const initTransform = {
@@ -56,14 +57,15 @@ const updateTransforms = [
     ({imageWidth, viewModel}: XtalLinkPreviewBase) => ({
         [uiRefs.image]:[{alt: viewModel.title, style: {width: imageWidth}, src: viewModel.imageSrc}]
     }),
-    ({href, linkEverything}: XtalLinkPreviewBase) => ({
+    ({href, linkEverything, domainName}: XtalLinkPreviewBase) => ({
         [uiRefs.outerLink]: [,,{href: href}],
-        [uiRefs.innerLink]: linkEverything ? false : [{textContent: href, href: href}]
+        [uiRefs.innerLink]: linkEverything ? false : [{textContent: domainName, href: href}],
+        [uiRefs.domain]: linkEverything ? [{textContent: domainName}] : false,
     }),
-    ({domainName}: XtalLinkPreviewBase) => ({
-        //[uiRefs.spanSym]: domainName,
-        [uiRefs.innerLink]: domainName,
-    }),
+    // ({domainName}: XtalLinkPreviewBase) => ({
+    //     //[uiRefs.spanSym]: domainName,
+    //     [uiRefs.innerLink]: domainName,
+    // }),
     
 
 ] as SelectiveUpdate<any>[];

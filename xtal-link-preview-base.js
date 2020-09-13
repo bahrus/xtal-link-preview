@@ -8,7 +8,7 @@ const mainTemplateWithOuterLink = createTemplate(/* html */ `
 <a part="outerLink" target=_blank></a>
 `);
 const innerTemplate = createTemplate(/* html */ `
-    <img part=image></img>
+    <img part="image"/>
     <details open part=details>
         <summary part=summary></summary>
         <p part=p></p>
@@ -22,8 +22,9 @@ const innerTemplate = createTemplate(/* html */ `
         </svg>
     </div>
     <a part=innerLink target=_blank></a>
+    <span part=domain></span>
 `);
-const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p };
+const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p, domain: p };
 symbolize(uiRefs);
 const initTransform = {
     'a,main': innerTemplate,
@@ -43,13 +44,10 @@ const updateTransforms = [
     ({ imageWidth, viewModel }) => ({
         [uiRefs.image]: [{ alt: viewModel.title, style: { width: imageWidth }, src: viewModel.imageSrc }]
     }),
-    ({ href, linkEverything }) => ({
+    ({ href, linkEverything, domainName }) => ({
         [uiRefs.outerLink]: [, , { href: href }],
-        [uiRefs.innerLink]: linkEverything ? false : [{ textContent: href, href: href }]
-    }),
-    ({ domainName }) => ({
-        //[uiRefs.spanSym]: domainName,
-        [uiRefs.innerLink]: domainName,
+        [uiRefs.innerLink]: linkEverything ? false : [{ textContent: domainName, href: href }],
+        [uiRefs.domain]: linkEverything ? [{ textContent: domainName }] : false,
     }),
 ];
 /**
