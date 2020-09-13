@@ -62,7 +62,7 @@ a:link{
 
 
 
-main details p {
+p, summary, a, svg {
     text-align: left;
     margin-left: 5px;
 }
