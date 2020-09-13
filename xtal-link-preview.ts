@@ -1,6 +1,6 @@
 import { XtalLinkPreviewBase } from "./xtal-link-preview-base.js";
 import { define } from "xtal-element/xtal-latx.js";
-import { RenderContext, RenderOptions } from "trans-render/types2.d.js";
+import { RenderContext, RenderOptions } from "trans-render/types.d.js";
 
 const template = document.createElement('template');
 template.innerHTML = /* html */`

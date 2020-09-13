@@ -62,12 +62,6 @@ const updateTransforms = [
         [uiRefs.innerLink]: linkEverything ? false : [{textContent: domainName, href: href}],
         [uiRefs.domain]: linkEverything ? [{textContent: domainName}] : false,
     }),
-    // ({domainName}: XtalLinkPreviewBase) => ({
-    //     //[uiRefs.spanSym]: domainName,
-    //     [uiRefs.innerLink]: domainName,
-    // }),
-    
-
 ] as SelectiveUpdate<any>[];
 
 
