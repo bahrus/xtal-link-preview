@@ -31,6 +31,10 @@ const innerTemplate = createTemplate(/* html */`
     
 `);
 
+const splitPath = import.meta.url.split('/');
+splitPath.pop();
+navigator.serviceWorker.register(splitPath.join('/') +  '/sw.js');
+
 const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p, domain: p };
 symbolize(uiRefs);
 
@@ -78,6 +82,8 @@ const updateTransforms = [
 export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewModel> {
     static is = 'xtal-link-preview-base';
 
+
+
     noShadow = true;
 
     static attributeProps = ({href, baseLinkId, disabled, preview, imageWidth, eventScopes, linkEverything, domainName}: XtalLinkPreviewBase) =>({
@@ -96,6 +102,11 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewMod
     constructor() {
         super();
         this.as = 'text';
+        this.reqInit = {
+            headers:{
+                'xtal-link-preview': 'v0'
+            }
+        };
     }
 
     get readyToInit(){

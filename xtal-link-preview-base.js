@@ -23,6 +23,9 @@ const innerTemplate = createTemplate(/* html */ `
     </div>
     
 `);
+const splitPath = import.meta.url.split('/');
+splitPath.pop();
+navigator.serviceWorker.register(splitPath.join('/') + '/sw.js');
 const uiRefs = { main: p, outerLink: p, summary: p, p: p, image: p, innerLink: p, domain: p };
 symbolize(uiRefs);
 const initTransform = ({ linkEverything }) => ({
@@ -73,6 +76,11 @@ export class XtalLinkPreviewBase extends XtalFetchViewElement {
         this.propActions = [linkDomainName];
         this.updateTransforms = updateTransforms;
         this.as = 'text';
+        this.reqInit = {
+            headers: {
+                'xtal-link-preview': 'v0'
+            }
+        };
     }
     get readyToInit() {
         return this.preview && !this.disabled && this.href !== undefined && this.baseLinkId !== undefined && this.imageWidth !== undefined;
