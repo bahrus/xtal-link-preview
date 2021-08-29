@@ -7,6 +7,9 @@
 		"newLine": "LF",
 		"watch": true
 	},
+	"files":[
+		"xtal-link-preview-base2.ts"
+	],
 	"exclude":[
 		"node_modules"
 	]

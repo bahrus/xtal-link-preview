@@ -3,7 +3,7 @@ import {createTemplate} from 'trans-render/createTemplate.js';
 import {SelectiveUpdate} from 'xtal-element/types.d.js';
 import {TransformValueOptions, CATMINT_Conditional} from 'trans-render/types.d.js';
 import { templStampSym} from 'trans-render/standardPlugins.js';
-import {LinkPreviewViewModel} from './types.d.js';
+import {LinkPreviewProps} from './types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -79,7 +79,7 @@ const updateTransforms = [
 * @polymer
 * @demo demo/index.html
 */
-export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewViewModel> {
+export class XtalLinkPreviewBase extends XtalFetchViewElement<LinkPreviewProps> {
     static is = 'xtal-link-preview-base';
 
 

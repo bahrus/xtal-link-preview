@@ -9,11 +9,11 @@
   "license": "MIT",
   "dependencies": {
     "xtal-element": "0.0.435",
-    "trans-render": "0.0.350"
+    "trans-render": "0.0.354"
   },
   "devDependencies": {
     "xtal-test": "0.0.51",
-    "p-et-alia": "0.0.115"
+    "pass-down": "0.0.89"
   },
   "scripts": {
     "test": "node test/test-all.js",
