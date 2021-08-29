@@ -8,14 +8,11 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-element": "0.0.297",
-    "trans-render": "0.0.257"
+    "xtal-element": "0.0.435",
+    "trans-render": "0.0.350"
   },
   "devDependencies": {
-    "es-module-shims": "0.5.2",
-    "xtal-test": "0.0.48",
-    "es-dev-server": "1.57.4",
-    "api-viewer-element": "0.4.4",
+    "xtal-test": "0.0.51",
     "p-et-alia": "0.0.115"
   },
   "scripts": {
