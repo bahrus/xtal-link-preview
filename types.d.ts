@@ -15,6 +15,7 @@ export interface LinkPreviewProps{
     __baseLinkId: string;
     // baseLinkIdProps: NodeListOf<HTMLElement>;
     linkEverything: boolean;
+    __linkEverything: boolean;
     openBordersElements: NodeListOf<OpenBordersProps & HTMLElement>;
 }
 

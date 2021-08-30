@@ -12,7 +12,6 @@
     "trans-render": "0.0.365",
     "open-borders": "0.0.7",
     "xtal-fetch": "0.0.104",
-    "pass-prop": "0.0.25",
     "pass-down": "0.0.92"
   },
   "devDependencies": {
