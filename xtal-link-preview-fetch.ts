@@ -38,10 +38,15 @@ export class XtalLinkPreviewFetchCore extends XtalFetch{
         }else{
             title = title.replace(description, '');
         }
+        const splitHref = this.href.split('/');
+        const domain = splitHref[2];
+        const splitDomain = domain.split('.');
+        const domainName = splitDomain[splitDomain.length - 2] + '.' + splitDomain[splitDomain.length - 1];
         this.viewModel = {
             description,
             imageSrc,
-            title
+            title,
+            domainName
         };
         return result;
     }

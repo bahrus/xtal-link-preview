@@ -4,6 +4,7 @@ export interface LinkPreviewViewModel{
     title: string;
     description: string;
     imageSrc: string;
+    domainName: string;
 }
 
 export interface LinkPreviewProps{

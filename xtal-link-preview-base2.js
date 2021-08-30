@@ -3,7 +3,7 @@ import { tm } from 'trans-render/lib/mixins/TemplMgmtWithPEST.js';
 import('open-borders/open-borders.js');
 import('./xtal-link-preview-fetch.js');
 import('pass-prop/pass-prop.js');
-import('pass-down/pass-down.js');
+import('pass-down/p-d.js');
 const mainTemplate = tm.html `
     <main part=main></main>
     <pass-prop from-host observe-prop="__href" to=[-href] m=1></pass-prop>
@@ -12,15 +12,15 @@ const mainTemplate = tm.html `
     <open-borders be-born -target>
         <template>
             <div>
-                <pass-prop from-host observe-prop="__href" to=[-href] m=1></pass-prop>
+                <p-d observe-host vft=__href to=[-href] m=1></p-d>
                 <pass-prop from-host observe-prop="__baseLinkId" to=[-base-link-id]></pass-prop>
                 <xtal-link-preview-fetch fetch -href -base-link-id></xtal-link-preview-fetch>
-                <pass-down on=view-model-changed to=[-src] vft=viewModel.imageSrc m=1></pass-down>
-                <pass-down on=view-model-changed to=details care-of=summary[-text-content] vft=viewModel.title m=1></pass-down>
-                <pass-down on=view-model-changed to=details care-of=p[-text-content] vft=viewModel.description m=1></pass-down>
+                <p-d on=view-model-changed to=[-src] vft=viewModel.imageSrc m=1></p-d>                
                 <img part="image" -src/>
                 <details open part=details>
+                    <p-d observe=xtal-link-preview-fetch on=view-model-changed to=[-text-content] vft=viewModel.title m=1></p-d>
                     <summary part=summary -text-content></summary>
+                    <p-d observe=xtal-link-preview-fetch on=view-model-changed to=[-text-content] vft=viewModel.description m=1></p-d>
                     <p part=p -text-content></p>
                 </details>
                 <div part=linkContainer>
@@ -30,8 +30,11 @@ const mainTemplate = tm.html `
                             <path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path>
                         </g>
                     </svg>
-                    <a -href part=innerLink target=_blank></a>
-                    <span part=domain></span>
+                    <pass-prop from-host observe-prop="__href" to=[-href] m=1></pass-prop>
+                    <pass-prop from-host observe-prop="linkEverything" to=[-data-link-everything] m=2></pass-prop>
+                    <p-d observe=xtal-link-preview-fetch on=view-model-changed to=[-text-content] vft=viewModel.domainName m=2></p-d>
+                    <a -href part=innerLink -data-link-everything target=_blank -text-content></a>
+                    <span part=domain -data-link-everything -text-content></span>
                 </div>            
             </div>
         </template>
