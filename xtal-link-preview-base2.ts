@@ -20,7 +20,8 @@ const mainTemplate = tm.html`
                 <pass-prop from-host observe-prop="__href" to=[-href] m=1></pass-prop>
                 <pass-prop from-host observe-prop="__baseLinkId" to=[-base-link-id]></pass-prop>
                 <xtal-link-preview-fetch fetch -href -base-link-id></xtal-link-preview-fetch>
-                <pass-down on=view-model-changed to=[-src] val=target.viewModel.imageSrc m=1></pass-down>
+                <pass-down on=view-model-changed to=[-src] vft=viewModel.imageSrc m=1></pass-down>
+                
                 <img part="image" -src/>
                 <details open part=details>
                     <summary part=summary></summary>
