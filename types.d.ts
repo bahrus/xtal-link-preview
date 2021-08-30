@@ -8,8 +8,10 @@ export interface LinkPreviewViewModel{
 
 export interface LinkPreviewProps{
     href: string;
+    __href: string;
     // hrefProps: NodeListOf<HTMLElement>;
     baseLinkId: string;
+    __baseLinkId: string;
     // baseLinkIdProps: NodeListOf<HTMLElement>;
     linkEverything: boolean;
     openBordersElements: NodeListOf<OpenBordersProps & HTMLElement>;

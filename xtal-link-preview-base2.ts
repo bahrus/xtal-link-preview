@@ -10,13 +10,14 @@ import ('pass-prop/pass-prop.js');
 
 const mainTemplate = tm.html`
     <main part=main></main>
-    <pass-prop from-host observe-prop="href" to=[-href] m=1></pass-prop>
+    <pass-prop from-host observe-prop="__href" to=[-href] m=1></pass-prop>
     <a -href part="outerLink" target=_blank></a>
     
     <open-borders be-born -target>
         <template>
             <div>
-                <pass-prop from-host observe-prop="href" to=[-href] m=1></pass-prop>
+                <pass-prop from-host observe-prop="__href" to=[-href] m=1></pass-prop>
+                <pass-prop from-host observe-prop="__baseLinkId" to=[-base-link-id]></pass-prop>
                 <xtal-link-preview-fetch fetch -href -base-link-id></xtal-link-preview-fetch>
                 <img part="image"/>
                 <details open part=details>
@@ -39,8 +40,8 @@ const mainTemplate = tm.html`
     </open-borders>
 `;
 
-const setHref = ({href}: LinkPreviewProps) => ({href});
-const setBaseLinkId = ({baseLinkId}: LinkPreviewProps) => ({baseLinkId});
+// const setHref = ({href}: LinkPreviewProps) => ({href});
+// const setBaseLinkId = ({baseLinkId}: LinkPreviewProps) => ({baseLinkId});
 const setOpenBordersTarget = ({linkEverything}: LinkPreviewProps) => ({
     target: linkEverything ? '../a' : '../main',
 } as Partial<OpenBordersProps>);
@@ -69,10 +70,25 @@ const xe = new XE<LinkPreviewProps & TemplMgmtProps, LinkPreviewActions & TemplM
             openBordersElements: isRef,
             href:{
                 notify:{
-                    reflect:{
-                        asAttr: true
-                    }
+                    // reflect:{
+                    //     //asAttr: true
+                    // },
+                    echoTo: '__href'
                 }
+            },
+            baseLinkId:{
+                notify:{
+                    // reflect:{
+                    //     asAttr: true,
+                    // },
+                    echoTo: '__baseLinkId',
+                }
+            },
+            __href:{
+                notify:{dispatch: true}
+            },
+            __baseLinkId:{
+                notify:{dispatch: true}
             }
         },
         actions:{
