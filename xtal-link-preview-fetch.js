@@ -75,6 +75,11 @@ const xe = new XE({
         propDefaults: {
             as: 'text'
         },
+        propInfo: {
+            viewModel: {
+                notify: { dispatch: true }
+            }
+        }
     },
     superclass: XtalLinkPreviewFetchCore
 });

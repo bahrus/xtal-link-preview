@@ -80,6 +80,11 @@ const xe = new XE<XtalLinkPreviewFetchProps & XtalFetchProps>({
         propDefaults:{
             as: 'text'
         },
+        propInfo:{
+            viewModel:{
+                notify:{dispatch:true}
+            }
+        }
 
     },
     superclass: XtalLinkPreviewFetchCore
