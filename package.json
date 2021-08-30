@@ -8,8 +8,10 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-element": "0.0.435",
-    "trans-render": "0.0.354"
+    "xtal-element": "0.0.437",
+    "trans-render": "0.0.357",
+    "open-borders": "0.0.7",
+    "xtal-fetch": "0.0.104"
   },
   "devDependencies": {
     "xtal-test": "0.0.51",

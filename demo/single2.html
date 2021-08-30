@@ -5,39 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel=preconnect id=corsAnywhere href=https://cors-anywhere.herokuapp.com/>
+    <link rel=preconnect id=corsAnywhere href=https://cors.bridged.cc/>
 </head>
 <body>
-    <div>
-        <div>
-            <input id=href value=https://www.cbc.ca/news/politics/letter-release-meng-1.5625669 style="width:700px">
-            <p-d on=input to=[-href] m=1></p-d>
-            <button -href>Change</button>
-            <p-d on=click to=[-href] m=1 val=target.href skip-init></p-d>
-            <div>
-                <label>Link Everything <input type=checkbox></label>
-            </div>
-            <p-d on=change to=[-link-everything] skip-init val=target.checked m=1></p-d>
-            <xtal-link-preview-base -href -link-everything  preview href="https://onsen.io" base-link-id=corsAnywhere>
-                <div slot="loading">
-                    I am here
-                </div>
-            </xtal-link-preview-base>
 
-        </div>
-        
-        
-        <script type=importmap>
-        {
-          "imports": {
-            "xtal-element/": "../node_modules/xtal-element/",
-            "trans-render/": "../node_modules/trans-render/"
-          }
-        }
-        </script>
-        <script  type=module>
-            import '../xtal-link-preview-base2.js';
-        </script>
+    <input id=href value=https://www.cbc.ca/news/politics/letter-release-meng-1.5625669 style="width:700px">
+    <p-d on=input to=[-href] m=1></p-d>
+    <button -href>Change</button>
+    <p-d on=click to=[-href] m=1 val=target.href skip-init></p-d>
+    <div>
+        <label>Link Everything <input type=checkbox></label>
     </div>
+    <p-d on=change to=[-link-everything] skip-init val=target.checked m=1></p-d>
+    <xtal-link-preview-base -href -link-everything  preview base-link-id=corsAnywhere href="https://onsen.io" >
+        <div slot="loading">
+            I am here
+        </div>
+    </xtal-link-preview-base>
+
+    <script type=importmap>
+    {
+        "imports": {
+            "xtal-element/": "../node_modules/xtal-element/",
+            "trans-render/": "../node_modules/trans-render/",
+            "open-borders/": "../node_modules/open-borders/",
+            "xtal-shell/": "../node_modules/xtal-shell/",
+            "xtal-fetch/": "../node_modules/xtal-fetch/"
+        }
+    }
+    </script>
+    <script  type=module>
+        import '../xtal-link-preview-base2.js';
+    </script>
 </body>
 </html>
