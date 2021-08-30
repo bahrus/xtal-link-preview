@@ -8,7 +8,8 @@
 		"watch": true
 	},
 	"files":[
-		"xtal-link-preview-base2.ts"
+		"xtal-link-preview-base2.ts",
+		"xtal-link-preview-fetch.ts"
 	],
 	"exclude":[
 		"node_modules"

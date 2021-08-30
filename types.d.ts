@@ -8,15 +8,19 @@ export interface LinkPreviewViewModel{
 
 export interface LinkPreviewProps{
     href: string;
-    hrefProps: NodeListOf<HTMLElement>;
+    // hrefProps: NodeListOf<HTMLElement>;
     baseLinkId: string;
-    baseLinkIdProps: NodeListOf<HTMLElement>;
+    // baseLinkIdProps: NodeListOf<HTMLElement>;
     linkEverything: boolean;
     openBordersElements: NodeListOf<OpenBordersProps & HTMLElement>;
 }
 
 export interface LinkPreviewActions{
-    setHref: (self: this) => {href: string};
-    setBaseLinkId: (self: this) => {baseLinkId: string};
+    //setHref: (self: this) => {href: string};
+    //setBaseLinkId: (self: this) => {baseLinkId: string};
     setOpenBordersTarget: (self: this) => Partial<OpenBordersProps>;
+}
+
+export interface XtalLinkPreviewFetchProps{
+    viewModel: LinkPreviewViewModel;
 }
