@@ -9,10 +9,10 @@
 </head>
 <body>
 
-    <input id=href value=https://www.cbc.ca/news/politics/letter-release-meng-1.5625669 style="width:700px">
-    <p-d on=input to=[-href] m=1></p-d>
-    <button -href>Change</button>
-    <p-d on=click to=[-href] m=1 val=target.href skip-init></p-d>
+    <input id=href value=https://onsen.io style="width:700px">
+    <p-d on=input vft=value to=[-data-href] m=1 as=str-attr></p-d>
+    <button -data-href>Change</button>
+    <p-d on=click to=[-href] m=1 vft=dataset.href></p-d>
     <div>
         <label>Link Everything <input type=checkbox></label>
     </div>
