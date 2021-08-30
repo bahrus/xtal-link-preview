@@ -21,11 +21,12 @@ const mainTemplate = tm.html`
                 <pass-prop from-host observe-prop="__baseLinkId" to=[-base-link-id]></pass-prop>
                 <xtal-link-preview-fetch fetch -href -base-link-id></xtal-link-preview-fetch>
                 <pass-down on=view-model-changed to=[-src] vft=viewModel.imageSrc m=1></pass-down>
-                
+                <pass-down on=view-model-changed to=details care-of=summary[-text-content] vft=viewModel.title m=1></pass-down>
+                <pass-down on=view-model-changed to=details care-of=p[-text-content] vft=viewModel.description m=1></pass-down>
                 <img part="image" -src/>
                 <details open part=details>
-                    <summary part=summary></summary>
-                    <p part=p></p>
+                    <summary part=summary -text-content></summary>
+                    <p part=p -text-content></p>
                 </details>
                 <div part=linkContainer>
                     <svg viewBox="0 0 24 24" style="width:16.25px;height:16.25px">
