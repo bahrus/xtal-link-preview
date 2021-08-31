@@ -68,6 +68,10 @@ p, summary, a, svg {
 }
 </style>
 `;
+/**
+ * @tag xtal-link-preview
+ * @element xtal-link-preview
+ */
 export class XtalLinkPreview extends XtalLinkPreviewBase {
     static is = 'xtal-link-preview';
     doTemplMount(self, clonedTemplate) {

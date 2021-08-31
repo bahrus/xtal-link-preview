@@ -3,6 +3,10 @@ import {XE} from 'xtal-element/src/XE.js';
 import { XtalLinkPreviewFetchProps } from './types';
 import {XtalFetchProps} from 'xtal-fetch/types';
 
+/**
+ * @element xtal-link-preview-fetch
+ * @tag xtal-link-preview-fetch
+ */
 export class XtalLinkPreviewFetchCore extends XtalFetch{
     static is = 'xtal-link-preview-fetch';
     filterResult(result: string): any{
@@ -100,3 +104,9 @@ const xe = new XE<XtalLinkPreviewFetchProps & XtalFetchProps>({
     },
     superclass: XtalLinkPreviewFetchCore
 });
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "xtal-link-preview-fetch": XtalLinkPreviewFetchCore,
+    }
+}

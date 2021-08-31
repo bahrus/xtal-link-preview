@@ -132,4 +132,14 @@ const xe = new XE<LinkPreviewProps & TemplMgmtProps, LinkPreviewActions & TemplM
     mixins: [tm.TemplMgmtMixin]
 });
 
+/**
+ * @tag xtal-link-preview-base
+ * @element xtal-link-preview-base
+ */
 export const XtalLinkPreviewBase = xe.classDef!;
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "xtal-link-preview-base": XtalLinkPreviewBaseCore,
+    }
+}

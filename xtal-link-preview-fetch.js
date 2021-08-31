@@ -1,5 +1,9 @@
 import { XtalFetch } from 'xtal-fetch/xtal-fetch.js';
 import { XE } from 'xtal-element/src/XE.js';
+/**
+ * @element xtal-link-preview-fetch
+ * @tag xtal-link-preview-fetch
+ */
 export class XtalLinkPreviewFetchCore extends XtalFetch {
     static is = 'xtal-link-preview-fetch';
     filterResult(result) {

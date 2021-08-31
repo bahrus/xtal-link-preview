@@ -1,122 +1,367 @@
 {
-  "version": "experimental",
-  "tags": [
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
     {
-      "name": "",
-      "path": "./xtal-link-preview-base.js",
-      "description": "`xtal-link-preview`\nProvide preview of URL.",
-      "attributes": [
+      "kind": "javascript-module",
+      "path": "types.d.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-link-preview-base.js",
+      "declarations": [
         {
-          "name": "href",
-          "description": "URL (path) to fetch.",
-          "type": "string"
+          "kind": "class",
+          "description": "",
+          "name": "XtalLinkPreviewBaseCore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "setOpenBordersTarget",
+              "default": "setOpenBordersTarget"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
         },
         {
-          "name": "req-init",
-          "description": "Object to use for second parameter of fetch method.  Can parse the value from the attribute if the attribute is in JSON format.\r\nSupports JSON formatted attribute",
-          "type": "object"
-        },
-        {
-          "name": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
+          "kind": "variable",
+          "name": "XtalLinkPreviewBase"
         }
       ],
-      "properties": [
+      "exports": [
         {
-          "name": "as",
-          "type": "string",
-          "default": "\"text\""
+          "kind": "js",
+          "name": "XtalLinkPreviewBaseCore",
+          "declaration": {
+            "name": "XtalLinkPreviewBaseCore",
+            "module": "xtal-link-preview-base.js"
+          }
         },
         {
-          "name": "href",
-          "attribute": "href",
-          "description": "URL (path) to fetch.",
-          "type": "string"
+          "kind": "js",
+          "name": "XtalLinkPreviewBase",
+          "declaration": {
+            "name": "XtalLinkPreviewBase",
+            "module": "xtal-link-preview-base.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-link-preview-base.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "XtalLinkPreviewBaseCore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "setOpenBordersTarget",
+              "default": "setOpenBordersTarget"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
         },
         {
-          "name": "reqInit",
-          "attribute": "req-init",
-          "description": "Object to use for second parameter of fetch method.  Can parse the value from the attribute if the attribute is in JSON format.\r\nSupports JSON formatted attribute",
-          "type": "object"
+          "kind": "variable",
+          "name": "XtalLinkPreviewBase",
+          "default": "xe.classDef!"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "XtalLinkPreviewBaseCore",
+          "declaration": {
+            "name": "XtalLinkPreviewBaseCore",
+            "module": "xtal-link-preview-base.ts"
+          }
         },
         {
-          "name": "reqInitRequired",
-          "description": "Indicates that no fetch request should proceed until reqInit property / attribute is set.",
-          "type": "boolean"
-        },
+          "kind": "js",
+          "name": "XtalLinkPreviewBase",
+          "declaration": {
+            "name": "XtalLinkPreviewBase",
+            "module": "xtal-link-preview-base.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-link-preview-fetch.js",
+      "declarations": [
         {
-          "name": "initViewModel",
-          "type": "PromisedInitViewAngle<this, TInitViewModel, TRefreshViewModel>",
-          "default": "\"({href, reqInit} : Partial<XtalFetchViewElement<TInitViewModel, TRefreshViewModel>>) => new Promise<TInitViewModel>(resolve =>{\\r\\n        fetch(getFullURL(this, href!), reqInit).then(resp => resp[this.as]().then(data =>{\\r\\n            resolve(this.filterInitData(data));\\r\\n        }))\\r\\n    })\""
-        },
+          "kind": "class",
+          "description": "",
+          "name": "XtalLinkPreviewFetchCore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-link-preview-fetch'"
+            },
+            {
+              "kind": "method",
+              "name": "filterResult",
+              "parameters": [
+                {
+                  "name": "result"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getMetaContent",
+              "parameters": [
+                {
+                  "name": "htmlDoc"
+                },
+                {
+                  "name": "name"
+                },
+                {
+                  "name": "val"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getAbsPath",
+              "parameters": [
+                {
+                  "name": "imageSrc"
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "XtalFetch",
+            "package": "xtal-fetch/xtal-fetch.js"
+          },
+          "tagName": "xtal-link-preview-fetch",
+          "customElement": true
+        }
+      ],
+      "exports": [
         {
-          "name": "refreshViewModel",
-          "type": "PromisedRefreshViewAngles<this, InitViewModel, RefreshViewModel> | undefined"
-        },
+          "kind": "js",
+          "name": "XtalLinkPreviewFetchCore",
+          "declaration": {
+            "name": "XtalLinkPreviewFetchCore",
+            "module": "xtal-link-preview-fetch.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-link-preview-fetch.ts",
+      "declarations": [
         {
-          "name": "viewModel",
-          "type": "InitViewModel | RefreshViewModel"
-        },
+          "kind": "class",
+          "description": "",
+          "name": "XtalLinkPreviewFetchCore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-link-preview-fetch'"
+            },
+            {
+              "kind": "method",
+              "name": "filterResult",
+              "return": {
+                "type": {
+                  "text": "any"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getMetaContent",
+              "parameters": [
+                {
+                  "name": "htmlDoc",
+                  "type": {
+                    "text": "Document"
+                  }
+                },
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getAbsPath",
+              "parameters": [
+                {
+                  "name": "imageSrc",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "XtalFetch",
+            "package": "xtal-fetch/xtal-fetch.js"
+          },
+          "tagName": "xtal-link-preview-fetch",
+          "customElement": true
+        }
+      ],
+      "exports": [
         {
-          "name": "noShadow",
-          "type": "boolean",
-          "default": "true"
-        },
+          "kind": "js",
+          "name": "XtalLinkPreviewFetchCore",
+          "declaration": {
+            "name": "XtalLinkPreviewFetchCore",
+            "module": "xtal-link-preview-fetch.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-link-preview.js",
+      "declarations": [
         {
-          "name": "renderOptions",
-          "type": "RenderOptions"
-        },
+          "kind": "class",
+          "description": "",
+          "name": "XtalLinkPreview",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-link-preview'"
+            },
+            {
+              "kind": "method",
+              "name": "doTemplMount",
+              "parameters": [
+                {
+                  "name": "self"
+                },
+                {
+                  "name": "clonedTemplate"
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "XtalLinkPreviewBase",
+            "module": "/xtal-link-preview-base.js"
+          },
+          "tagName": "xtal-link-preview",
+          "customElement": true
+        }
+      ],
+      "exports": [
         {
-          "name": "mainTemplate",
-          "default": "\"mainTemplate\""
-        },
+          "kind": "js",
+          "name": "XtalLinkPreview",
+          "declaration": {
+            "name": "XtalLinkPreview",
+            "module": "xtal-link-preview.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-link-preview.ts",
+      "declarations": [
         {
-          "name": "initTransform",
-          "default": "\"initTransform\""
-        },
+          "kind": "class",
+          "description": "",
+          "name": "XtalLinkPreview",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-link-preview'"
+            },
+            {
+              "kind": "method",
+              "name": "doTemplMount",
+              "parameters": [
+                {
+                  "name": "self",
+                  "type": {
+                    "text": "this"
+                  }
+                },
+                {
+                  "name": "clonedTemplate",
+                  "type": {
+                    "text": "DocumentFragment"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "XtalLinkPreviewBase",
+            "module": "/xtal-link-preview-base.js"
+          },
+          "tagName": "xtal-link-preview",
+          "customElement": true
+        }
+      ],
+      "exports": [
         {
-          "name": "readyToInit",
-          "type": "boolean"
-        },
-        {
-          "name": "readyToRender",
-          "type": "boolean",
-          "default": "true"
-        },
-        {
-          "name": "updateTransforms",
-          "type": "(any | any | any)[]",
-          "default": "[null,null,null,null]"
-        },
-        {
-          "name": "root",
-          "type": "HTMLElement | ShadowRoot"
-        },
-        {
-          "name": "self",
-          "type": "this",
-          "default": "\"this\""
-        },
-        {
-          "name": "propActions",
-          "type": "array",
-          "default": "[\"linkDomainName\"]"
-        },
-        {
-          "name": "eventScopes",
-          "description": "Needed for asynchronous loading",
-          "type": "EventScopes | undefined"
-        },
-        {
-          "name": "disabled",
-          "attribute": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
-        },
-        {
-          "name": "baseLinkId",
-          "type": "string"
+          "kind": "js",
+          "name": "XtalLinkPreview",
+          "declaration": {
+            "name": "XtalLinkPreview",
+            "module": "xtal-link-preview.ts"
+          }
         }
       ]
     }

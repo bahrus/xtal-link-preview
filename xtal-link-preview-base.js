@@ -122,4 +122,8 @@ const xe = new XE({
     superclass: XtalLinkPreviewBaseCore,
     mixins: [tm.TemplMgmtMixin]
 });
+/**
+ * @tag xtal-link-preview-base
+ * @element xtal-link-preview-base
+ */
 export const XtalLinkPreviewBase = xe.classDef;

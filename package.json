@@ -12,13 +12,13 @@
   ],
   "main": "xtal-link-preview.js",
   "module": "xtal-link-preview.js",
-  "exports":{
+  "exports": {
     ".": "./xtal-link-preview.js",
     "./xtal-link-preview.js": "./xtal-link-preview.js",
     "./xtal-link-preview-fetch.js": "./xtal-link-preview-fetch.js",
     "./xtal-link-preview-base.js": "./xtal-link-preview-base.js"
   },
-  "files":[
+  "files": [
     "x*.*",
     "types.d.ts",
     "custom-elements.json"
@@ -44,5 +44,6 @@
     "serve": "node node_modules/xtal-test/serve.js",
     "package-check": "package-check",
     "doc": "custom-elements-manifest analyze"
-  }
+  },
+  "customElements": "custom-elements.json"
 }
