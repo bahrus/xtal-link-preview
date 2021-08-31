@@ -27,6 +27,12 @@ export class XtalLinkPreviewFetchCore extends XtalFetch{
             }
             
         }
+        if(!imageSrc){
+            const appleLink = htmlDoc.querySelector('link[rel="apple-touch-icon"]') as HTMLLinkElement;
+            if(appleLink){
+                imageSrc = appleLink.getAttribute('href');
+            }
+        }
         if(imageSrc) imageSrc =  this.getAbsPath(imageSrc);
         let title: string;
         let titleEl = htmlDoc.querySelector('title');
