@@ -6,6 +6,8 @@
 
 Provide preview of URL. 
 
+## [Demo](https://codepen.io/bahrus/pen/qBjbvPb)
+
 xtal-link-preview comes with default styling.  xtal-link-preview-base allows us to provide our own styling.
 
 
@@ -19,12 +21,8 @@ Try altering the href attribute below
 ```
 <custom-element-demo>
   <template>
-  <div>
-    <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-link-preview@0.0.36/dist/xtal-link-preview.iife.js"></script>
-    <h3>Basic xtal-link-preview demo</h3>
-    <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
-  </div>
+      <xtal-link-preview preview href="https://cors.bridged.cc/https://onsen.io"></xtal-link-preview>
+    <script src="https://cdn.skypack.dev/xtal-link-preview" type=module crossorigin=""></script>
     </template>
 </custom-element-demo>
 ```
