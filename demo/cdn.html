@@ -11,8 +11,9 @@
 
 <body>
     <h1>Basic xtal-link-preview demo</h3>
-    <xtal-link-preview preview href="https://cors.bridged.cc/https://onsen.io"></xtal-link-preview>
-    <script src="https://cdn.skypack.dev/xtal-link-preview" type=module crossorigin=""></script>
+      <link rel=preconnect id=corsAnywhere href="https://cors.bridged.cc"/>
+      <xtal-link-preview preview href=https://onsen.io base-link-id=corsAnywhere></xtal-link-preview>
+      <script src=https://cdn.skypack.dev/xtal-link-preview type=module crossorigin></script>
 </body>
 
 </html>
