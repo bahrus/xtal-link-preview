@@ -4,24 +4,10 @@
 
 # \<xtal-link-preview\>
 
-xtal-link-preview comes with default styling.  xtal-link-preview-base allows you to provide your own styling.
-
 Provide preview of URL. 
 
-## Syntax:
+xtal-link-preview comes with default styling.  xtal-link-preview-base allows us to provide our own styling.
 
-<!--
-```
-<custom-element-demo>
-<template>
-    <div>
-        <wc-info package-name="npm install p-d.p-u" href="https://unpkg.com/xtal-link-preview@0.0.37/web-components.json"></wc-info>
-        <script type="module" src="https://unpkg.com/wc-info@0.0.13/wc-info.js?module"></script>
-    </div>
-</template>
-</custom-element-demo>
-```
--->
 
 ```html
 <xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
@@ -44,20 +30,12 @@ Try altering the href attribute below
 ```
 -->
 
-## Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
 
-## Viewing Your Element
 
-```
-$ polymer serve
-```
+## Running locally
 
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+1.  Do a git clone or a git fork of repository https://github.com/bahrus/xtal-link-preview
+2.  Install node.js
+3.  Run "npm install" from location of folder created in step 1.
+4.  Run npm run serve.  Open browser to http://localhost:3030/demo/single.html

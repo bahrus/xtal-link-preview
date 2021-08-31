@@ -73,7 +73,7 @@ export class XtalLinkPreview extends XtalLinkPreviewBase {
     static is = 'xtal-link-preview'; 
 
     doTemplMount(self: this, clonedTemplate: DocumentFragment){
-        console.log(clonedTemplate);
+        clonedTemplate.appendChild(template.content.cloneNode(true));
     }
 }
 def(XtalLinkPreview);

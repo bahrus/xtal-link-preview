@@ -2,24 +2,47 @@
   "name": "xtal-link-preview",
   "version": "0.0.45",
   "description": "Provide preview of URL",
+  "keywords": [
+    "web components",
+    "web component",
+    "custom elements",
+    "custom element",
+    "preview",
+    "link preview"
+  ],
   "main": "xtal-link-preview.js",
   "module": "xtal-link-preview.js",
+  "exports":{
+    ".": "./xtal-link-preview.js",
+    "./xtal-link-preview.js": "./xtal-link-preview.js",
+    "./xtal-link-preview-fetch.js": "./xtal-link-preview-fetch.js",
+    "./xtal-link-preview-base.js": "./xtal-link-preview-base.js"
+  },
+  "files":[
+    "x*.*",
+    "types.d.ts",
+    "custom-elements.json"
+  ],
+  "types": "./types.d.ts",
   "repository": "https://github.com/bahrus/xtal-link-preview",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "xtal-element": "0.0.438",
-    "trans-render": "0.0.368",
+    "trans-render": "0.0.369",
     "open-borders": "0.0.7",
     "xtal-fetch": "0.0.104",
     "pass-down": "0.0.92"
   },
   "devDependencies": {
-    "xtal-test": "0.0.51"
+    "xtal-test": "0.0.51",
+    "@skypack/package-check": "0.2.2",
+    "@custom-elements-manifest/analyzer": "0.5.2"
   },
   "scripts": {
     "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
-    "doc": "wca analyze xtal-*.js --outFile custom-elements.json"
+    "package-check": "package-check",
+    "doc": "custom-elements-manifest analyze"
   }
 }

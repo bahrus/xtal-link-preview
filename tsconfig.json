@@ -9,7 +9,8 @@
 	},
 	"files":[
 		"xtal-link-preview-base.ts",
-		"xtal-link-preview-fetch.ts"
+		"xtal-link-preview-fetch.ts",
+		"xtal-link-preview.ts",
 	],
 	"exclude":[
 		"node_modules"

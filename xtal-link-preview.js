@@ -1,7 +1,7 @@
-import { XtalLinkPreviewBase } from "./xtal-link-preview-base.js";
-import { define } from "xtal-element/xtal-latx.js";
-const template = document.createElement('template');
-template.innerHTML = /* html */ `
+import { XtalLinkPreviewBase } from './xtal-link-preview-base.js';
+import { tm } from 'trans-render/lib/mixins/TemplMgmtWithPEST.js';
+import { def } from 'trans-render/lib/def.js';
+const template = tm.html `
 <style>
 :host{
     display: flex;
@@ -69,13 +69,9 @@ p, summary, a, svg {
 </style>
 `;
 export class XtalLinkPreview extends XtalLinkPreviewBase {
-    constructor() {
-        super(...arguments);
-        this.noShadow = false;
-    }
-    afterInitRenderCallback(ctx, target, renderOptions) {
-        this.root.appendChild(template.content.cloneNode(true));
+    static is = 'xtal-link-preview';
+    doTemplMount(self, clonedTemplate) {
+        clonedTemplate.appendChild(template.content.cloneNode(true));
     }
 }
-XtalLinkPreview.is = 'xtal-link-preview';
-define(XtalLinkPreview);
+def(XtalLinkPreview);
