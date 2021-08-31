@@ -62,7 +62,7 @@ export class XtalLinkPreviewFetchCore extends XtalFetch{
         let href = this.href;
         const iPosOfHash = href.indexOf('#');
         if(iPosOfHash > -1) href = href.substr(0, iPosOfHash);
-        if(!imageSrc.startsWith('http') && !imageSrc.startsWith('data')){
+        if(!imageSrc.startsWith('http') && !imageSrc.startsWith('data') && !imageSrc.startsWith('//')){
             if(imageSrc.startsWith('/')){
                 newSrc = href.split('/').slice(0, 3).join('/') + imageSrc;
             }else{
