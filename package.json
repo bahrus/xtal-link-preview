@@ -30,9 +30,9 @@
   "dependencies": {
     "xtal-element": "0.0.438",
     "trans-render": "0.0.369",
-    "open-borders": "0.0.7",
-    "xtal-fetch": "0.0.105",
-    "pass-down": "0.0.92"
+    "open-borders": "0.0.8",
+    "xtal-fetch": "0.0.106",
+    "pass-down": "0.0.93"
   },
   "devDependencies": {
     "xtal-test": "0.0.51",
