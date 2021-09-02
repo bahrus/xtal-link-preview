@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "xtal-element": "0.0.439",
-    "trans-render": "0.0.369",
+    "trans-render": "0.0.372",
     "open-borders": "0.0.9",
     "xtal-fetch": "0.0.107",
     "pass-down": "0.0.93"
@@ -37,7 +37,8 @@
   "devDependencies": {
     "xtal-test": "0.0.51",
     "@skypack/package-check": "0.2.2",
-    "@custom-elements-manifest/analyzer": "0.5.2"
+    "@custom-elements-manifest/analyzer": "0.5.2",
+    "be-committed": "0.0.1"
   },
   "scripts": {
     "test": "node test/test-all.js",
