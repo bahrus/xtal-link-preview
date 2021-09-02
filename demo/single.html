@@ -9,9 +9,9 @@
 </head>
 <body>
 
-    <label for=href>URL</label><input id=href value=https://onsen.io style="width:700px">
+    <label for=href>URL</label><input id=href value=https://onsen.io style="width:700px" be-committed='{"to": "change"}'>
     <p-d on=input vft=value to=[-data-href] m=1 as=str-attr></p-d>
-    <button -data-href>Change</button>
+    <button id=change -data-href>Change</button>
     <p-d on=click to=[-href] m=1 vft=dataset.href></p-d>
     <div>
         <label>Link Everything <input type=checkbox></label>
@@ -33,12 +33,16 @@
             "xtal-fetch/": "../node_modules/xtal-fetch/",
             "pass-down/": "../node_modules/pass-down/",
             "mut-obs/": "../node_modules/mut-obs/",
-            "on-to-me/": "../node_modules/on-to-me/"
+            "on-to-me/": "../node_modules/on-to-me/",
+            "be-committed/": "../node_modules/be-committed/",
+            "xtal-decor/": "../node_modules/xtal-decor/",
+            "css-observe/": "../node_modules/css-observe/"
         }
     }
     </script>
     <script  type=module>
         import '../xtal-link-preview.js';
+        import 'be-committed/be-committed.js';
     </script>
 </body>
 </html>

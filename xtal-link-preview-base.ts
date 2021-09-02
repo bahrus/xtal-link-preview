@@ -3,7 +3,6 @@ import {TemplMgmtActions, tm, TemplMgmtProps} from 'trans-render/lib/mixins/Temp
 import {LinkPreviewProps, LinkPreviewActions} from './types';
 import { PropInfo } from 'trans-render/lib/types';
 import ('open-borders/open-borders.js');
-//import ('xtal-fetch/xtal-fetch.js');
 import {OpenBordersProps} from 'open-borders/types';
 import ('./xtal-link-preview-fetch.js');
 import('pass-down/p-d.js');
@@ -75,22 +74,20 @@ const xe = new XE<LinkPreviewProps & TemplMgmtProps, LinkPreviewActions & TemplM
             linkEverything: false,
         },
         propInfo: {
-            //hrefProps: isRef,
-            //baseLinkIdProps: isRef,
             openBordersElements: isRef,
             href:{
                 notify:{
-                    // reflect:{
-                    //     //asAttr: true
-                    // },
+                    reflect:{
+                        asAttr: true
+                    },
                     echoTo: '__href'
                 }
             },
             baseLinkId:{
                 notify:{
-                    // reflect:{
-                    //     asAttr: true,
-                    // },
+                    reflect:{
+                        asAttr: true,
+                    },
                     echoTo: '__baseLinkId',
                 }
             },
@@ -111,14 +108,6 @@ const xe = new XE<LinkPreviewProps & TemplMgmtProps, LinkPreviewActions & TemplM
         },
         actions:{
             ...tm.doInitTransform,
-            // setBaseLinkId:{
-            //     ifAllOf: ['baseLinkId'],
-            //     target: 'baseLinkIdProps',
-            // },
-            // setHref:{
-            //     ifAllOf:['href'],
-            //     target: 'hrefProps'
-            // },
             setOpenBordersTarget:{
                 ifKeyIn:['linkEverything'],
                 target: 'openBordersElements'

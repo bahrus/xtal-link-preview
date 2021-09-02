@@ -66,22 +66,20 @@ const xe = new XE({
             linkEverything: false,
         },
         propInfo: {
-            //hrefProps: isRef,
-            //baseLinkIdProps: isRef,
             openBordersElements: isRef,
             href: {
                 notify: {
-                    // reflect:{
-                    //     //asAttr: true
-                    // },
+                    reflect: {
+                        asAttr: true
+                    },
                     echoTo: '__href'
                 }
             },
             baseLinkId: {
                 notify: {
-                    // reflect:{
-                    //     asAttr: true,
-                    // },
+                    reflect: {
+                        asAttr: true,
+                    },
                     echoTo: '__baseLinkId',
                 }
             },
@@ -102,14 +100,6 @@ const xe = new XE({
         },
         actions: {
             ...tm.doInitTransform,
-            // setBaseLinkId:{
-            //     ifAllOf: ['baseLinkId'],
-            //     target: 'baseLinkIdProps',
-            // },
-            // setHref:{
-            //     ifAllOf:['href'],
-            //     target: 'hrefProps'
-            // },
             setOpenBordersTarget: {
                 ifKeyIn: ['linkEverything'],
                 target: 'openBordersElements'
