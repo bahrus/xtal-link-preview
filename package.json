@@ -28,11 +28,11 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-element": "0.0.439",
-    "trans-render": "0.0.372",
+    "xtal-element": "0.0.441",
+    "trans-render": "0.0.398",
     "open-borders": "0.0.9",
-    "xtal-fetch": "0.0.107",
-    "pass-down": "0.0.93"
+    "xtal-fetch": "0.0.108",
+    "pass-down": "0.0.107"
   },
   "devDependencies": {
     "xtal-test": "0.0.51",
