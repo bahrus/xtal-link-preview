@@ -4,13 +4,22 @@ addEventListener("fetch", event => {
   
   async function handleRequest(request) {
     console.log(request.url);
-    const resp = await fetch(request.url);
+    console.log(JSON.stringify(request.headers));
+    const iPos = request.url.indexOf('.dev/') + 5;
+    const proxyUrl = request.url.substr(iPos);
+    console.log(proxyUrl);
+    const resp = await fetch(proxyUrl, {
+        headers: request.headers
+    });
+    const headers = {};
+    for (var pair of resp.headers.entries()) {
+      headers[pair[0]] = pair[1];
+    }
     const text = await resp.text();
-    console.log(text);
     return new Response(text, {
       headers:{
-        "content-type": "text/html; charset=utf-8"
+        ...headers,
+        'Access-Control-Allow-Origin': '*',
       }
     });
-    //return new Response("Hello world")
   }
