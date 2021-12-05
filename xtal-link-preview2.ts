@@ -10,6 +10,7 @@ const mainTemplate = html`
         "xslt": ".xslt"
     }'
     ></slot>
+    <div></div>
     <be-hive></be-hive>
 `;
 
