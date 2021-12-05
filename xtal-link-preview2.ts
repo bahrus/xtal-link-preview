@@ -6,7 +6,7 @@ splitURL.pop();
 const baseURL = splitURL.join('/') + '/'
 
 const mainTemplate = html`
-    <slot name=main be-ferried='{
+    <slot be-ferried='{
         "xslt": ".xslt"
     }'
     ></slot>
