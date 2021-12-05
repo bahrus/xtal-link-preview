@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <xtal-link-preview>
+        <k-fetch as=html target=div href="https://pwa-rp.bahrus.workers.dev/?href=https%3A%2F%2Fwww.flipkart.com%2Fmanifest.json&ua=Mozilla%2F5.0+%28iPhone%3B+CPU+iPhone+OS+13_2_3+like+Mac+OS+X%29+AppleWebKit%2F605.1.15+%28KHTML%2C+like+Gecko%29+Version%2F13.0.3+Mobile%2F15E148+Safari%2F604.1+Edg%2F96.0.4664.55&ts=2021-12-05T19%3A18%3A40.317Z"></k-fetch>
+        <div slot="preview"></div>
+    </xtal-link-preview>
+    <script type=importmap>
+        {
+            "imports": {
+                "trans-render/": "../../node_modules/trans-render/",
+                "xtal-element/": "../node_modules/xtal-element/",
+                "be-decorated/": "../node_modules/be-decorated/",
+                "be-definitive/": "../node_modules/be-definitive/",
+                "be-hive/": "../node_modules/be-hive/",
+                "k-fetch/": "../node_modules/k-fetch/"
+            }
+        }
+    </script>
+    <script type=module>
+        import '../xtal-link-preview2.js';
+        import 'k-fetch/k-fetch.js';
+    </script>
+</body>
+</html>

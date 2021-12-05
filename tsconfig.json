@@ -3,14 +3,12 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"sourceMap": false,
-		"experimentalDecorators": true,
-		"newLine": "LF",
+		"strict": true,
+		"experimentalDecorators": false,
 		"watch": true
 	},
 	"files":[
-		"xtal-link-preview-base.ts",
-		"xtal-link-preview-fetch.ts",
-		"xtal-link-preview.ts",
+		"xtal-link-preview2.ts"
 	],
 	"exclude":[
 		"node_modules"
