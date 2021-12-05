@@ -7,12 +7,14 @@
             <xsl:apply-templates select="@* | node()"/>
         </xsl:copy> -->
         <xsl:copy>
-        <xsl:apply-templates select="//link-ish | //meta-ish"/>>
+            <xsl:apply-templates select="//meta-ish"/>
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="//link-ish | //meta-ish">
+    <xsl:template match="meta-ish[@property='og:image']">
         iah
     </xsl:template>
+
+    
     
 </xsl:stylesheet>
