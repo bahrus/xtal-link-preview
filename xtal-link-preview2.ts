@@ -6,8 +6,11 @@ splitURL.pop();
 const baseURL = splitURL.join('/') + '/'
 
 const mainTemplate = html`
-
-
+    <slot name=main be-ferried='{
+        "xslt": ".xslt"
+    }'
+    ></slot>
+    <be-hive></be-hive>
 `;
 
 const beDefinitiveProps: DefineArgs = {
@@ -25,3 +28,4 @@ const beDefinitiveProps: DefineArgs = {
 };
 
 mainTemplate.setAttribute('be-definitive', JSON.stringify(beDefinitiveProps));
+document.body.appendChild(mainTemplate);
