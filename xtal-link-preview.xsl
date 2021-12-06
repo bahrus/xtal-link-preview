@@ -12,7 +12,7 @@
     </xsl:template>
 
     <xsl:template match="meta-ish[@property='og:image']">
-        iah
+        <img src="{@content}" width="500" height="500"/>
     </xsl:template>
 
     

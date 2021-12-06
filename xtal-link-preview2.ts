@@ -6,11 +6,17 @@ splitURL.pop();
 const baseURL = splitURL.join('/') + '/'
 
 const mainTemplate = html`
+<style>
+    :host{
+        display: block;
+    }
+</style>
     <slot be-ferried='{
         "xslt": ".xslt"
     }'
     ></slot>
     <div></div>
+    <!-- <img src="https://onsen.io/images/logo/onsen_with_text.png" width="500" height="500"> -->
     <be-hive></be-hive>
 `;
 
