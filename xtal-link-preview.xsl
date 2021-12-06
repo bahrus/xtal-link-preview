@@ -11,6 +11,8 @@
             <xsl:call-template name="getImage"></xsl:call-template>
         </xsl:variable>
         <main>
+            <h1><xsl:value-of select="title"/></h1>
+            <h2><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
             <label><xsl:value-of select="$href"/></label>
             <img src="{$imgSrc}"/>
         </main>
