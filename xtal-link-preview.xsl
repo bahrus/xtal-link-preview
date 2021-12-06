@@ -21,6 +21,28 @@
             <xsl:when test="meta-ish[@property='og:image']">
                 <xsl:value-of select="meta-ish[@property='og:image']/@content"/>
             </xsl:when>
+            <xsl:otherwise>
+                <xsl:choose>
+                    <xsl:when test="meta-ish[@property='twitter:image']">
+                        <xsl:value-of select="meta-ish[@property='twitter:image']/@content"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:choose>
+                            <xsl:when test="//img">
+                                <xsl:value-of select="//img[1]/@src"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:choose>
+                                    <xsl:when test="//link[rel='icon']">
+                                        <xsl:value-of select="//link[rel='icon'][1]/@href"/>
+                                    </xsl:when>
+                                </xsl:choose>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:otherwise>               
+                </xsl:choose>
+                
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     
