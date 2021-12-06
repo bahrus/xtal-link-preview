@@ -1,9 +1,12 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="xml" indent="yes"/>
 
-
     <xsl:template match="/">
-        <xsl:variable name="href" select="div/header/@href"/>
+        <xsl:apply-templates select="div/header"/>
+    </xsl:template>
+
+    <xsl:template match="header">
+        <xsl:variable name="href" select="@href"/>
         <xsl:variable name="imgSrc">
             <xsl:call-template name="getImage"></xsl:call-template>
         </xsl:variable>
@@ -13,12 +16,6 @@
                 <xsl:apply-templates select="//meta-ish"/>
             </xsl:copy>
         </main>
-        <xsl:apply-templates select="div/header"/>
-
-    </xsl:template>
-
-    <xsl:template match="header">
-    <div>iah</div>
     </xsl:template>
 
     <xsl:template match="meta-ish[@property='og:image']">
