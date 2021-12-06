@@ -12,22 +12,14 @@
         </xsl:variable>
         <main>
             <label><xsl:value-of select="$href"/></label>
-            <xsl:copy>
-                <xsl:apply-templates select="//meta-ish"/>
-            </xsl:copy>
+            <img src="{$imgSrc}"/>
         </main>
-    </xsl:template>
-
-    <xsl:template match="meta-ish[@property='og:image']">
-        <img src="{@content}"/>
-        <details open="" part="details">
-        </details>
     </xsl:template>
 
     <xsl:template name="getImage">
         <xsl:choose>
-            <xsl:when test="//meta-ish[@property='og:image']">
-                <xsl:value-of select="//meta-ish[@property='og:image']"/>
+            <xsl:when test="meta-ish[@property='og:image']">
+                <xsl:value-of select="meta-ish[@property='og:image']/@content"/>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
