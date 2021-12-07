@@ -7,10 +7,20 @@
     <title>Document</title>
 </head>
 <body>
-    <k-fetch as=html target=xtal-link-preview 
-        href='https://corslet.bahrus.workers.dev/?href=https%3A%2F%2Fonsen.io%2F&lhs=%3Chead&rhs=%3C%2Fhead%3E&ts=2021-12-06T22%3A17%3A11.078Z&lhsWrapper=%3Ctemplate%3E%3Cheader+href%3D%22%5Bhref%5D%22%3E&rhsWrapper=%3C%2Fheader%3E%3C%2Ftemplate%3E&ua='>
-    </k-fetch>
-    <xtal-link-preview>
+    <form be-reformable='{
+        "autoSubmit": true,
+        "as": "html"
+    }'
+    action = https://corslet.bahrus.workers.dev/
+    target=xtal-link-preview[-innerHTML]
+    >
+        <label for="href">href</label>
+        <input type="text" name="href" value="https://onsen.io/">
+        <textarea hidden name=between><head></head></textarea>
+        <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
+    </form>
+
+    <xtal-link-preview -innerHTML>
         
     </xtal-link-preview>
     <script type=importmap>
@@ -25,13 +35,14 @@
                 "be-hive/": "../node_modules/be-hive/",
                 "be-observant/": "../node_modules/be-observant/",
                 "k-fetch/": "../node_modules/k-fetch/",
-                "on-to-me/": "../node_modules/on-to-me/"
+                "on-to-me/": "../node_modules/on-to-me/",
+                "be-reformable/": "../node_modules/be-reformable/"
             }
         }
     </script>
     <script type=module>
         import '../xtal-link-preview2.js';
-        import 'k-fetch/k-fetch.js';
+        import 'be-reformable/be-reformable.js';
         import 'be-ferried/be-ferried.js';
     </script>
 </body>
