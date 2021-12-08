@@ -12,7 +12,7 @@
         "as": "html"
     }'
     action = https://corslet.bahrus.workers.dev/
-    target=xtal-link-preview[-innerHTML]
+    target=#onsen-preview[-innerHTML]
     >
         <label for="href">href</label>
         <input type="text" name="href" value="https://onsen.io/">
@@ -20,7 +20,22 @@
         <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
     </form>
 
-    <xtal-link-preview -innerHTML>
+    <xtal-link-preview id=onsen-preview -innerHTML></xtal-link-preview>
+
+    <form be-reformable='{
+        "autoSubmit": true,
+        "as": "html"
+    }'
+    action = https://corslet.bahrus.workers.dev/
+    target=#cnn-preview[-innerHTML]
+    >
+        <label for="href">href</label>
+        <input type="text" name="href" value="https://www.cnn.com/2021/12/07/health/cdc-omicron-study-anime-convention-bn/index.html">
+        <textarea hidden name=between><head></head></textarea>
+        <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
+    </form>
+
+    <xtal-link-preview id=cnn-preview -innerHTML>
         
     </xtal-link-preview>
     <script type=importmap>
