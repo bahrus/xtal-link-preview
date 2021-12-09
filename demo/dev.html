@@ -7,34 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <pre-view be-definitive='{
-        "config":{
-            "tagName": "pre-view",
-            "propDefaults":{
-                "href": ""
-            }
-        }
-    }' href="https://onsen.io">
-        <template shadowroot="open">
-            <form be-reformable='{
-                "autoSubmit": true,
-                "as": "html"
-            }'
-            action = https://corslet.bahrus.workers.dev/
-            target=xtal-link-preview[-innerHTML]
-            >
-                <input hidden required type=text name=href be-observant='{
-                    "value": {"onSet": "href", "vft": "href", "fire":{"type":"input", "init": {"bubbles": true}}}
-                }'/>
-                <textarea hidden name=between><head></head></textarea>
-                <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
-            </form>
-            <xtal-link-preview -innerHTML></xtal-link-preview>
-            <be-hive></be-hive>
-        </template>
-    </pre-view>
-
-    <pre-view href=https://stenciljs.com/></pre-view>
+    <xtal-link-preview href="https://onsen.io"></xtal-link-preview>
+    <xtal-link-preview href=https://stenciljs.com/></xtal-link-preview>
 
     <script type=importmap>
         {
@@ -54,10 +28,7 @@
         }
     </script>
     <script type=module>
-        import '../xtal-link-preview2.js';
-        import 'be-reformable/be-reformable.js';
-        import 'be-ferried/be-ferried.js';
-        import 'be-observant/be-observant.js';
+        import '../xtal-link-preview.js';
     </script>
 </body>
 </html>

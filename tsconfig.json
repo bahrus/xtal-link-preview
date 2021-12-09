@@ -8,7 +8,8 @@
 		"watch": true
 	},
 	"files":[
-		"xtal-link-preview.ts"
+		"xtal-link-preview.ts",
+		"xtal-link-preview-view.ts"
 	],
 	"exclude":[
 		"node_modules"
