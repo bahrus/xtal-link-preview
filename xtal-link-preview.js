@@ -1,81 +1,31 @@
-import { XtalLinkPreviewBase } from './xtal-link-preview-base.js';
-import { tm } from 'trans-render/lib/mixins/TemplMgmtWithPEST.js';
-import { def } from 'trans-render/lib/def.js';
-const template = tm.html `
+import { html } from 'trans-render/lib/html.js';
+import('be-definitive/be-definitive.js');
+const splitURL = import.meta.url.split('/');
+splitURL.pop();
+const baseURL = splitURL.join('/') + '/';
+const mainTemplate = html `
 <style>
-:host{
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: center;    
-}
-slot {
-    height:100%;
-    width:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content: center;
-}
-main, [part="outerLink"] {
-    /* Add shadows to create the "card" effect */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-    height: 100%;
-    width: 100%;
-    display:flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: center;
-    max-width: 500px;
-}
-
-/* On mouse-over, add a deeper shadow */
-main:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-}
-
-[part="linkContainer"] {
-    display: flex;
-    flex-direction:row;
-    align-self:self-start;
-}
-
-img {
-    object-fit: scale-down;
-}
-
-
-summary{
-    list-style:none;
-    margin-top: 5px;
-    font-weight: 800;
-}
-
-summary::-webkit-details-marker {
-    display: none;
-}
-
-a:link{
-    text-decoration:none;
-}
-
-
-
-p, summary, a, svg {
-    text-align: left;
-    margin-left: 5px;
-}
-</style>
-`;
-/**
- * @tag xtal-link-preview
- * @element xtal-link-preview
- */
-export class XtalLinkPreview extends XtalLinkPreviewBase {
-    static is = 'xtal-link-preview';
-    doTemplMount(self, clonedTemplate) {
-        clonedTemplate.appendChild(template.content.cloneNode(true));
+    :host{
+        display: block;
     }
-}
-def(XtalLinkPreview);
+</style>
+    <slot be-ferried='{
+        "xslt": ".xslt"
+    }'
+    ></slot>
+    <div></div>
+    <be-hive></be-hive>
+`;
+const beDefinitiveProps = {
+    config: {
+        tagName: 'xtal-link-preview',
+        propDefaults: {
+            href: '',
+            xslt: baseURL + 'xtal-link-preview.xsl',
+            css: baseURL + 'xtal-link-preview.css'
+        },
+        propInfo: {}
+    }
+};
+mainTemplate.setAttribute('be-definitive', JSON.stringify(beDefinitiveProps));
+document.body.appendChild(mainTemplate);
