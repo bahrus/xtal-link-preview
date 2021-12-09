@@ -1,6 +1,7 @@
 import {html} from 'trans-render/lib/html.js';
 import {DefineArgs} from 'xtal-element/src/types';
 import ('be-definitive/be-definitive.js');
+import ('be-ferried/be-ferried.js');
 import ('be-hive/be-hive.js');
 const splitURL = import.meta.url.split('/');
 splitURL.pop();
