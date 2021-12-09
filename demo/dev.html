@@ -24,7 +24,7 @@
         target=xtal-link-preview[-innerHTML]
         >
             <input hidden required type=text name=href be-observant='{
-                "value": ".href"
+                "value": {"onSet": "href", "vft": "href", "ocoho": true, "fire":{"type":"input", "init": {"bubbles": true}}}
             }'/>
             <textarea hidden name=between><head></head></textarea>
             <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>

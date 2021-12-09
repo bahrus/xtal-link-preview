@@ -35,15 +35,14 @@
     "pass-down": "0.0.119",
     "be-definitive": "0.0.15",
     "be-ferried": "0.0.14",
-    "be-observant": "0.0.61",
+    "be-observant": "0.0.62",
     "be-reformable": "0.0.20",
     "be-hive": "0.0.13"
   },
   "devDependencies": {
     "xtal-test": "0.0.54",
     "@skypack/package-check": "0.2.2",
-    "@custom-elements-manifest/analyzer": "0.5.2",
-    "be-observant": "0.0.61"
+    "@custom-elements-manifest/analyzer": "0.5.2"
   },
   "scripts": {
     "test": "node test/test-all.js",
