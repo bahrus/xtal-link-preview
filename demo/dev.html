@@ -7,31 +7,34 @@
     <title>Document</title>
 </head>
 <body>
-    <pre-view itemscope be-definitive='{
+    <pre-view be-definitive='{
         "config":{
             "tagName": "pre-view",
             "propDefaults":{
-                "href": "",
-                "noshadow": true
+                "href": ""
             }
         }
     }' href="https://onsen.io">
-        <form be-reformable='{
-            "autoSubmit": true,
-            "as": "html"
-        }'
-        action = https://corslet.bahrus.workers.dev/
-        target=xtal-link-preview[-innerHTML]
-        >
-            <input hidden required type=text name=href be-observant='{
-                "value": {"onSet": "href", "vft": "href", "ocoho": true, "fire":{"type":"input", "init": {"bubbles": true}}}
-            }'/>
-            <textarea hidden name=between><head></head></textarea>
-            <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
-        </form>
-        <xtal-link-preview -innerHTML></xtal-link-preview>
+        <template shadowroot="open">
+            <form be-reformable='{
+                "autoSubmit": true,
+                "as": "html"
+            }'
+            action = https://corslet.bahrus.workers.dev/
+            target=xtal-link-preview[-innerHTML]
+            >
+                <input hidden required type=text name=href be-observant='{
+                    "value": {"onSet": "href", "vft": "href", "fire":{"type":"input", "init": {"bubbles": true}}}
+                }'/>
+                <textarea hidden name=between><head></head></textarea>
+                <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
+            </form>
+            <xtal-link-preview -innerHTML></xtal-link-preview>
+            <be-hive></be-hive>
+        </template>
     </pre-view>
 
+    <pre-view href=https://stenciljs.com/></pre-view>
 
     <script type=importmap>
         {
