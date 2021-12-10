@@ -1,12 +1,17 @@
 import { html } from 'trans-render/lib/html.js';
+import 'be-loaded/be-loaded.js';
 import('be-definitive/be-definitive.js');
 import('be-ferried/be-ferried.js');
 import('be-hive/be-hive.js');
 const splitURL = import.meta.url.split('/');
 splitURL.pop();
 const baseURL = splitURL.join('/') + '/';
+const fallbackCSS = baseURL + 'xtal-link-preview.css';
 const mainTemplate = html `
-<style>
+<style be-loaded='{
+    "preloadRef": "xtal-link-preview-css",
+    "fallback": "${fallbackCSS}"
+}'>
     :host{
         display: block;
     }
@@ -22,8 +27,7 @@ const beDefinitiveProps = {
     config: {
         tagName: 'xtal-link-preview-view',
         propDefaults: {
-            xslt: baseURL + 'xtal-link-preview.xsl',
-            css: baseURL + 'xtal-link-preview.css'
+            xslt: baseURL + 'xtal-link-preview.xsl'
         }
     }
 };
