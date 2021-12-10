@@ -20,7 +20,7 @@
             <h1 itemprop="title" part="title"><xsl:value-of select="title"/></h1>
             <h2 itemprop="description" part="description"><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
             <a itemprop="href" part="link" href="{$href}" target="_blank"><xsl:value-of select="$href"/></a>
-            <img src="{$fullyQualifiedImgSrc}"/>
+            <img alt="logo" src="{$fullyQualifiedImgSrc}"/>
         </main>
     </xsl:template>
 
@@ -62,7 +62,16 @@
         <xsl:choose>
             <xsl:when test="starts-with($imageSrc,'/')">
                 <xsl:variable name="postProcol" select="substring-after($href, '//')"/>
-                <xsl:variable name="domain" select="substring-before($postProcol, '/')"/>
+                <xsl:variable name="domain">
+                    <xsl:choose>
+                        <xsl:when test="contains($postProcol, '/')">
+                            <xsl:value-of select="substring-before($postProcol, '/')"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$postProcol"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
                 https://<xsl:value-of select="$domain"/><xsl:value-of select="$imageSrc"/>
             </xsl:when>
             <xsl:otherwise>
