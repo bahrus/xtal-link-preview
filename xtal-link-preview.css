@@ -10,6 +10,8 @@ this follows the naming conventions of open props
 }
 div{
     background-color: var(--surface-2);
+    gap: var(--size-5);
+    padding: var(--size-5);
 }
 slot {
     height:100%;
