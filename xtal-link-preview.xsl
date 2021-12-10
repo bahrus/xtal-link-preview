@@ -35,8 +35,8 @@
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:choose>
-                                    <xsl:when test="//link[rel='icon']">
-                                        <xsl:value-of select="//link[rel='icon'][1]/@href"/>
+                                    <xsl:when test="link-ish[contains(@rel,'icon')]">
+                                        <xsl:value-of select="link-ish[contains(@rel,'icon')][1]/@href"/>
                                     </xsl:when>
                                 </xsl:choose>
                             </xsl:otherwise>
