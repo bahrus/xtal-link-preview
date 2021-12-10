@@ -37,7 +37,7 @@ main:hover {
 
 img {
     object-fit: scale-down;
-    width: 100%;
+    max-width: 100%;
 }
 
 
