@@ -11,8 +11,12 @@ const baseURL = splitURL.join('/') + '/'
 const fallbackCSS = baseURL + 'xtal-link-preview.css';
 const mainTemplate = html`
 <style be-loaded='{
-    "preloadRef": "xtal-link-preview-css",
-    "fallback": "${fallbackCSS}"
+    "stylesheets": [
+        {
+            "preloadRef": "xtal-link-preview/xtal-link-preview.css",
+            "fallback": "${fallbackCSS}"
+        }
+    ]
 }'>
     :host{
         display: block;

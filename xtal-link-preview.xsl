@@ -10,10 +10,10 @@
         <xsl:variable name="imgSrc">
             <xsl:call-template name="getImage"></xsl:call-template>
         </xsl:variable>
-        <main>
-            <h1><xsl:value-of select="title"/></h1>
-            <h2><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
-            <label><xsl:value-of select="$href"/></label>
+        <main part="main">
+            <h1 itemprop="title" part="title"><xsl:value-of select="title"/></h1>
+            <h2 itemprop="description" part="description"><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
+            <a itemprop="href" part="link" href="{$href}" target="_blank"><xsl:value-of select="$href"/></a>
             <img src="{$imgSrc}"/>
         </main>
     </xsl:template>

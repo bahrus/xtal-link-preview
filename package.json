@@ -19,9 +19,7 @@
     "./xtal-link-preview-base.js": "./xtal-link-preview-base.js"
   },
   "files": [
-    "x*.*",
-    "types.d.ts",
-    "custom-elements.json"
+    "*.*"
   ],
   "types": "./types.d.ts",
   "repository": "https://github.com/bahrus/xtal-link-preview",
