@@ -10,13 +10,21 @@
         <xsl:variable name="imgSrc">
             <xsl:call-template name="getImage"></xsl:call-template>
         </xsl:variable>
+        <xsl:variable name="fullyQualifiedImgSrc">
+            <xsl:call-template name="makeFullyQualified">
+                <xsl:with-param name="imageSrc" select="$imgSrc"/>
+                <xsl:with-param name="href" select="$href"/>
+            </xsl:call-template>
+        </xsl:variable>
         <main part="main">
             <h1 itemprop="title" part="title"><xsl:value-of select="title"/></h1>
             <h2 itemprop="description" part="description"><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
             <a itemprop="href" part="link" href="{$href}" target="_blank"><xsl:value-of select="$href"/></a>
-            <img src="{$imgSrc}"/>
+            <img src="{$fullyQualifiedImgSrc}"/>
         </main>
     </xsl:template>
+
+    
 
     <xsl:template name="getImage">
         <xsl:choose>
@@ -44,6 +52,21 @@
                     </xsl:otherwise>               
                 </xsl:choose>
                 
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="makeFullyQualified">
+        <xsl:param name="imageSrc"/>
+        <xsl:param name="href"/>
+        <xsl:choose>
+            <xsl:when test="starts-with($imageSrc,'/')">
+                <xsl:variable name="postProcol" select="substring-after($href, '//')"/>
+                <xsl:variable name="domain" select="substring-before($postProcol, '/')"/>
+                https://<xsl:value-of select="$domain"/><xsl:value-of select="$imageSrc"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$imageSrc"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
