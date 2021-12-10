@@ -36,7 +36,9 @@ main:hover {
     box-shadow: var(--shadow-3);
 }
 
-
+a{
+    width: 100%;
+}
 img {
     object-fit: scale-down;
     max-width: 100%;
