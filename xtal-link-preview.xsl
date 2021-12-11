@@ -21,7 +21,7 @@
             <h2 itemprop="description" part="description"><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
             <a itemprop="href" part="link" href="{$href}" target="_blank">
             <xsl:if test="string-length($fullyQualifiedImgSrc) &gt; 5">
-                <img alt="logo" src="{$fullyQualifiedImgSrc}"/>
+                <img part="image" alt="logo" src="{$fullyQualifiedImgSrc}"/>
             </xsl:if>
             </a>
         </main>
