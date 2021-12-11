@@ -8,11 +8,11 @@ import ('be-hive/be-hive.js');
 let xsltLink = (<any>self)['xtal-link-preview/xtal-link-preview.xsl'] as HTMLLinkElement | undefined;
 let xsltPath: string | undefined;
 if(xsltLink === undefined){
-    xsltPath = 'http://unpkg.com/xtal-link-preview/xtal-link-preview.xsl';
+    xsltPath = 'https://unpkg.com/xtal-link-preview/xtal-link-preview.xsl';
 }else{
     xsltPath = xsltLink.href;
 }
-let fallbackCSS = "http://unpkg.com/xtal-link-preview/xtal-link-preview.css";
+let fallbackCSS = "https://unpkg.com/xtal-link-preview/xtal-link-preview.css";
 const mainTemplate = html`
 <style be-loaded='{
     "stylesheets": [

@@ -6,12 +6,12 @@ import('be-hive/be-hive.js');
 let xsltLink = self['xtal-link-preview/xtal-link-preview.xsl'];
 let xsltPath;
 if (xsltLink === undefined) {
-    xsltPath = 'http://unpkg.com/xtal-link-preview/xtal-link-preview.xsl';
+    xsltPath = 'https://unpkg.com/xtal-link-preview/xtal-link-preview.xsl';
 }
 else {
     xsltPath = xsltLink.href;
 }
-let fallbackCSS = "http://unpkg.com/xtal-link-preview/xtal-link-preview.css";
+let fallbackCSS = "https://unpkg.com/xtal-link-preview/xtal-link-preview.css";
 const mainTemplate = html `
 <style be-loaded='{
     "stylesheets": [

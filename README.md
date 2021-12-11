@@ -8,11 +8,12 @@ Provide preview of URL.
 
 ## [Demo](https://codepen.io/bahrus/pen/qBjbvPb)
 
-xtal-link-preview comes with default styling.  xtal-link-preview-base allows us to provide our own styling.
+xtal-link-preview provides the ability to provide your own styling, and event HTML layout.
 
+## Syntax
 
 ```html
-<xtal-link-preview preview href="https://onsen.io"></xtal-link-preview>
+<xtal-link-preview href="https://onsen.io"></xtal-link-preview>
 ```
 
 Try altering the href attribute below
@@ -21,8 +22,8 @@ Try altering the href attribute below
 ```
 <custom-element-demo>
   <template>
-<link rel=preconnect id=corsAnywhere href="https://cors.bridged.cc"/>
-    <xtal-link-preview preview href=https://onsen.io base-link-id=corsAnywhere></xtal-link-preview>
+
+    <xtal-link-preview href=https://onsen.io></xtal-link-preview>
     <script src=https://cdn.skypack.dev/xtal-link-preview type=module crossorigin></script>
     </template>
 </custom-element-demo>
