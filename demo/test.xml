@@ -1,0 +1,55 @@
+<div>
+    <header href="https://lion-web.netlify.app/">      <meta-ish charset="utf-8">
+        </meta-ish><meta-ish name="viewport" content="width=device-width, initial-scale=1.0">
+        </meta-ish><title>Lion</title><meta-ish property="og:title" content="Lion">
+        </meta-ish><meta-ish name="generator" content="rocket 0.1">
+        </meta-ish><link-ish rel="canonical" href="https://lion-web.netlify.app/">
+        </link-ish><meta-ish name="description" content="Fundamental white label web components for building your design system">
+        </meta-ish><meta-ish property="og:description" content="Fundamental white label web components for building your design system">
+        </meta-ish>      <link-ish rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+        </link-ish><link-ish rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+        </link-ish><link-ish rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+        </link-ish><link-ish rel="manifest" href="assets/webmanifest.json">
+        </link-ish><link-ish rel="mask-icon" href="assets/safari-pinned-tab.svg" color="#3f93ce">
+        </link-ish><meta-ish name="msapplication-TileColor" content="#1d3557">
+        </meta-ish><meta-ish name="theme-color" content="#1d3557">
+        </meta-ish>      <meta-ish property="og:site_name" content="Lion">
+        </meta-ish><meta-ish property="og:type" content="website">
+        </meta-ish><meta-ish property="og:image" content="https://lion-web.netlify.app/467321bb.png">
+        </meta-ish><meta-ish property="og:url" content="https://lion-web.netlify.app/">
+        </meta-ish><meta-ish name="twitter:card" content="summary_large_image">
+        </meta-ish>      <link-ish rel="preconnect" href="https://fonts.googleapis.com" crossorigin="">
+        </link-ish><link-ish href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&amp;display=optional" rel="stylesheet">
+        </link-ish><link-ish href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;display=optional" rel="stylesheet">
+        </link-ish>      <link-ish rel="stylesheet" href="db12e37b.css">
+        </link-ish><link-ish rel="stylesheet" href="0f4765a3.css">
+        </link-ish><link-ish rel="stylesheet" href="ac2ea3b8.css">
+        </link-ish><link-ish rel="stylesheet" href="ef9f4cd3.css">
+        </link-ish>      <noscript>
+            <link rel="stylesheet" href="/_merged_assets/_static/search/noscript.css">
+            </noscript>      <noscript>
+                <link rel="stylesheet" href="/_merged_assets/_static/noscript.css"/>
+            </noscript>      <link-ish rel="stylesheet" href="b1403e10.css">
+            </link-ish>  <link-ish rel="preload" href="./2d33c435.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="e1857617.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="7e82e856.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="d3083ef7.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="e7075652.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="962426a7.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="af9ddae9.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="987e49ec.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="af3192a1.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="e504ffb3.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="6db56ad3.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="6bdbb787.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="8ddd96b0.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="0d89f4fc.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="92b15c0e.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="b0e5cad4.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="d32a3da2.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="./948f412f.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="80b95331.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="5c5081c4.js" as="script" crossorigin="anonymous">
+            </link-ish><link-ish rel="preload" href="./d67d4614.js" as="script" crossorigin="anonymous">
+            </link-ish></header>
+    </div>
