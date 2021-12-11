@@ -5,10 +5,14 @@ import ('be-definitive/be-definitive.js');
 import ('be-ferried/be-ferried.js');
 import ('be-hive/be-hive.js');
 
-const splitURL = import.meta.url.split('/');
-splitURL.pop();
-const baseURL = splitURL.join('/') + '/'
-const fallbackCSS = baseURL + 'xtal-link-preview.css';
+let xsltLink = (<any>self)['xtal-link-preview/xtal-link-preview.xsl'] as HTMLLinkElement | undefined;
+let xsltPath: string | undefined;
+if(xsltLink === undefined){
+    xsltPath = 'http://unpkg.com/xtal-link-preview/xtal-link-preview.xsl';
+}else{
+    xsltPath = xsltLink.href;
+}
+let fallbackCSS = "http://unpkg.com/xtal-link-preview/xtal-link-preview.css";
 const mainTemplate = html`
 <style be-loaded='{
     "stylesheets": [
@@ -34,7 +38,7 @@ const beDefinitiveProps: DefineArgs = {
     config:{
         tagName: 'xtal-link-preview-view',
         propDefaults: {
-            xslt: baseURL + 'xtal-link-preview.xsl'
+            xslt: xsltPath
         }
     }
 };
