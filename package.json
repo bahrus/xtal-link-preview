@@ -15,8 +15,7 @@
   "exports": {
     ".": "./xtal-link-preview.js",
     "./xtal-link-preview.js": "./xtal-link-preview.js",
-    "./xtal-link-preview-fetch.js": "./xtal-link-preview-fetch.js",
-    "./xtal-link-preview-base.js": "./xtal-link-preview-base.js"
+    "./xtal-link-preview-view.js": "./xtal-link-preview-view.js"
   },
   "files": [
     "*.*"
