@@ -49,6 +49,9 @@
                                     <xsl:when test="link-ish[contains(@rel,'icon')]">
                                         <xsl:value-of select="link-ish[contains(@rel,'icon')][1]/@href"/>
                                     </xsl:when>
+                                    <xsl:otherwise>
+                                        https://unpkg.com/xtal-link-preview/link_black_24dp.svg
+                                    </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:otherwise>
                         </xsl:choose>
