@@ -76,10 +76,42 @@
                 </xsl:variable>
                 https://<xsl:value-of select="$domain"/><xsl:value-of select="$imageSrc"/>
             </xsl:when>
-            <xsl:otherwise>
+            <xsl:when test="starts-with($imageSrc, '../')">
+                <xsl:call-template name="makeFullyQualified">
+                    <xsl:with-param name="imageSrc" select="substring-after($imageSrc, '../')"/>
+                    <xsl:with-param name="href">
+                        <xsl:call-template name="substring-before-last">
+                            <xsl:with-param name="string1" select="$href"/>
+                            <xsl:with-param name="string2">/</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:with-param>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="contains($imageSrc, '//')">
                 <xsl:value-of select="$imageSrc"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$href"/>/<xsl:value-of select="$imageSrc"/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template name="substring-before-last">
+        <xsl:param name="string1" select="''" />
+        <xsl:param name="string2" select="''" />
+
+        <xsl:if test="$string1 != '' and $string2 != ''">
+            <xsl:variable name="head" select="substring-before($string1, $string2)" />
+            <xsl:variable name="tail" select="substring-after($string1, $string2)" />
+            <xsl:value-of select="$head" />
+            <xsl:if test="contains($tail, $string2)">
+            <xsl:value-of select="$string2" />
+            <xsl:call-template name="substring-before-last">
+                <xsl:with-param name="string1" select="$tail" />
+                <xsl:with-param name="string2" select="$string2" />
+            </xsl:call-template>
+            </xsl:if>
+        </xsl:if>
     </xsl:template>
     
 </xsl:stylesheet>
