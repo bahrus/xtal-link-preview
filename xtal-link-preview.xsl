@@ -19,10 +19,11 @@
         <main part="main">
             <h1 itemprop="title" part="title"><xsl:value-of select="title"/></h1>
             <h2 itemprop="description" part="description"><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
-            <a itemprop="href" part="link" href="{$href}" target="_blank">link</a>
+            <a itemprop="href" part="link" href="{$href}" target="_blank">
             <xsl:if test="string-length($fullyQualifiedImgSrc) &gt; 5">
                 <img alt="logo" src="{$fullyQualifiedImgSrc}"/>
             </xsl:if>
+            </a>
         </main>
     </xsl:template>
 

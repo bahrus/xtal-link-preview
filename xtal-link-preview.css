@@ -22,7 +22,9 @@ slot {
     justify-content: center;
 }
 main{
-
+    display: flex;
+    flex-direction:column;
+    justify-content: space-evenly;
     border-radius: var(--radius-2);
     padding: var(--size-fluid-3);
     box-shadow: var(--shadow-2);
@@ -38,6 +40,8 @@ main:hover {
 
 a{
     width: 100%;
+    display: flex;
+    justify-content: space-evenly;
 }
 img {
     object-fit: scale-down;
