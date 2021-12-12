@@ -1,7 +1,7 @@
 import('./xtal-link-preview-view.js');
 import { html } from 'trans-render/lib/html.js';
 import('be-definitive/be-definitive.js');
-import('be-observant/be-observant.js');
+import 'be-observant/be-observant.js';
 import('be-reformable/be-reformable.js');
 import('be-hive/be-hive.js');
 const mainTemplate = html `
@@ -24,7 +24,16 @@ target=xtal-link-preview-view[-innerHTML]
     <textarea hidden name=between><head></head></textarea>
     <textarea hidden name="wrapper"><template><header href="[href]">|</header></template></textarea>
 </form>
-<xtal-link-preview-view -innerHTML></xtal-link-preview-view>
+<xtal-link-preview-view -innerHTML be-observant='{
+    "data-rendered":{
+        "observeSelf": true,
+        "on": "rendered",
+        "vfe": "detail.rendered",
+        "as": "str-attr"
+    }
+
+
+}'></xtal-link-preview-view>
 <be-hive></be-hive>
 `;
 const beDefinitiveProps = {

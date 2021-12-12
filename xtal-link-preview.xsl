@@ -21,7 +21,12 @@
                 {
                     "on":{
                         "":{
-                            "dipatch": "rendered"
+                            "dispatch": "rendered",
+                            "composed": true,
+                            "bubbles": true,
+                            "detail":{
+                                "rendered": true
+                            }
                         }
                     }
                 }
