@@ -1,6 +1,7 @@
 import {html} from 'trans-render/lib/html.js';
 import {DefineArgs} from 'xtal-element/src/types';
 import 'be-loaded/be-loaded.js';
+import 'be-verbose/be-verbose.js';
 import ('be-definitive/be-definitive.js');
 import ('be-ferried/be-ferried.js');
 import ('be-hive/be-hive.js');

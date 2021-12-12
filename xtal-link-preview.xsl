@@ -17,6 +17,15 @@
             </xsl:call-template>
         </xsl:variable>
         <main part="main">
+            <xsl:attribute name="be-verbose">
+                {
+                    "on":{
+                        "":{
+                            "dipatch": "rendered"
+                        }
+                    }
+                }
+            </xsl:attribute>
             <h1 itemprop="title" part="title"><xsl:value-of select="title"/></h1>
             <h2 itemprop="description" part="description"><xsl:value-of select="meta-ish[@name='description']/@content"/></h2>
             <a itemprop="href" part="link" href="{$href}" target="_blank">
@@ -25,9 +34,6 @@
             </xsl:if>
             </a>
         </main>
-        <script>
-        console.log('iah');
-        </script>
     </xsl:template>
 
     
