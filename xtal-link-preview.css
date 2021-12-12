@@ -31,8 +31,12 @@ main{
     animation: var(--animation-fade-in);
     box-shadow: var(--shadow-3);
     max-width: 500px;
-    
+    color: var(--ink-1);
     background-image: var(--gradient-23);
+}
+
+div>main{
+    color:var(--pink-1);
 }
 
 /* On mouse-over, add a deeper shadow */
