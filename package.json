@@ -40,7 +40,8 @@
   "devDependencies": {
     "xtal-test": "0.0.54",
     "@skypack/package-check": "0.2.2",
-    "@custom-elements-manifest/analyzer": "0.5.2"
+    "@custom-elements-manifest/analyzer": "0.5.2",
+    "be-intersectional": "0.0.2"
   },
   "scripts": {
     "test": "node test/test-all.js",

@@ -25,6 +25,9 @@
             </xsl:if>
             </a>
         </main>
+        <script>
+        console.log('iah');
+        </script>
     </xsl:template>
 
     

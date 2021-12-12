@@ -5,6 +5,12 @@ import('be-observant/be-observant.js');
 import('be-reformable/be-reformable.js');
 import('be-hive/be-hive.js');
 const mainTemplate = html `
+<style>
+    :host{
+        display: block;
+        contain: content;
+    }
+</style>
 <form be-reformable='{
     "autoSubmit": true,
     "as": "html"
