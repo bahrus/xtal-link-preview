@@ -14,7 +14,7 @@ else {
 }
 let fallbackCSS = "https://unpkg.com/xtal-link-preview/xtal-link-preview.css";
 const mainTemplate = html `
-<style be-loaded='{
+<style hidden be-loaded='{
     "stylesheets": [
         {
             "preloadRef": "xtal-link-preview/xtal-link-preview.css",
