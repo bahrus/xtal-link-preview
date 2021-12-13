@@ -30,6 +30,15 @@ Try altering the href attribute below
 ```
 -->
 
+## Ways to Minimize Layout Shift (WIP)
+
+By its very nature, the content within the xtal-link-preview element will be dynamically added to the page.  This includes unpredictable amounts of text, variable sized images, and other elements.  This can cause a layout shift.
+
+One way to reduce this effect is to lazy load the content, with the help of the be-intersectional decorator, and specify heights ahead of time, [as demonstrated in this example](https://github.com/bahrus/xtal-link-preview/blob/baseline/demo/dev.html).
+
+This is a bit clunky, as the content could change over time, resulting in inaccurate heights.
+
+
 
 
 
