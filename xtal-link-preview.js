@@ -8,7 +8,6 @@ const mainTemplate = html `
 <style>
     :host{
         display: block;
-        contain: content;
     }
 </style>
 <form be-reformable='{
