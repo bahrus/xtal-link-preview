@@ -31,7 +31,7 @@ const mainTemplate = html`
         "xslt": ".xslt"
     }'
     ></slot>
-    <div></div>
+    <div part=container class=container></div>
     <be-hive></be-hive>
 `;
 
