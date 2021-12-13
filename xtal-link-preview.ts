@@ -7,7 +7,7 @@ import ('be-reformable/be-reformable.js');
 import ('be-hive/be-hive.js');
 
 const mainTemplate = html`
-<style>
+<style hidden>
     :host{
         display: block;
     }

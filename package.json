@@ -36,12 +36,13 @@
     "pass-down": "0.0.119",
     "trans-render": "0.0.433",
     "xtal-element": "0.0.453",
-    "xtal-fetch": "0.0.108"
+    "xtal-fetch": "0.0.108",
+    "be-decorated": "0.0.48"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "0.5.2",
     "@skypack/package-check": "0.2.2",
-    "be-intersectional": "0.0.3",
+    "be-intersectional": "0.0.5",
     "xtal-test": "0.0.54"
   },
   "scripts": {
