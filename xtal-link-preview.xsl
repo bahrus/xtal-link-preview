@@ -16,7 +16,7 @@
                 <xsl:with-param name="href" select="$href"/>
             </xsl:call-template>
         </xsl:variable>
-        <main part="main">
+        <main part="main" be-spaceless="">
             <xsl:attribute name="be-verbose">
                 {
                     "on":{

@@ -7,13 +7,18 @@ this follows the naming conventions of open props
     align-items: center;
     justify-content: center; 
     background-color: var(--surface-1);
-    --width:600px;
+    height:100%;
+    width:100%;
+    --full-width:100%;
+    --full-height:100%
 }
 .container{
     background-color: var(--surface-2);
     gap: var(--size-5);
-    padding: var(--size-5);
-    width: var(--width);
+    width: var(--full-width);
+    height: var(--full-height);
+    display:grid;
+    overflow:hidden;
 }
 
 main{
@@ -21,7 +26,6 @@ main{
     flex-direction:column;
     justify-content: space-evenly;
     border-radius: var(--radius-2);
-    padding: var(--size-fluid-3);
     box-shadow: var(--shadow-2);
     animation: var(--animation-fade-in);
     box-shadow: var(--shadow-3);
