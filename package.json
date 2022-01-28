@@ -25,22 +25,22 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "be-definitive": "0.0.19",
-    "be-ferried": "0.0.19",
-    "be-hive": "0.0.13",
-    "be-loaded": "0.0.20",
-    "be-observant": "0.0.67",
-    "be-reformable": "0.0.22",
+    "be-definitive": "0.0.30",
+    "be-ferried": "0.0.27",
+    "be-hive": "0.0.20",
+    "be-loaded": "0.0.43",
+    "be-observant": "0.0.88",
+    "be-reformable": "0.0.27",
     "be-spaceless": "0.0.3",
     "be-verbose": "0.0.2",
-    "trans-render": "0.0.433",
-    "xtal-element": "0.0.453"
+    "trans-render": "0.0.449",
+    "xtal-element": "0.0.462"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "0.5.2",
     "@skypack/package-check": "0.2.2",
     "be-intersectional": "0.0.5",
-    "xtal-test": "0.0.54"
+    "xtal-test": "0.0.55"
   },
   "scripts": {
     "test": "node test/test-all.js",
